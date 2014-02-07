@@ -1,0 +1,107 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">/**
+<span class='line'>  3</span>  * Create a Layout
+<span class='line'>  4</span>  * @constructor
+<span class='line'>  5</span>  */</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="NAME">Layout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="WHIT">  </span><span class="NAME">this.graph</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">GraphDrawing</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="WHIT">  </span><span class="NAME">this.file</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="WHIT">  </span><span class="NAME">this.fileName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="WHIT">  </span><span class="NAME">this.layout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 12</span> 
+<span class='line'> 13</span> </span><span class="COMM">/**
+<span class='line'> 14</span>  * Clear the layout.
+<span class='line'> 15</span>  */</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="NAME">Layout.prototype.clear</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="WHIT">  </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">this.graph</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">  </span><span class="NAME">this.graph</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">GraphDrawing</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="WHIT">  </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">this.layout</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="WHIT">  </span><span class="NAME">this.layout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 22</span> 
+<span class='line'> 23</span> </span><span class="COMM">/**
+<span class='line'> 24</span>  * Set the file.
+<span class='line'> 25</span>  * @param {string} newFile The file.
+<span class='line'> 26</span>  */</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="NAME">Layout.prototype.setFile</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">newFile</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">  </span><span class="NAME">this.file</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">newFile</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span> 
+<span class='line'> 31</span> </span><span class="COMM">/**
+<span class='line'> 32</span>  * Set the file name.
+<span class='line'> 33</span>  * @param {string} newFile The name of the file.
+<span class='line'> 34</span>  */</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="NAME">Layout.prototype.setFileName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">newFileName</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">  </span><span class="NAME">this.fileName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">newFileName</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> 
+<span class='line'> 39</span> </span><span class="COMM">/**
+<span class='line'> 40</span>  * Import a GML file.
+<span class='line'> 41</span>  * @param {string} newFile The GML file.
+<span class='line'> 42</span>  */</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="NAME">Layout.prototype.importGML</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">newFile</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">  </span><span class="NAME">this.file</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">newFile</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">  </span><span class="NAME">this.graph.importGML</span><span class="PUNC">(</span><span class="NAME">this.file</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 47</span> 
+<span class='line'> 48</span> </span><span class="COMM">/**
+<span class='line'> 49</span>  * Import a GraphML file.
+<span class='line'> 50</span>  * @param {string} newFile The GML file.
+<span class='line'> 51</span>  */</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="NAME">Layout.prototype.importGraphML</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">newFile</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">  </span><span class="NAME">this.file</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">newFile</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">  </span><span class="NAME">this.graph.importGraphML</span><span class="PUNC">(</span><span class="NAME">this.file</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 56</span> 
+<span class='line'> 57</span> </span><span class="COMM">/**
+<span class='line'> 58</span>  * Export to GML file.
+<span class='line'> 59</span>  */</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="NAME">Layout.prototype.exportGML</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">  </span><span class="NAME">this.graph.saveAsGML</span><span class="PUNC">(</span><span class="NAME">this.fileName</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> 
+<span class='line'> 64</span> </span><span class="COMM">/**
+<span class='line'> 65</span>  * Export to GraphML file.
+<span class='line'> 66</span>  */</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="NAME">Layout.prototype.exportGraphML</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="STRN">'Layout.prototype.exportGraphML'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">  </span><span class="NAME">this.graph.saveAsGraphML</span><span class="PUNC">(</span><span class="NAME">this.fileName</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 71</span> 
+<span class='line'> 72</span> </span><span class="COMM">/**
+<span class='line'> 73</span>  * Depict a Force Directed layout on a canvas.
+<span class='line'> 74</span>  * @param {string} canvas Canvas where layout is depicted.
+<span class='line'> 75</span>  * @return {ReingoldTilfordTreeLayout} The new layout object.
+<span class='line'> 76</span>  */</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="NAME">Layout.prototype.layoutForceDirected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">canvas</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">  </span><span class="NAME">this.layout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">ForceDirectedLayout</span><span class="PUNC">(</span><span class="NAME">canvas</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.graph</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span> 
+<span class='line'> 81</span> </span><span class="COMM">/**
+<span class='line'> 82</span>  * Depict a Collapsible Tree layout on a canvas.
+<span class='line'> 83</span>  * @param {string} canvas Canvas where layout is depicted.
+<span class='line'> 84</span>  * @return {CollapsibleTreeLayout} The new layout object.
+<span class='line'> 85</span>  */</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="NAME">Layout.prototype.layoutCollapsibleTree</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">canvas</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">  </span><span class="NAME">this.layout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">CollapsibleTreeLayout</span><span class="PUNC">(</span><span class="NAME">canvas</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.graph</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span> 
+<span class='line'> 90</span> </span><span class="COMM">/**
+<span class='line'> 91</span>  * Depict a Reingold Tilford Tree layout on a canvas.
+<span class='line'> 92</span>  * @param {string} canvas Canvas where layout is depicted.
+<span class='line'> 93</span>  * @return {ReingoldTilfordTreeLayout} The new layout object.
+<span class='line'> 94</span>  */</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="NAME">Layout.prototype.layoutReingoldTilfordTree</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">canvas</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">  </span><span class="NAME">this.layout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">ReingoldTilfordTreeLayout</span><span class="PUNC">(</span><span class="NAME">canvas</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.graph</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 98</span> 
+<span class='line'> 99</span> 
+<span class='line'>100</span> </span></pre></body></html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>webGraphEd</title>
+
+  <link rel="stylesheet" href="css/webGraphEd.css">
+
+  <script type="text/javascript" src="lib/utils.js"></script>
+  <!--script type="text/javascript" src="lib/classes.js"></script-->
+  <script type="text/javascript" src="lib/dom_utils.js"></script>
+  <script type="text/javascript" src="lib/file_utils.js"></script>
+  <script type="text/javascript" src="lib/string_utils.js"></script>
+  <script type="text/javascript" src="external/d3/d3.v3.min.js"></script>
+  <script type="text/javascript" src="external/jquery/jquery-2.1.0.min.js"></script>
+  <script type="text/javascript" src="external/FileSaver/FileSaver.js"></script>
+  <!--script type="text/javascript" src="external/Blob/Blob.js"></script-->
+  <script type="text/javascript" src="core/gml_file.js"></script>
+  <script type="text/javascript" src="core/graphml_file.js"></script>
+  <script type="text/javascript" src="core/json2.js"></script>
+  <script type="text/javascript" src="core/graph_drawing.js"></script>
+  <script type="text/javascript" src="core/tree.js"></script>
+  <script type="text/javascript" src="layout/layout.js"></script>
+  <script type="text/javascript" src="layout/force-directed.js"></script>
+  <script type="text/javascript" src="layout/reingold-tilford-tree.js"></script>
+  <script type="text/javascript" src="layout/collapsible-tree.js"></script>
+
+  <script src="external/closure-library/closure/goog/base.js"></script>
+  <script>
+    goog.require('goog.array');
+    goog.require('goog.events');
+    goog.require('goog.events.EventType');
+    goog.require('goog.debug.DivConsole');
+    goog.require('goog.debug.Logger');
+    goog.require('goog.debug.LogManager');
+    goog.require('goog.object');
+    goog.require('goog.ui.Menu');
+    goog.require('goog.ui.MenuBarRenderer');
+    goog.require('goog.ui.menuBarDecorator');
+    goog.require('goog.ui.menuBar');
+    goog.require('goog.ui.MenuButton');
+    goog.require('goog.ui.MenuItem');
+    goog.require('goog.ui.Separator');
+    goog.require('goog.ui.decorate');
+    goog.require('goog.ui.Dialog');	
+	
+  </script>
+  <link rel="stylesheet" href="external/closure-library/closure/goog/demos/css/demo.css">
+  <link rel="stylesheet" href="external/closure-library/closure/goog/css/menu.css">
+  <link rel="stylesheet" href="external/closure-library/closure/goog/css/menubar.css">
+  <link rel="stylesheet" href="external/closure-library/closure/goog/css/menubutton.css">
+  <link rel="stylesheet" href="external/closure-library/closure/goog/css/menuitem.css">
+  <link rel="stylesheet" href="external/closure-library/closure/goog/css/menuseparator.css">
+  <link rel="stylesheet" href="external/closure-library/closure/goog/css/dialog.css">
+</head>
+
+<body>
+ 
+<script LANGUAGE="JavaScript">
+if (!checkBrowserCompatibility()) {
+  alert('Some needed APIs are not fully supported in this browser.');
+}
+</script>
+
+<script type="text/javascript">
+function performClick(node) {
+   var evt = document.createEvent("MouseEvents");
+   evt.initEvent("click", true, false);
+   node.dispatchEvent(evt);
+}
+</script>
+
+
+<div id="menuBar"></div>
+<div id="main"></div>
+<div id='fileDialog'>
+    <input type="file" id="openFile" style="visibility:hidden" onchange='readText2(this)' />
+</div>
+
+<script type="text/javascript" src="ui/menu.js"></script>
+
+<script type="text/javascript">
+
+
+function readText2(that) {
+//console.log('that: ' + that);
+//console.log('that.files[0]: ' + that.files[0]);
+  var output = null;
+//  textFileName = that.files[0];
+	if (that.files && that.files[0]) {
+		var reader = new FileReader();
+		reader.onload = function (e) {  
+			textFile = e.target.result;
+			textFileName = that.files[0].name;
+console.log('textFileName: ' + textFileName);
+
+			importFile(textFileName);
+			updateMenu(layout.graph);
+			document.title = 'webGraphEd - ' + textFileName;
+			
+//console.log('output: ' + output);
+		};
+		reader.readAsText(that.files[0]);
+	}
+} 
+</script>
+<br>
+
+
+<script>
+// ----------------------------------------------------------------------------
+//                               Initialization
+// ----------------------------------------------------------------------------
+
+/**
+ * Global instance
+ * @public
+ */
+//var WIDTH = 960;
+//var HEIGHT = 960;
+var WIDTH = window.screen.availWidth - 40;
+var HEIGHT = window.screen.availHeight - 150;
+
+//var w = 960, h = 960;
+
+//var vis = d3.select("body")
+var vis = d3.select("#main")
+  .append("svg:svg")
+  .attr("width", WIDTH)
+  .attr("height", HEIGHT)
+  .attr("id", "canvas")
+
+var frame = d3.select("svg")
+  .append("svg:rect")
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .attr("stroke", "#000")
+    .attr("stroke-width", 1)
+    .attr("fill", "none");
+
+var textFile;
+var textFileName;
+var layout = new Layout();
+
+
+</script>
+
+<!--input type="button" value="Show Dialog" onclick="$('#openFile').click();" />
+<INPUT TYPE="button" VALUE="Import" onClick="importFile()">
+<INPUT TYPE="button" VALUE="Properties" onClick="showProperties()"-->
+
+
+</body>
+</html>

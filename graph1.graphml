@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml>
+  <graph edgedefault="directed">
+    <node id="v1"/>
+    <node id="v2"/>
+    <node id="v3"/>
+    <node id="v4"/>
+    <edge source="v1" target="v2"/>
+    <edge source="v1" target="v3"/>
+    <edge source="v2" target="v4"/>
+    <edge source="v2" target="v4" directed="false"/>
+  </graph>
+</graphml>
+
