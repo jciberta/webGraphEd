@@ -7,7 +7,7 @@
  */
 ForceDirectedLayout = function(canvas, graph) {
 
-  // private instance fields
+
   var adjacencyList = graph.getAdjacencyList();
 console.log('adjacencyList: ' + adjacencyList);
 
@@ -31,7 +31,7 @@ var vis = d3.select("body").append("svg:svg")
   var force = d3.layout.force()
       .nodes(nodes)
       .links(links)
-      .size([w, h])
+      .size([WIDTH, HEIGHT])
       .start();
 
   var link = canvas.selectAll("line.link")

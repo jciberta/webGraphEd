@@ -16,8 +16,8 @@
  * @param {number} label The label of the node.
  */
 function Node(id, label) {
-  this.id = id;
-  this.label = label; 
+    this.id = id;
+    this.label = label; 
 }
 
 Node.prototype.getId = function() {
@@ -29,12 +29,12 @@ Node.prototype.getLabel = function() {
 }
 
 function Edge(src, dst, label) {
-  // Constructor
-  this.source = src;
-  this.target = dst;
-  this.label = label;
+    // Constructor
+    this.source = src;
+    this.target = dst;
+    this.label = label;
 
-  this.getSource = function() { return this.source; };
+    this.getSource = function() { return this.source; };
 }
 
 /**
@@ -46,7 +46,6 @@ function Edge(src, dst, label) {
  * @param {[]} le List of edges.
  */
 function GraphDrawing(ln, le) {
-  // Constructor
   if (ln===undefined) { // parameter was omitted in call
     this.listNodes = [];
     this.listEdges = [];
@@ -77,34 +76,34 @@ GraphDrawing.prototype.getAdjacents = function(n) {
 }
 
 GraphDrawing.prototype.getDirectedAdjacents = function(n) {
-  var r=[], i;
+    var r=[], i;
 
-  for (i=0; i<this.listEdges.length; i++) {
-    if (this.listEdges[i][0]==n) {
-      if (r.indexOf(this.listEdges[i][1]!=-1))
-        r.push(this.listEdges[i][1]);
+    for (i=0; i<this.listEdges.length; i++) {
+        if (this.listEdges[i][0]==n) {
+            if (r.indexOf(this.listEdges[i][1]!=-1))
+            r.push(this.listEdges[i][1]);
+        }
     }
-  }
-  return r;
+    return r;
 }
 
 GraphDrawing.prototype.getAdjacencyList = function() {
     var r={}, n, i;
 
-console.log('this.listNodes: ' + this.listNodes);
-console.log('this.listEdges: ' + this.listEdges);
-console.log('this.listNodes.length: ' + this.listNodes.length);
+//console.log('this.listNodes: ' + this.listNodes);
+//console.log('this.listEdges: ' + this.listEdges);
+//console.log('this.listNodes.length: ' + this.listNodes.length);
     for (i=0; i<this.listNodes.length; i++) {
       n = this.listNodes[i][0];
       r[n] = this.getAdjacents(n);
-console.log('n: ' + n + ', ' + r[n]);
+//console.log('n: ' + n + ', ' + r[n]);
     }
     return r;
 }
 
 GraphDrawing.prototype.getTreeD3JSON = function() {
     var t = new Tree(this);
-console.log('Tree: ' + t);
+//console.log('Tree: ' + t);
 console.log('Tree.toD3Json: ' + t.toD3JSONString());
 
 //    return t.toD3JSONString();
@@ -112,21 +111,21 @@ console.log('Tree.toD3Json: ' + t.toD3JSONString());
 }
 
 /**
- * Gets de node with a specific id.
+ * Gets the node with a specific id.
  * @param {string} id The id of the node.
  * @return {Node} The node or null.
  */
 GraphDrawing.prototype.getNode = function(id) {
-  var i;
-  for (i=0; i<this.listNodes.length; i++) { 
-    if (this.listNodes[i][0]==id)
-      return this.listNodes[i];
-  } 
-  return null;   
+    var i;
+    for (i=0; i<this.listNodes.length; i++) { 
+        if (this.listNodes[i][0]==id)
+        return this.listNodes[i];
+    } 
+    return null;   
 }
 
 /**
- * Gets de root node when the graph drawing represents a tree, otherwise it throw an exception.
+ * Gets the root node when the graph drawing represents a tree, otherwise it throw an exception.
  * @return {Node} The root node.
  */
 GraphDrawing.prototype.getRoot = function() {
@@ -160,22 +159,20 @@ GraphDrawing.prototype.importGML = function(element) {
   var gml, graph, i, n, e;
 
   gml = new GMLFile(element);
-//    graph = gml.getProperties('graph');
-console.log('importGML graph: ' + graph);
-console.log('element=' + element);
-console.log('gml=' + gml);
-console.log('gml.getProperties=' + gml.getProperties());
+//console.log('element=' + element);
+//console.log('gml=' + gml);
+//console.log('gml.getProperties=' + gml.getProperties());
 
 
-console.log('typeof=' + typeof(gml));
+//console.log('typeof=' + typeof(gml));
 
   // Get nodes
   this.listNodes = gml.getNodes();
-console.log('Nodes=' + this.listNodes);
+//console.log('Nodes=' + this.listNodes);
 
   // Get edges
   this.listEdges = gml.getEdges();
-console.log('Edges=' + this.listEdges);
+//console.log('Edges=' + this.listEdges);
 
 }
 

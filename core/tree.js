@@ -17,8 +17,8 @@
  * @param {Node} node Node of the tree.
  */
 TreeNode = function(node) {
-  this.node = node;
-  this.listChildren = [];
+    this.node = node;
+    this.listChildren = [];
 };
 
 /**
@@ -26,21 +26,22 @@ TreeNode = function(node) {
  * @param {GraphDrawing} graph The graph drawing data to populate the tree.
  */
 TreeNode.prototype.addChildren = function(graph) {
-  var i, tn, sonId, newTreeNode;
-console.log('graph.listNodes: ' + graph.listNodes);
-console.log('graph.listEdges: ' + graph.listEdges);
+    var i, tn, sonId, newTreeNode;
+//    console.log('graph.listNodes: ' + graph.listNodes);
+//    console.log('graph.listEdges: ' + graph.listEdges);
 
-  for (i=0;i<graph.listEdges.length-1;i++) {
-console.log('this.node: ' + this.node);
-    if (this.node[0] == graph.listEdges[i][0]) {
-      // Add node
-      sonId = graph.listEdges[i][1];
-      newTreeNode = new TreeNode(graph.getNode(sonId));
-      this.listChildren.push(newTreeNode);
-console.log('newTreeNode.node: ' + newTreeNode.node);
-      newTreeNode.addChildren(graph);
+    for (i=0;i<graph.listEdges.length;i++) {
+//console.log('this.node: ' + this.node);
+        if (this.node[0] == graph.listEdges[i][0]) {
+            // Add node
+            sonId = graph.listEdges[i][1];
+//console.log('sonId: ' + sonId);
+            newTreeNode = new TreeNode(graph.getNode(sonId));
+            this.listChildren.push(newTreeNode);
+//            console.log('newTreeNode.node: ' + newTreeNode.node);
+            newTreeNode.addChildren(graph);
+        }
     }
-  }
 };
 
 /**
@@ -48,7 +49,7 @@ console.log('newTreeNode.node: ' + newTreeNode.node);
  * @return {boolean} True if the tree nodes has children.
  */
 TreeNode.prototype.hasChildren = function() {
-  return (this.listChildren.length>0);
+    return (this.listChildren.length>0);
 };
 
 /**
@@ -56,27 +57,27 @@ TreeNode.prototype.hasChildren = function() {
  * @return {string} The nested JSON string.
  */
 TreeNode.prototype.toD3JSONString = function() {
-  var i, sReturn;
-  
-  sReturn = '{';
-  sReturn += '"name": "' + this.node[0]+ '"';
-console.log('** this.node: ' + this.node);
-  if (this.hasChildren()) {
-    sReturn += ', "children": [';
-console.log('** this.listChildren.length: ' + this.listChildren.length);
-    for (i=0;i<this.listChildren.length;i++) {
-console.log('** this.listChildren[i]: ' + this.listChildren[i]);
-      sReturn += this.listChildren[i].toD3JSONString();
-      if (i<this.listChildren.length-1)  
-        sReturn += ', ';
+    var i, sReturn;
+
+    sReturn = '{';
+    sReturn += '"name": "' + this.node[1]+ '"';
+//console.log('** this.node: ' + this.node);
+    if (this.hasChildren()) {
+        sReturn += ', "children": [';
+//console.log('** this.listChildren.length: ' + this.listChildren.length);
+        for (i=0;i<this.listChildren.length;i++) {
+        //    console.log('** this.listChildren[i]: ' + this.listChildren[i]);
+            sReturn += this.listChildren[i].toD3JSONString();
+            if (i<this.listChildren.length-1)  
+            sReturn += ', ';
+        }
+        sReturn += ']';
     }
-    sReturn += ']';
-  }
-  else {
-    sReturn += ', "size": 1';
-  }
-  sReturn += '}';
-  return sReturn;
+    else {
+        sReturn += ', "size": 1';
+    }
+    sReturn += '}';
+    return sReturn;
 };
 
 
@@ -87,20 +88,18 @@ console.log('** this.listChildren[i]: ' + this.listChildren[i]);
  * @param {GraphDrawing} graph The graph drawing data to populate the tree.
  */
 Tree = function(graph) {
-  var root = graph.getRoot();
-//  this.listChildren = [];
-  this.graph = graph;
-  this.treeNode = new TreeNode(root);
+    var root = graph.getRoot();
+    //  this.listChildren = [];
+    this.graph = graph;
+    this.treeNode = new TreeNode(root);
 
-console.log('root: ' + root);
-console.log('treeNode: ' + this.treeNode);
+//console.log('root: ' + root);
+//console.log('treeNode: ' + this.treeNode);
 
-//  this.treeNode.addChildren(this.treeNode);            
-  this.treeNode.addChildren(graph);            
+    //  this.treeNode.addChildren(this.treeNode);            
+    this.treeNode.addChildren(graph);            
 
-//    listEdges = [[1,2], [1,3], [2,4], [2,5], [3,6], [3,7], [4,8]];
-
-
+    //    listEdges = [[1,2], [1,3], [2,4], [2,5], [3,6], [3,7], [4,8]];
 };
 
 /**
@@ -108,24 +107,23 @@ console.log('treeNode: ' + this.treeNode);
  * @param {TreeNode} tn The tree node to insert.
  */
 Tree.prototype.addChildren = function(tn) {
-  var i, tn, sonId;
-console.log('TreeNode: ' + tn);
-//console.log('Node.id: ' + node.getId());
-console.log('TreeNode.node: ' + tn.node);
-console.log('graph.listNodes: ' + this.graph.listNodes);
-console.log('graph.listEdges: ' + this.graph.listEdges);
+    var i, tn, sonId;
+//    console.log('TreeNode: ' + tn);
+//    console.log('TreeNode.node: ' + tn.node);
+//    console.log('graph.listNodes: ' + this.graph.listNodes);
+//    console.log('graph.listEdges: ' + this.graph.listEdges);
 
-  for (i=0;i<this.graph.listEdges.length-1;i++) {
-console.log('tn.node: ' + tn.node);
-    if (tn.node[0] == this.graph.listEdges[i][0]) {
-      // Add node
-      sonId = this.graph.listEdges[i][1];
-      tnew = new TreeNode(this.graph.getNode(sonId));
-      this.listChildren.push(tnew);
-console.log('tnew.node: ' + tnew.node);
-      this.addChildren(tnew);
+    for (i=0;i<this.graph.listEdges.length;i++) {
+        console.log('tn.node: ' + tn.node);
+        if (tn.node[0] == this.graph.listEdges[i][0]) {
+            // Add node
+            sonId = this.graph.listEdges[i][1];
+            tnew = new TreeNode(this.graph.getNode(sonId));
+            this.listChildren.push(tnew);
+            console.log('tnew.node: ' + tnew.node);
+            this.addChildren(tnew);
+        }
     }
-  }
 };
 
 /**
@@ -133,10 +131,10 @@ console.log('tnew.node: ' + tnew.node);
  * @return {D3JSON} The nested JSON object.
  */
 Tree.prototype.toD3JSON = function() {
-  var s;
-  s = this.treeNode.toD3JSONString();
-console.log('this.treeNode.toD3JSONString(): ' + this.treeNode.toD3JSONString());
-  return JSON.parse(s);
+    var s;
+    s = this.treeNode.toD3JSONString();
+//    console.log('this.treeNode.toD3JSONString(): ' + this.treeNode.toD3JSONString());
+    return JSON.parse(s);
 };
 
 /**
@@ -144,6 +142,6 @@ console.log('this.treeNode.toD3JSONString(): ' + this.treeNode.toD3JSONString())
  * @return {string} The nested JSON string.
  */
 Tree.prototype.toD3JSONString = function() {
-  return this.treeNode.toD3JSONString();
+    return this.treeNode.toD3JSONString();
 };
 
