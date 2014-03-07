@@ -15,21 +15,30 @@
 <span class='line'>  8</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">filename.split</span><span class="PUNC">(</span><span class="STRN">'.'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">pop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>  9</span> </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'> 10</span> 
-<span class='line'> 11</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">readFile</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 12</span> </span><span class="NAME">alert</span><span class="PUNC">(</span><span class="STRN">"that:"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">that.files</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 13</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">output</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 14</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">that.files</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">that.files</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 15</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">reader</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">FileReader</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 16</span> </span><span class="WHIT">		</span><span class="NAME">reader.onload</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">  </span><span class="WHIT">
-<span class='line'> 17</span> </span><span class="WHIT">			</span><span class="NAME">output</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">e.target.result</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 18</span> </span><span class="NAME">alert</span><span class="PUNC">(</span><span class="STRN">"e:"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">output</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 19</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 20</span> </span><span class="WHIT">		</span><span class="NAME">prova</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">reader.readAsText</span><span class="PUNC">(</span><span class="NAME">that.files</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 21</span> </span><span class="NAME">alert</span><span class="PUNC">(</span><span class="STRN">"reader:"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">output</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 22</span> </span><span class="NAME">alert</span><span class="PUNC">(</span><span class="STRN">"prova:"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">prova</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 23</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 24</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">output</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 25</span> </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="WHIT">
-<span class='line'> 26</span> 
-<span class='line'> 27</span> 
-<span class='line'> 28</span> </span></pre></body></html>
+<span class='line'> 11</span> </span><span class="COMM">/**
+<span class='line'> 12</span>  * Gets the filename from a URL
+<span class='line'> 13</span>  * @param {string} url The URL.
+<span class='line'> 14</span>  * @return {string} The filename.
+<span class='line'> 15</span>  */</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">getFileNameFromURL</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">url.substring</span><span class="PUNC">(</span><span class="NAME">url.lastIndexOf</span><span class="PUNC">(</span><span class="STRN">'/'</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 19</span> 
+<span class='line'> 20</span> </span><span class="COMM">/*function readFile(that) {
+<span class='line'> 21</span> alert("that:" + that.files[0]);
+<span class='line'> 22</span>   var output;
+<span class='line'> 23</span> 	if (that.files && that.files[0]) {
+<span class='line'> 24</span> 		var reader = new FileReader();
+<span class='line'> 25</span> 		reader.onload = function (e) {  
+<span class='line'> 26</span> 			output = e.target.result;
+<span class='line'> 27</span> alert("e:" + output);
+<span class='line'> 28</span> 		};
+<span class='line'> 29</span> 		prova = reader.readAsText(that.files[0]);
+<span class='line'> 30</span> alert("reader:" + output);
+<span class='line'> 31</span> alert("prova:" + prova);
+<span class='line'> 32</span> 	}
+<span class='line'> 33</span>   return output;
+<span class='line'> 34</span> } 
+<span class='line'> 35</span> */</span><span class="WHIT">
+<span class='line'> 36</span> 
+<span class='line'> 37</span> </span></pre></body></html>

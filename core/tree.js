@@ -60,6 +60,7 @@ TreeNode.prototype.toD3JSONString = function() {
     var i, sReturn;
 
     sReturn = '{';
+    sReturn += '"id": "' + this.node[0]+ '", ';
     sReturn += '"name": "' + this.node[1]+ '"';
 //console.log('** this.node: ' + this.node);
     if (this.hasChildren()) {

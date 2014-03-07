@@ -1,5 +1,5 @@
 graph [
-  comment "Binary tree"
+  comment "Cyclic tree"
   node [ id 1 label "Node 1" ]
   node [ id 2 label "Node 2" ]
   node [ id 3 label "Node 3" ]

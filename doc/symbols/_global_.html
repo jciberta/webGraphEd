@@ -211,6 +211,8 @@ ul.inheritsList
 	
 	<li><a href="../symbols/TreeNode.html">TreeNode</a></li>
 	
+	<li><a href="../symbols/VerticalTreeLayout.html">VerticalTreeLayout</a></li>
+	
 </ul>
 <hr />
 			<!-- end publish.classesIndex -->
@@ -256,9 +258,63 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/_global_.html#cartesianX">cartesianX</a></b>(r, t)
+								</div>
+								<div class="description">Calculates cartesian x from a polar coordinates.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/_global_.html#cartesianY">cartesianY</a></b>(r, t)
+								</div>
+								<div class="description">Calculates cartesian y from a polar coordinates.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/_global_.html#getFileExtension">getFileExtension</a></b>(filename)
 								</div>
 								<div class="description">Gets the extension of a file</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/_global_.html#getFileNameFromURL">getFileNameFromURL</a></b>(url)
+								</div>
+								<div class="description">Gets the filename from a URL</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/_global_.html#getURLParameters">getURLParameters</a></b>()
+								</div>
+								<div class="description">Get parameters from the URL.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/_global_.html#polarR">polarR</a></b>(x, y)
+								</div>
+								<div class="description">Calculates radial coordinate from a cartesian coordinates.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/_global_.html#polarT">polarT</a></b>(x, y)
+								</div>
+								<div class="description">Calculates angular coordinate from a cartesian coordinates.</div>
 							</td>
 						</tr>
 					
@@ -282,6 +338,110 @@ ul.inheritsList
 				<div class="sectionTitle">
 					Method Detail
 				</div>
+				
+					<a name="cartesianX"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{real}</span>
+					<b>cartesianX</b>(r, t)
+					
+					</div>
+					<div class="description">
+						Calculates cartesian x from a polar coordinates.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/lib_math_utils.js.html">math_utils.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{real}</span> <b>r</b>
+									
+								</dt>
+								<dd>The radial coordinate.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{real}</span> <b>t</b>
+									
+								</dt>
+								<dd>The angular coordinate.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{real}</span> The cartesian x coordinate.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="cartesianY"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{real}</span>
+					<b>cartesianY</b>(r, t)
+					
+					</div>
+					<div class="description">
+						Calculates cartesian y from a polar coordinates.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/lib_math_utils.js.html">math_utils.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{real}</span> <b>r</b>
+									
+								</dt>
+								<dd>The radial coordinate.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{real}</span> <b>t</b>
+									
+								</dt>
+								<dd>The angular coordinate.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{real}</span> The cartesian y coordinate.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
 				
 					<a name="getFileExtension"> </a>
 					<div class="fixedFont">
@@ -327,6 +487,191 @@ ul.inheritsList
 						
 						
 
+					<hr />
+				
+					<a name="getFileNameFromURL"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{string}</span>
+					<b>getFileNameFromURL</b>(url)
+					
+					</div>
+					<div class="description">
+						Gets the filename from a URL
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/lib_file_utils.js.html">file_utils.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>url</b>
+									
+								</dt>
+								<dd>The URL.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{string}</span> The filename.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getURLParameters"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Object}</span>
+					<b>getURLParameters</b>()
+					
+					</div>
+					<div class="description">
+						Get parameters from the URL.Adapted from http://stackoverflow.com/questions/979975/how-to-get-the-value-from-url-parameter
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/lib_dom_utils.js.html">dom_utils.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> The node or null.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="polarR"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{real}</span>
+					<b>polarR</b>(x, y)
+					
+					</div>
+					<div class="description">
+						Calculates radial coordinate from a cartesian coordinates.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/lib_math_utils.js.html">math_utils.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{real}</span> <b>x</b>
+									
+								</dt>
+								<dd>The x coordinate.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{real}</span> <b>y</b>
+									
+								</dt>
+								<dd>The y coordinate.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{real}</span> The radial coordinate.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="polarT"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{real}</span>
+					<b>polarT</b>(x, y)
+					
+					</div>
+					<div class="description">
+						Calculates angular coordinate from a cartesian coordinates.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/lib_math_utils.js.html">math_utils.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{real}</span> <b>x</b>
+									
+								</dt>
+								<dd>The x coordinate.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{real}</span> <b>y</b>
+									
+								</dt>
+								<dd>The y coordinate.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{real}</span> The angular coordinate.</dd>
+							
+							</dl>
+						
+						
+						
+
 					
 				
 			
@@ -341,7 +686,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Tue Feb 04 2014 13:23:10 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Thu Mar 06 2014 20:53:01 GMT+0100 (CET)
 		</div>
 	</body>
 </html>

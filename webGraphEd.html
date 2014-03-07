@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>webGraphEd</title>
+	<title>webGraphEd</title>
+	<script type="text/javascript">
+		var timerStart = Date.now();	
+	</script>
 
-  <link rel="stylesheet" href="css/webGraphEd.css">
+	<link rel="stylesheet" href="css/webGraphEd.css">
 
   <script type="text/javascript" src="external/d3/d3.v3.min.js"></script>
   <script type="text/javascript" src="external/jquery/jquery-2.1.0.min.js"></script>
@@ -14,6 +17,7 @@
   <!--script type="text/javascript" src="lib/classes.js"></script-->
   <script type="text/javascript" src="lib/dom_utils.js"></script>
   <script type="text/javascript" src="lib/file_utils.js"></script>
+  <script type="text/javascript" src="lib/math_utils.js"></script>
   <script type="text/javascript" src="lib/string_utils.js"></script>
   <!--script type="text/javascript" src="external/Blob/Blob.js"></script-->
   <script type="text/javascript" src="core/gml_file.js"></script>
@@ -25,6 +29,7 @@
   <script type="text/javascript" src="layout/force-directed.js"></script>
   <script type="text/javascript" src="layout/reingold-tilford-tree.js"></script>
   <script type="text/javascript" src="layout/collapsible-tree.js"></script>
+  <script type="text/javascript" src="layout/vertical-tree.js"></script>
 
   <script src="external/closure-library/closure/goog/base.js"></script>
   <script>
@@ -35,6 +40,12 @@
     goog.require('goog.debug.Logger');
     goog.require('goog.debug.LogManager');
     goog.require('goog.object');
+    goog.require('goog.ui.Component.State');
+    goog.require('goog.ui.Control');
+    goog.require('goog.ui.ControlContent');
+    goog.require('goog.ui.MenuItemRenderer');
+    goog.require('goog.ui.registry');
+    goog.require('goog.ui.CheckBoxMenuItem');
     goog.require('goog.ui.Menu');
     goog.require('goog.ui.MenuBarRenderer');
     goog.require('goog.ui.menuBarDecorator');
@@ -52,6 +63,7 @@
   <link rel="stylesheet" href="external/closure-library/closure/goog/css/menuitem.css">
   <link rel="stylesheet" href="external/closure-library/closure/goog/css/menuseparator.css">
   <link rel="stylesheet" href="external/closure-library/closure/goog/css/dialog.css">
+  <link rel="stylesheet" href="external/closure-library/closure/goog/css/checkbox.css">
 </head>
 
 <body>
@@ -68,12 +80,15 @@ function performClick(node) {
 }
 </script>
 
-
 <div id="menuBar"></div>
 <div id="main"></div>
+<div id="statusBar"></div>
 <div id='fileDialog'>
     <input type="file" id="openFile" style="visibility:hidden" onchange='readFile(this)' />
 </div>
+
+
+
 
 <script type="text/javascript" src="ui/canvas.js"></script>
 <script type="text/javascript" src="ui/dialogs.js"></script>
@@ -118,7 +133,11 @@ function loadGraphDrawing() {
     // Layout the graph drawing
     switch (query.layout) {
         case 't':
+        case 'ht':
             layout.layoutCollapsibleTree(canvas);
+            break;
+        case 'vt':
+            layout.layoutVerticalTree(canvas);
             break;
         case 'rt':
             layout.layoutReingoldTilfordTree(container);
@@ -168,6 +187,7 @@ console.log('graph: ' + decodeURIComponent(query.graph));
 		graph = decodeURIComponent(query.graph);
 		format = query.format.toUpperCase();
 		loadGraphDrawing();
+		textFileName = 'noname';
     }
     else if (query.url != undefined) {
 		var allText, lines;
@@ -180,6 +200,7 @@ console.log('graph: ' + decodeURIComponent(query.graph));
 		  if (txtFile.readyState === 4) {  // Makes sure the document is ready to parse.
 			if (txtFile.status === 200) {  // Makes sure it's found the file.
 				graph = txtFile.responseText; 
+				textFileName = getFileNameFromURL(query.url);
 				format = getFileExtension(query.url).toUpperCase();
 console.log('graph: ' + graph);
 console.log('format: ' + format);
@@ -190,6 +211,8 @@ console.log('format: ' + format);
 		txtFile.send(null);    
    }
 
+updateStatusBar();   
+   
 /*   while (!bWait);
    
 console.log('graph: ' + graph);
@@ -229,32 +252,6 @@ console.log('format: ' + format);
 }
 
 	
-/*canvas = d3.select("#main").append("svg")
-    .attr("width", WIDTH + margin.left + margin.right)
-    .attr("height", HEIGHT + margin.top + margin.bottom)
-	.attr("id", "canvas")
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.right + ")")
-    .call(zoom);
-
-container = vis.append("g");*/
-    
- 
-    
-/*var vis = d3.select("#main")
-  .append("svg:svg")
-  .attr("width", WIDTH)
-  .attr("height", HEIGHT)
-  .attr("id", "canvas")*/
-
-/*frame = d3.select("svg")
-  .append("svg:rect")
-    .attr("width", "100%")
-    .attr("height", "100%")
-    .attr("stroke", "#000")
-    .attr("stroke-width", 1)
-    .attr("fill", "none");*/
-
 
 
 
@@ -264,6 +261,17 @@ container = vis.append("g");*/
 <INPUT TYPE="button" VALUE="Import" onClick="importFile()">
 <INPUT TYPE="button" VALUE="Properties" onClick="showProperties()"-->
 
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		console.log("Time until DOMready: ", Date.now()-timerStart + ' ms');
+	});
+	$(window).load(function() {
+		console.log("Time until everything loaded: ", Date.now()-timerStart + 'ms');
+	});
+	statusBarMessage = 'Page loaded in ' + (Date.now()-timerStart)/1000 + ' s.';
+	updateStatusBar();
+</script>
 
 </body>
 </html>

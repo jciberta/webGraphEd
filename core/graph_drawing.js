@@ -289,4 +289,31 @@ GraphDrawing.prototype.saveAsGraphML = function(filename) {
   graphml.save(this, filename);
 }
 
+/**
+ * Changes label on a specified node.
+ * @param {string} id The id the node.
+ * @param {string} label The new label.
+ */
+GraphDrawing.prototype.changeLabel = function(id, label) {
+	var i;
+	for (i=0; i<this.listNodes.length; i++) {
+		if (this.listNodes[i][0]==id) {
+			this.listNodes[i][1] = label;
+			break;
+		}
+	}
+}
+
+/**
+ * Obtain a new id for the node.
+ * @return {integer} The new node's id.
+ */
+GraphDrawing.prototype.getNewNodeId = function() {
+	var i, max=0;
+	for (i=0; i<this.listNodes.length; i++) {
+		if (parseInt(this.listNodes[i][0])>max) 
+			max=this.listNodes[i][0];
+	}
+	return max+1;
+}
 

@@ -117,7 +117,10 @@ GMLFile.prototype.save = function(graph, filename) {
 
     sFile += 'graph [' + ENTER;
     for (i=0;i<graph.listNodes.length;i++) {  
-        sFile += '  node [ id ' + graph.listNodes[i][0] + ' ]' + ENTER;
+        sFile += '  node [ id ' + graph.listNodes[i][0]; 
+		if (graph.listNodes[i][1] != '')
+			sFile += ' label ' + graph.listNodes[i][1]; 
+        sFile += ' ]' + ENTER;
     }
     for (i=0;i<graph.listEdges.length;i++) {  
         sFile += '  edge [ source ' + graph.listEdges[i][0] + ' target ' + graph.listEdges[i][1] + ' ]' + ENTER;

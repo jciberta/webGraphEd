@@ -3,6 +3,7 @@
 	fill: #fff;
 	stroke: steelblue;
 	stroke-width: 1.5px;
+    cursor  : pointer;
 }
 
 .node {
@@ -46,4 +47,9 @@ a.likeAButton:active {
   padding:4px 2px 2px 4px;
   margin:1px;
   text-decoration:none;
+}
+
+g.node circle {
+    stroke  : gray;
+    cursor  : pointer;
 }

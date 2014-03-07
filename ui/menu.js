@@ -19,6 +19,8 @@ function readFile(that) {
 //	var output = null;
 //  textFileName = that.files[0];
 	if (that.files && that.files[0]) {
+		timerStart = Date.now();
+		newLayout();
 		var reader = new FileReader();
 		reader.onload = function (e) {  
 			textFile = e.target.result;
@@ -26,10 +28,12 @@ function readFile(that) {
 console.log('textFileName: ' + textFileName);
 
 			importFile(textFileName);
-			clearCanvas();
 			updateMenu(layout.graph);
+//			clearCanvas();
+console.log('textFileName: ' + textFileName);
 			document.title = 'webGraphEd - ' + textFileName;
-			
+			statusBarMessage = 'File loaded in ' + (Date.now()-timerStart)/1000 + ' s.';
+			updateStatusBar();
 //console.log('output: ' + output);
 		};
 		reader.readAsText(that.files[0]);
@@ -120,7 +124,8 @@ function importFile(filename) {
 function updateMenu(graph) {
     if ((graph==true) || (graph==false)) {
         menuFileProperties.setEnabled(graph);
-        menuTree.setEnabled(false);	
+        menuTree.setEnabled(graph);	
+        menuVerticalTree.setEnabled(graph);
         menuRadialTree.setEnabled(graph);
         menuForceDirected.setEnabled(graph);
         menuFileExportToGML.setEnabled(graph);
@@ -130,6 +135,7 @@ function updateMenu(graph) {
         menuFileProperties.setEnabled(true);
         var bIsTree = graph.isTree();
         menuTree.setEnabled(bIsTree);	
+        menuVerticalTree.setEnabled(bIsTree);	
         menuRadialTree.setEnabled(bIsTree);
         menuForceDirected.setEnabled(true);
         menuFileExportToGML.setEnabled(true);
@@ -137,7 +143,39 @@ function updateMenu(graph) {
     }
 }
 
-    var menubar = goog.ui.menuBar.create();
+function updateStatusBar() { 
+	var sHTML = '';
+	
+	sHTML += '<TABLE><TR>';
+	sHTML += '<TD style="width:200px"><B>Filename</B>: ' + textFileName + '</TD>';
+	if (d3.event == null) 
+		sHTML += '<TD style="width:100px"><B>Zoom</B>: </TD>';
+	else
+		sHTML += '<TD style="width:100px"><B>Zoom</B>: ' + Math.floor(d3.event.scale*100) + '%</TD>';
+	if (PAN_AND_ZOOM) 
+        sHTML += '<TD style="width:200px"><B>Mode</B>: Pan & Zoom</TD>';
+    else
+        sHTML += '<TD style="width:200px"><B>Mode</B>: Edit</TD>';
+	sHTML += '<TD>' + statusBarMessage + '</TD>';
+	sHTML += '</TR></TABLE>';
+	document.getElementById('statusBar').innerHTML = sHTML;
+}
+
+function updatePanAndZoom(bValue) {
+    PAN_AND_ZOOM = bValue;
+	if (PAN_AND_ZOOM) {
+/*		oldTranslate = d3.event.translate;
+		oldScale = d3.event.scale;
+console.log('oldTranslate: ' + oldTranslate);
+console.log('oldScale: ' + oldScale);*/
+	}
+    menuPanZoomMode.setChecked(PAN_AND_ZOOM); 
+    menuEditMode.setChecked(!PAN_AND_ZOOM);    
+    updateStatusBar();
+}
+
+
+var menubar = goog.ui.menuBar.create();
 /*    var menuNames = ['File', 'Layout', 'Help'];
     var menuOptions = [];
     menuOptions[0] = ['New', 'Open', null, 'Exit'];
@@ -193,13 +231,53 @@ goog.events.listen(btnFile, goog.ui.Component.EventType.ACTION, function(e) {
 	}
 });	
 	
-		
+// Edit menu
+var menuEdit = new goog.ui.Menu();
+var menuPanZoomMode = new goog.ui.CheckBoxMenuItem('Pan & Zoom');
+//menuPanZoomMode.setSelectable(true);
+menuPanZoomMode.setCheckable(true);
+menuPanZoomMode.setChecked(true);
+menuPanZoomMode.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuEdit.addItem(menuPanZoomMode); 
+var menuEditMode = new goog.ui.CheckBoxMenuItem('Edit');
+//menuEditMode.setSelectable(true);
+menuEditMode.setCheckable(true);
+menuEditMode.setChecked(false);
+menuEditMode.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuEdit.addItem(menuEditMode); 
+menuEdit.addItem(new goog.ui.MenuSeparator());
+var menuAddNode = new goog.ui.MenuItem('Add node');
+menuAddNode.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuEdit.addItem(menuAddNode); 
+
+var btnEdit = new goog.ui.MenuButton('Edit', menuEdit);
+btnEdit.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menubar.addChild(btnEdit, true);
+goog.events.listen(btnEdit, goog.ui.Component.EventType.ACTION, function(e) {
+//console.log('listen');
+	if (e.target && e.target.getCaption() == 'Pan & Zoom') {
+        updatePanAndZoom(true);
+	}
+	else if (e.target && e.target.getCaption() == 'Edit') {
+        updatePanAndZoom(false);
+	}
+	else if (e.target && e.target.getCaption() == 'Add node') {
+		layout.addNode();
+	}
+});	
+
+
+    
 // Layout menu
 var menuLayout = new goog.ui.Menu();
-var menuTree = new goog.ui.MenuItem('Tree');
+var menuTree = new goog.ui.MenuItem('Horizontal Tree');
 menuTree.setEnabled(false);	
 menuTree.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuLayout.addItem(menuTree); 
+var menuVerticalTree = new goog.ui.MenuItem('Vertical tree');
+menuVerticalTree.setEnabled(false);	
+menuVerticalTree.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuLayout.addItem(menuVerticalTree); 
 var menuRadialTree = new goog.ui.MenuItem('Radial tree'); 
 menuRadialTree.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuLayout.addItem(menuRadialTree); 
@@ -213,22 +291,42 @@ var btnLayout = new goog.ui.MenuButton('Layout', menuLayout);
 btnLayout.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menubar.addChild(btnLayout, true);
 goog.events.listen(btnLayout, goog.ui.Component.EventType.ACTION, function(e) {
-	if (e.target && e.target.getCaption() == 'Tree') {
+	if (e.target && e.target.getCaption() == 'Horizontal Tree') {
+		timerStart = Date.now();
 		clearCanvas();
 		layout.layoutCollapsibleTree(canvas);
+		statusBarMessage = 'Layout done in ' + (Date.now()-timerStart)/1000 + ' s.';
+		updateStatusBar();
+	}
+	else if (e.target && e.target.getCaption() == 'Vertical tree') {
+		timerStart = Date.now();
+		clearCanvas();
+		layout.layoutVerticalTree(container);
+		statusBarMessage = 'Layout done in ' + (Date.now()-timerStart)/1000 + ' s.';
+		updateStatusBar();
 	}
 	else if (e.target && e.target.getCaption() == 'Radial tree') {
+		timerStart = Date.now();
 		clearCanvas();
 		layout.layoutReingoldTilfordTree(container);
+		statusBarMessage = 'Layout done in ' + (Date.now()-timerStart)/1000 + ' s.';
+		updateStatusBar();
 	}
 		else if (e.target && e.target.getCaption() == 'Force directed') {
+		timerStart = Date.now();
 		clearCanvas();
 		layout.layoutForceDirected(canvas);
+		statusBarMessage = 'Layout done in ' + (Date.now()-timerStart)/1000 + ' s.';
+		updateStatusBar();
 	}
 });	
 
 // Help menu
 var menuHelp = new goog.ui.Menu();
+var menuDocumentation = new goog.ui.MenuItem('Documentation'); 
+menuDocumentation.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuHelp.addItem(menuDocumentation); 
+menuHelp.addItem(new goog.ui.MenuSeparator());
 var menuAbout = new goog.ui.MenuItem('About'); 
 menuAbout.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuHelp.addItem(menuAbout); 
@@ -236,7 +334,10 @@ var btnAbout = new goog.ui.MenuButton('Help', menuHelp);
 btnAbout.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menubar.addChild(btnAbout, true);
 goog.events.listen(btnAbout, goog.ui.Component.EventType.ACTION, function(e) {
-	if (e.target && e.target.getCaption() == 'About') {
+	if (e.target && e.target.getCaption() == 'Documentation') {
+		window.open("doc/index.html");
+	}
+	else if (e.target && e.target.getCaption() == 'About') {
 		showAbout();
 	}
 });	
@@ -245,5 +346,6 @@ updateMenu(false);
 
 
 menubar.render(goog.dom.getElement('menuBar'));
+
 
 

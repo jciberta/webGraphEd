@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - Tree</title>
+		<title>JsDoc Reference - VerticalTreeLayout</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -222,7 +222,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class Tree
+				Class VerticalTreeLayout
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -230,16 +230,16 @@ ul.inheritsList
 				
 				
 			
-				The Tree class contains the root node and a list of TreeNode.
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/core_tree.js.html">tree.js</a>.
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/layout_vertical-tree.js.html">vertical-tree.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class Tree.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class VerticalTreeLayout.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -252,9 +252,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/Tree.html#constructor">Tree</a></b>(graph)
+								<b><a href="../symbols/VerticalTreeLayout.html#constructor">VerticalTreeLayout</a></b>(canvas, graph)
 							</div>
-							<div class="description">Creates a tree.</div>
+							<div class="description">Create a Vertical tree</div>
 						</td>
 					</tr>
 				</tbody>
@@ -265,51 +265,6 @@ ul.inheritsList
 			
 
 <!-- ============================== methods summary ======================== -->
-			
-				
-				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class Tree.">
-					<caption>Method Summary</caption>
-					<thead>
-						<tr>
-							<th scope="col">Method Attributes</th>
-							<th scope="col">Method Name and Description</th>
-						</tr>
-					</thead>
-					<tbody>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/Tree.html#addChildren">addChildren</a></b>(tn)
-								</div>
-								<div class="description">Add tree node children to the tree recursively.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/Tree.html#toD3JSON">toD3JSON</a></b>()
-								</div>
-								<div class="description">Convert the tree into D3 JSON notation.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/Tree.html#toD3JSONString">toD3JSONString</a></b>()
-								</div>
-								<div class="description">Convert the tree into D3 JSON notation.</div>
-							</td>
-						</tr>
-					
-					</tbody>
-				</table>
-				
-				
-				
 			
 <!-- ============================== events summary ======================== -->
 			
@@ -322,11 +277,11 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>Tree</b>(graph)
+						<b>VerticalTreeLayout</b>(canvas, graph)
 				</div>
 				
 				<div class="description">
-					Creates a tree.
+					Create a Vertical tree
 					
 				</div>
 				
@@ -338,10 +293,16 @@ ul.inheritsList
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
+								<span class="light fixedFont">{string}</span>  <b>canvas</b>
+								
+							</dt>
+								<dd>- Canvas where the graph drawing will be lay out.</dd>
+						
+							<dt>
 								<span class="light fixedFont">{<a href="../symbols/GraphDrawing.html">GraphDrawing</a>}</span>  <b>graph</b>
 								
 							</dt>
-								<dd>The graph drawing data to populate the tree.</dd>
+								<dd>- Graph drawing object</dd>
 						
 						</dl>
 					
@@ -359,111 +320,6 @@ ul.inheritsList
 			
 
 <!-- ============================== method details ========================= -->		
-			
-				<div class="sectionTitle">
-					Method Detail
-				</div>
-				
-					<a name="addChildren"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>addChildren</b>(tn)
-					
-					</div>
-					<div class="description">
-						Add tree node children to the tree recursively.
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{<a href="../symbols/TreeNode.html">TreeNode</a>}</span> <b>tn</b>
-									
-								</dt>
-								<dd>The tree node to insert.</dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="toD3JSON"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{D3JSON}</span>
-					<b>toD3JSON</b>()
-					
-					</div>
-					<div class="description">
-						Convert the tree into D3 JSON notation.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{D3JSON}</span> The nested JSON object.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="toD3JSONString"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{string}</span>
-					<b>toD3JSONString</b>()
-					
-					</div>
-					<div class="description">
-						Convert the tree into D3 JSON notation.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{string}</span> The nested JSON string.</dd>
-							
-							</dl>
-						
-						
-						
-
-					
-				
 			
 			
 <!-- ============================== event details ========================= -->		

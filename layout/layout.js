@@ -88,6 +88,15 @@ Layout.prototype.layoutCollapsibleTree = function(canvas) {
 };
 
 /**
+ * Depict a Vertical Tree layout on a canvas.
+ * @param {string} canvas Canvas where layout is depicted.
+ * @return {CollapsibleTreeLayout} The new layout object.
+ */
+Layout.prototype.layoutVerticalTree = function(canvas) {
+  this.layout = new VerticalTreeLayout(canvas, this.graph);
+};
+
+/**
  * Depict a Reingold Tilford Tree layout on a canvas.
  * @param {string} canvas Canvas where layout is depicted.
  * @return {ReingoldTilfordTreeLayout} The new layout object.
@@ -96,4 +105,10 @@ Layout.prototype.layoutReingoldTilfordTree = function(canvas) {
   this.layout = new ReingoldTilfordTreeLayout(canvas, this.graph);
 };
 
+/**
+ * Adds a node to the corresponding layout.
+ */
+Layout.prototype.addNode = function() {
+  this.layout.addNode();
+};
 

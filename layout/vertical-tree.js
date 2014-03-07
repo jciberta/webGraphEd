@@ -1,11 +1,11 @@
 
 /**
- * Create a Collapsible Tree layout
+ * Create a Vertical tree
  * @constructor
  * @param {string} canvas - Canvas where the graph drawing will be lay out.
  * @param {GraphDrawing} graph - Graph drawing object
  */
-CollapsibleTreeLayout = function(canvas, graph) {
+VerticalTreeLayout = function(canvas, graph) {
 	var m = [20, 120, 20, 120], i = 0;
 	var startState, endState;    
 
@@ -27,8 +27,8 @@ CollapsibleTreeLayout = function(canvas, graph) {
         // I'm assuming here that supplied datum 
         // is a link between 'source' and 'target'
         var points = [
-            {x: d.source.y, y: d.source.x},
-            {x: d.target.y, y: d.target.x}
+            {x: d.source.x, y: d.source.y},
+            {x: d.target.x, y: d.target.y}
         ]
         return line(points);
     } 
@@ -82,7 +82,7 @@ CollapsibleTreeLayout = function(canvas, graph) {
         sourceY = d.source.y + (sourcePadding * normY),
         targetX = d.target.x - (targetPadding * normX),
         targetY = d.target.y - (targetPadding * normY);
-		return 'M' + sourceY + ',' + sourceX + 'L' + targetY + ',' + targetX;		
+		return 'M' + sourceX + ',' + sourceY + 'L' + targetX + ',' + targetY;		
 		
 	};	
 	
@@ -90,8 +90,8 @@ CollapsibleTreeLayout = function(canvas, graph) {
 		.on("dragstart", dragstarted)
 		.on("drag", function(d, i) {
 console.log('d3.event.dx: ' + d3.event.dx);
-			d.x += d3.event.dy
-			d.y += d3.event.dx
+			d.x += d3.event.dx
+			d.y += d3.event.dy
 //			var color = d3.selectAll('circle').style("fill", "yellow");
 //console.log('color: ' + color);
 //			d3.select(this).attr("transform", function(d, i){
@@ -100,10 +100,10 @@ console.log('d3.event.dx: ' + d3.event.dx);
 			d3.select(this).attr("transform", function(d){
 //				return "rotate(" + (270) + ")translate(" + [ d.x, d.y ] + ")"; 
 //				return "translate(" + [ d.x, d.y ] + ")rotate(90)"; 
-				return "translate(" + [ d.y, d.x ] + ")";
+				return "translate(" + [ d.x, d.y ] + ")";
 				
 				d3.selectAll("path.link").attr("stroke", "orange")
-					.attr("transform", "translate(" + [ d.y, d.x ] + ")");
+					.attr("transform", "translate(" + [ d.x, d.y ] + ")");
 			})
 			d3.selectAll('path.link')
 //				.style("fill", "yellow")
@@ -219,6 +219,7 @@ console.log('root: ' + root.id);
             .attr("dy", ".35em")
             .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
             .text(function(d) { return d.name; })
+			.attr("transform", function(d) { return "rotate(90)"; })
             .style("fill-opacity", 1e-6)
 			.on("click", function(d) { 
 				var answer = prompt("Please enter the new name", d.name);
@@ -234,7 +235,7 @@ console.log('root: ' + root.id);
         // Transition nodes to their new position.
         var nodeUpdate = node.transition()
             .duration(duration)
-            .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+            .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
         nodeUpdate.select("circle")
             .attr("r", 4.5)
@@ -246,7 +247,7 @@ console.log('root: ' + root.id);
         // Transition exiting nodes to the parent's new position.
         var nodeExit = node.exit().transition()
             .duration(duration)
-            .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+            .attr("transform", function(d) { return "translate(" + source.x + "," + source.y + ")"; })
             .remove();
 
         nodeExit.select("circle")
