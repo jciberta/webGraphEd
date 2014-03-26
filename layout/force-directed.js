@@ -3,11 +3,14 @@
  * Create a Force Directed layout
  * Based on http://bl.ocks.org/MoritzStefaner/1377729
  * @constructor
- * @param {string} canvas - Canvas where the graph drawing will be lay out.
- * @param {GraphDrawing} graph - Graph drawing object
+ * @param {string} canvas Canvas where the graph drawing will be lay out.
+ * @param {GraphDrawing} graph Graph drawing object
  */
 ForceDirectedLayout = function(canvas, graph) {
-//	var w = 960, h = 500;
+	this.canvas = canvas;
+	this.graph = graph;
+
+	//	var w = 960, h = 500;
 	var i, j, k;
 
 	var labelDistance = 0;

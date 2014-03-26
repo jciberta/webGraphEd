@@ -194,8 +194,8 @@ console.log('Edges=' + this.listEdges);
 }
 
 GraphDrawing.prototype.markAsUnvisited = function() {
-  for (var i=0; i<listNodes.length; i++)
-    listNodes[i].visited = false;
+	for (var i=0; i<listNodes.length; i++)
+		listNodes[i].visited = false;
 }
 
 /**
@@ -223,23 +223,23 @@ GraphDrawing.prototype.isConnected = function() {
  * @return {boolean} True if the graph drawing is cyclic.
  */
 GraphDrawing.prototype.isCyclic = function() {
-  // Depth-First Search (DFS) variation (non-recursive)
-  var l=[], i=0, j, cycleDetected=false;
-  
-  l.push(this.listNodes[0][0]); // First node
-  while (i<l.length) {
-    a = this.getDirectedAdjacents(l[i]);
-    for (j=0; j<a.length; j++) {
-      if (l.indexOf(a[j])==-1)
-        l.push(a[j]);
-      else {
-        cycleDetected = true;
-        break;
-      }
-    }
-    i++;
-  }
-  return cycleDetected;
+	// Depth-First Search (DFS) variation (non-recursive)
+	var l=[], i=0, j, cycleDetected=false;
+
+	l.push(this.listNodes[0][0]); // First node
+	while (i<l.length) {
+		a = this.getDirectedAdjacents(l[i]);
+		for (j=0; j<a.length; j++) {
+			if (l.indexOf(a[j])==-1)
+				l.push(a[j]);
+			else {
+				cycleDetected = true;
+				break;
+			}
+		}
+		i++;
+	}
+	return cycleDetected;
 }
 
 /**
@@ -276,8 +276,8 @@ GraphDrawing.prototype.isBinaryTree = function() {
  * @param {string} filename The name of the file.
  */
 GraphDrawing.prototype.saveAsGML = function(filename) {
-  var gml = new GMLFile();
-  gml.save(this, filename);
+	var gml = new GMLFile();
+	gml.save(this, filename);
 }
 
 /**
@@ -285,8 +285,8 @@ GraphDrawing.prototype.saveAsGML = function(filename) {
  * @param {string} filename The name of the file.
  */
 GraphDrawing.prototype.saveAsGraphML = function(filename) {
-  var graphml = new GraphMLFile();
-  graphml.save(this, filename);
+	var graphml = new GraphMLFile();
+	graphml.save(this, filename);
 }
 
 /**
@@ -314,6 +314,19 @@ GraphDrawing.prototype.getNewNodeId = function() {
 		if (parseInt(this.listNodes[i][0])>max) 
 			max=this.listNodes[i][0];
 	}
-	return max+1;
+	return parseInt(max)+1;
 }
 
+/**
+ * Adds a node to the graph drawing
+ * @param {number} id The identification of the node.
+ * @param {string} label The label of the node.
+ */
+GraphDrawing.prototype.addNode = function(id, label) {
+    this.listNodes.push([id, label]);
+console.log('Nodes=' + this.listNodes);
+
+//	n.push([this.getPair(a[i], 'id'), this.getQuotedPair(a[i], 'label')]);
+//	this.id = id;
+//    this.label = label; 
+}

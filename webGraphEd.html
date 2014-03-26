@@ -26,9 +26,10 @@
   <script type="text/javascript" src="core/graph_drawing.js"></script>
   <script type="text/javascript" src="core/tree.js"></script>
   <script type="text/javascript" src="layout/layout.js"></script>
+  <script type="text/javascript" src="layout/custom-layout.js"></script>
   <script type="text/javascript" src="layout/force-directed.js"></script>
-  <script type="text/javascript" src="layout/reingold-tilford-tree.js"></script>
-  <script type="text/javascript" src="layout/collapsible-tree.js"></script>
+  <script type="text/javascript" src="layout/radial-tree.js"></script>
+  <script type="text/javascript" src="layout/horizontal-tree.js"></script>
   <script type="text/javascript" src="layout/vertical-tree.js"></script>
 
   <script src="external/closure-library/closure/goog/base.js"></script>
@@ -113,6 +114,7 @@ function performClick(node) {
 
 createCanvas();	
 layout = new Layout();
+//console.log('layout: ' + JSON.stringify(layout));
 
 
 function loadGraphDrawing() {
@@ -134,13 +136,13 @@ function loadGraphDrawing() {
     switch (query.layout) {
         case 't':
         case 'ht':
-            layout.layoutCollapsibleTree(canvas);
+            layout.layoutHorizontalTree(canvas);
             break;
         case 'vt':
             layout.layoutVerticalTree(canvas);
             break;
         case 'rt':
-            layout.layoutReingoldTilfordTree(container);
+            layout.layoutRadialTree(container);
             break;
         case 'fd':
             layout.layoutForceDirected(canvas);

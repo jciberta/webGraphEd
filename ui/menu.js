@@ -225,8 +225,7 @@ goog.events.listen(btnFile, goog.ui.Component.EventType.ACTION, function(e) {
 		exportToGraphML();
 	}
 	else if (e.target && e.target.getCaption() == 'Properties') {
-		console.log('showProperties: ');
-
+//console.log('showProperties: ');
 		showProperties();
 	}
 });	
@@ -262,6 +261,8 @@ goog.events.listen(btnEdit, goog.ui.Component.EventType.ACTION, function(e) {
         updatePanAndZoom(false);
 	}
 	else if (e.target && e.target.getCaption() == 'Add node') {
+//console.log('layout: ' + JSON.stringify(layout));
+console.log('Add node');
 		layout.addNode();
 	}
 });	
@@ -294,7 +295,7 @@ goog.events.listen(btnLayout, goog.ui.Component.EventType.ACTION, function(e) {
 	if (e.target && e.target.getCaption() == 'Horizontal Tree') {
 		timerStart = Date.now();
 		clearCanvas();
-		layout.layoutCollapsibleTree(canvas);
+		layout.layoutHorizontalTree(canvas);
 		statusBarMessage = 'Layout done in ' + (Date.now()-timerStart)/1000 + ' s.';
 		updateStatusBar();
 	}
@@ -308,7 +309,7 @@ goog.events.listen(btnLayout, goog.ui.Component.EventType.ACTION, function(e) {
 	else if (e.target && e.target.getCaption() == 'Radial tree') {
 		timerStart = Date.now();
 		clearCanvas();
-		layout.layoutReingoldTilfordTree(container);
+		layout.layoutRadialTree(container);
 		statusBarMessage = 'Layout done in ' + (Date.now()-timerStart)/1000 + ' s.';
 		updateStatusBar();
 	}

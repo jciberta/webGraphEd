@@ -4,20 +4,22 @@
  * @constructor
  */
 Layout = function() {
-  this.graph = new GraphDrawing();
-  this.file = "";
-  this.fileName = "";
-  this.layout = null;
+	this.graph = new GraphDrawing();
+	this.file = "";
+	this.fileName = "";
+	//this.layout = null;
+	this.layout = new CustomLayout(canvas, this.graph);
 }
 
 /**
  * Clear the layout.
  */
 Layout.prototype.clear = function() {
-  delete this.graph;
-  this.graph = new GraphDrawing();
-  delete this.layout;
-  this.layout = null;
+	delete this.graph;
+	this.graph = new GraphDrawing();
+	delete this.layout;
+	//this.layout = null;
+	this.layout = new CustomLayout(canvas, this.graph);
 };
 
 /**
@@ -25,7 +27,7 @@ Layout.prototype.clear = function() {
  * @param {string} newFile The file.
  */
 Layout.prototype.setFile = function(newFile) {
-  this.file = newFile;
+	this.file = newFile;
 };
 
 /**
@@ -33,7 +35,7 @@ Layout.prototype.setFile = function(newFile) {
  * @param {string} newFile The name of the file.
  */
 Layout.prototype.setFileName = function(newFileName) {
-  this.fileName = newFileName;
+	this.fileName = newFileName;
 };
 
 /**
@@ -41,8 +43,8 @@ Layout.prototype.setFileName = function(newFileName) {
  * @param {string} newFile The GML file.
  */
 Layout.prototype.importGML = function(newFile) {
-  this.file = newFile;
-  this.graph.importGML(this.file);
+	this.file = newFile;
+	this.graph.importGML(this.file);
 };
 
 /**
@@ -50,65 +52,74 @@ Layout.prototype.importGML = function(newFile) {
  * @param {string} newFile The GML file.
  */
 Layout.prototype.importGraphML = function(newFile) {
-  this.file = newFile;
-  this.graph.importGraphML(this.file);
+	this.file = newFile;
+	this.graph.importGraphML(this.file);
 };
 
 /**
  * Export to GML file.
  */
 Layout.prototype.exportGML = function() {
-  this.graph.saveAsGML(this.fileName);
+	this.graph.saveAsGML(this.fileName);
 };
 
 /**
  * Export to GraphML file.
  */
 Layout.prototype.exportGraphML = function() {
-console.log('Layout.prototype.exportGraphML');
-  this.graph.saveAsGraphML(this.fileName);
+	this.graph.saveAsGraphML(this.fileName);
+};
+
+/**
+ * Depict an empty Directed layout on a canvas.
+ * @param {string} canvas Canvas where layout is depicted.
+ * @return {EmptyLayout} The new layout object.
+ */
+Layout.prototype.layoutCustom = function(canvas) {
+	this.layout = new CustomLayout(canvas, this.graph);
 };
 
 /**
  * Depict a Force Directed layout on a canvas.
  * @param {string} canvas Canvas where layout is depicted.
- * @return {ReingoldTilfordTreeLayout} The new layout object.
+ * @return {ForceDirectedLayout} The new layout object.
  */
 Layout.prototype.layoutForceDirected = function(canvas) {
-  this.layout = new ForceDirectedLayout(canvas, this.graph);
+	this.layout = new ForceDirectedLayout(canvas, this.graph);
 };
 
 /**
- * Depict a Collapsible Tree layout on a canvas.
+ * Depict a Horizontal Tree layout on a canvas.
  * @param {string} canvas Canvas where layout is depicted.
- * @return {CollapsibleTreeLayout} The new layout object.
+ * @return {HorizontalTreeLayout} The new layout object.
  */
-Layout.prototype.layoutCollapsibleTree = function(canvas) {
-  this.layout = new CollapsibleTreeLayout(canvas, this.graph);
+Layout.prototype.layoutHorizontalTree = function(canvas) {
+	this.layout = new HorizontalTreeLayout(canvas, this.graph);
 };
 
 /**
  * Depict a Vertical Tree layout on a canvas.
  * @param {string} canvas Canvas where layout is depicted.
- * @return {CollapsibleTreeLayout} The new layout object.
+ * @return {VerticalTreeLayout} The new layout object.
  */
 Layout.prototype.layoutVerticalTree = function(canvas) {
-  this.layout = new VerticalTreeLayout(canvas, this.graph);
+	this.layout = new VerticalTreeLayout(canvas, this.graph);
 };
 
 /**
- * Depict a Reingold Tilford Tree layout on a canvas.
+ * Depict a Radial Tree layout on a canvas.
  * @param {string} canvas Canvas where layout is depicted.
- * @return {ReingoldTilfordTreeLayout} The new layout object.
+ * @return {RadialTreeLayout} The new layout object.
  */
-Layout.prototype.layoutReingoldTilfordTree = function(canvas) {
-  this.layout = new ReingoldTilfordTreeLayout(canvas, this.graph);
+Layout.prototype.layoutRadialTree = function(canvas) {
+	this.layout = new RadialTreeLayout(canvas, this.graph);
 };
 
 /**
  * Adds a node to the corresponding layout.
  */
 Layout.prototype.addNode = function() {
-  this.layout.addNode();
+console.log('addNode');		
+	this.layout.addNode();
 };
 
