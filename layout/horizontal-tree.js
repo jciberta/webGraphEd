@@ -1,11 +1,57 @@
 
 /**
- * Create a Collapsible Tree layout
+ * Create a Horizontal Tree layout
  * @constructor
  * @param {string} canvas - Canvas where the graph drawing will be lay out.
  * @param {GraphDrawing} graph - Graph drawing object
  */
 HorizontalTreeLayout = function(canvas, graph) {
+console.log('HorizontalTreeLayout');
+    var jsonList = graph.getTreeD3JSON();
+console.log('jsonList: ' + JSON.stringify(jsonList));
+
+	var tree = d3.layout.tree()
+		.size([HEIGHT, WIDTH]);
+
+    root = jsonList;
+    root.x0 = HEIGHT / 2;
+    root.y0 = 0;
+
+	// Compute the new tree layout.
+	this.nodes = tree.nodes(root).reverse();
+
+	// Normalize for fixed-depth.
+	this.nodes.forEach(function(d) { d.y = d.depth * 180; });
+
+	// By default, D3 tree is vertical. Coordinates must be changed (x <-> y)
+	var swap;
+	for (i=0; i<this.nodes.length; i++) {
+		n = this.nodes[i];
+		swap = n.x;
+		n.x = n.y;
+		n.y = swap;
+	}
+	
+	
+	this.links = tree.links(this.nodes);
+		
+		
+		
+console.log('nodes:');
+console.dir(this.nodes);
+console.log('links:');
+console.dir(this.links);
+		
+		
+}
+
+/**
+ * Create a Collapsible Tree layout
+ * @constructor
+ * @param {string} canvas - Canvas where the graph drawing will be lay out.
+ * @param {GraphDrawing} graph - Graph drawing object
+ */
+HorizontalTreeLayout2 = function(canvas, graph) {
 	var m = [20, 120, 20, 120], i = 0;
 	var startState, endState;    
 

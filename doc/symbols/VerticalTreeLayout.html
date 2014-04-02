@@ -191,7 +191,9 @@ ul.inheritsList
 	
 	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
 	
-	<li><a href="../symbols/CollapsibleTreeLayout.html">CollapsibleTreeLayout</a></li>
+	<li><a href="../symbols/CustomLayout.html">CustomLayout</a></li>
+	
+	<li><a href="../symbols/Edge.html">Edge</a></li>
 	
 	<li><a href="../symbols/ForceDirectedLayout.html">ForceDirectedLayout</a></li>
 	
@@ -201,17 +203,27 @@ ul.inheritsList
 	
 	<li><a href="../symbols/GraphMLFile.html">GraphMLFile</a></li>
 	
+	<li><a href="../symbols/HorizontalTreeLayout.html">HorizontalTreeLayout</a></li>
+	
+	<li><a href="../symbols/HorizontalTreeLayout2.html">HorizontalTreeLayout2</a></li>
+	
 	<li><a href="../symbols/Layout.html">Layout</a></li>
 	
 	<li><a href="../symbols/Node.html">Node</a></li>
 	
-	<li><a href="../symbols/ReingoldTilfordTreeLayout.html">ReingoldTilfordTreeLayout</a></li>
+	<li><a href="../symbols/RadialTreeLayout.html">RadialTreeLayout</a></li>
+	
+	<li><a href="../symbols/RadialTreeLayout2.html">RadialTreeLayout2</a></li>
+	
+	<li><a href="../symbols/String.html">String</a></li>
 	
 	<li><a href="../symbols/Tree.html">Tree</a></li>
 	
 	<li><a href="../symbols/TreeNode.html">TreeNode</a></li>
 	
 	<li><a href="../symbols/VerticalTreeLayout.html">VerticalTreeLayout</a></li>
+	
+	<li><a href="../symbols/VerticalTreeLayout2.html">VerticalTreeLayout2</a></li>
 	
 </ul>
 <hr />
@@ -254,7 +266,7 @@ ul.inheritsList
 							<div class="fixedFont">
 								<b><a href="../symbols/VerticalTreeLayout.html#constructor">VerticalTreeLayout</a></b>(canvas, graph)
 							</div>
-							<div class="description">Create a Vertical tree</div>
+							<div class="description">Create a Vertical Tree layout</div>
 						</td>
 					</tr>
 				</tbody>
@@ -265,6 +277,60 @@ ul.inheritsList
 			
 
 <!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class VerticalTreeLayout.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/VerticalTreeLayout.html#addNode">addNode</a></b>()
+								</div>
+								<div class="description">Adds a node to the corresponding layout.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/VerticalTreeLayout.html#toggle">toggle</a></b>(d)
+								</div>
+								<div class="description">Toggle a node.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/VerticalTreeLayout.html#toggleAll">toggleAll</a></b>(d)
+								</div>
+								<div class="description">Toggle a node and its sons.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/VerticalTreeLayout.html#updateLayout">updateLayout</a></b>(source)
+								</div>
+								<div class="description">Updates the layout.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
 			
 <!-- ============================== events summary ======================== -->
 			
@@ -281,7 +347,7 @@ ul.inheritsList
 				</div>
 				
 				<div class="description">
-					Create a Vertical tree
+					Create a Vertical Tree layout
 					
 				</div>
 				
@@ -321,6 +387,144 @@ ul.inheritsList
 
 <!-- ============================== method details ========================= -->		
 			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name="addNode"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addNode</b>()
+					
+					</div>
+					<div class="description">
+						Adds a node to the corresponding layout.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="toggle"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>toggle</b>(d)
+					
+					</div>
+					<div class="description">
+						Toggle a node.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>d</b>
+									
+								</dt>
+								<dd>The node to toggle.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="toggleAll"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>toggleAll</b>(d)
+					
+					</div>
+					<div class="description">
+						Toggle a node and its sons.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>d</b>
+									
+								</dt>
+								<dd>The node to toggle.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="updateLayout"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>updateLayout</b>(source)
+					
+					</div>
+					<div class="description">
+						Updates the layout.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>source</b>
+									
+								</dt>
+								<dd>The source node to update.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					
+				
+			
 			
 <!-- ============================== event details ========================= -->		
 			
@@ -332,7 +536,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Thu Mar 06 2014 20:53:02 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Apr 02 2014 18:22:16 GMT+0200 (CEST)
 		</div>
 	</body>
 </html>

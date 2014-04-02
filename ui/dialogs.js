@@ -11,3 +11,7 @@ var dialogProperties = new goog.ui.Dialog();
 dialogProperties.setTitle('Properties');
 dialogProperties.setButtonSet(goog.ui.Dialog.ButtonSet.OK);
 
+
+var dialogDebug = new goog.ui.Dialog();
+dialogDebug.setTitle('Debug information');
+dialogDebug.setButtonSet(goog.ui.Dialog.ButtonSet.OK);

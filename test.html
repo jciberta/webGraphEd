@@ -53,6 +53,16 @@
     equal(s, '1, 3, 5, 6, 7, ');
   });
 
+	// Graph drawing
+	test("Graph drawing 0 (empty graph drawing)", function() {
+		listNodes = [];
+		listEdges = [];
+		gd = new GraphDrawing(listNodes, listEdges);
+		equal(gd.isConnected(), false);
+		equal(gd.isCyclic(), false);
+		equal(gd.isTree(), false);
+	});
+
   // Graph drawing
 	test("Graph drawing 1 (connected)", function() {
     listNodes = [[1], [2], [3]];
@@ -112,6 +122,18 @@
     equal(gd.isBinaryTree(), false);
     equal(gd.getRoot(), 10);
   });
+  
+	// Graph drawing
+	test("Graph drawing 5 (special case)", function() {
+		listNodes = [[1], [2]];
+		listEdges = [[2,1]];
+		gd = new GraphDrawing(listNodes, listEdges);
+		equal(gd.isConnected(), true);
+		equal(gd.isCyclic(), false);
+		equal(gd.isTree(), true);
+		equal(gd.isBinaryTree(), true);
+	});
+  
 
   // Trees
 	test("Tree 1", function() {

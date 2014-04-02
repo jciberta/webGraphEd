@@ -10,263 +10,266 @@
 <span class='line'>  3</span>  * Create a Force Directed layout
 <span class='line'>  4</span>  * Based on http://bl.ocks.org/MoritzStefaner/1377729
 <span class='line'>  5</span>  * @constructor
-<span class='line'>  6</span>  * @param {string} canvas - Canvas where the graph drawing will be lay out.
-<span class='line'>  7</span>  * @param {GraphDrawing} graph - Graph drawing object
+<span class='line'>  6</span>  * @param {string} canvas Canvas where the graph drawing will be lay out.
+<span class='line'>  7</span>  * @param {GraphDrawing} graph Graph drawing object
 <span class='line'>  8</span>  */</span><span class="WHIT">
 <span class='line'>  9</span> </span><span class="NAME">ForceDirectedLayout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">canvas</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">graph</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 10</span> </span><span class="COMM">//	var w = 960, h = 500;</span><span class="WHIT">
-<span class='line'> 11</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">j</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">k</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="WHIT">	</span><span class="NAME">this.canvas</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">canvas</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="WHIT">	</span><span class="NAME">this.graph</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">graph</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 12</span> 
-<span class='line'> 13</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">labelDistance</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 14</span> 
-<span class='line'> 15</span> </span><span class="COMM">//	var vis = d3.select("body").append("svg:svg").attr("width", w).attr("height", h);</span><span class="WHIT">
-<span class='line'> 16</span> 
-<span class='line'> 17</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">nodes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 18</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">labelAnchors</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 19</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">labelAnchorLinks</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 20</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">links</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 21</span> 
-<span class='line'> 22</span> </span><span class="WHIT">	
-<span class='line'> 23</span> 	</span><span class="NAME">canvas</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">container</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 24</span> </span><span class="WHIT">	
-<span class='line'> 25</span> </span><span class="COMM">/*	for (i = 0; i &lt; 30; i++) {
-<span class='line'> 26</span> 		var node = {
-<span class='line'> 27</span> 			label : "node " + i
-<span class='line'> 28</span> 		};
-<span class='line'> 29</span> 		nodes.push(node);
-<span class='line'> 30</span> 		labelAnchors.push({
-<span class='line'> 31</span> 			node : node
-<span class='line'> 32</span> 		});
+<span class='line'> 13</span> </span><span class="WHIT">	</span><span class="COMM">//	var w = 960, h = 500;</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">j</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">k</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 15</span> 
+<span class='line'> 16</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">labelDistance</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 17</span> 
+<span class='line'> 18</span> </span><span class="COMM">//	var vis = d3.select("body").append("svg:svg").attr("width", w).attr("height", h);</span><span class="WHIT">
+<span class='line'> 19</span> 
+<span class='line'> 20</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">nodes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">labelAnchors</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">labelAnchorLinks</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">links</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 24</span> 
+<span class='line'> 25</span> </span><span class="WHIT">	
+<span class='line'> 26</span> 	</span><span class="NAME">canvas</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">container</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">	
+<span class='line'> 28</span> </span><span class="COMM">/*	for (i = 0; i &lt; 30; i++) {
+<span class='line'> 29</span> 		var node = {
+<span class='line'> 30</span> 			label : "node " + i
+<span class='line'> 31</span> 		};
+<span class='line'> 32</span> 		nodes.push(node);
 <span class='line'> 33</span> 		labelAnchors.push({
 <span class='line'> 34</span> 			node : node
 <span class='line'> 35</span> 		});
-<span class='line'> 36</span> 	};*/</span><span class="WHIT">
-<span class='line'> 37</span> </span><span class="WHIT">	
-<span class='line'> 38</span> </span><span class="COMM">//console.log('graph.listNodes :' + graph.listNodes);</span><span class="WHIT">
-<span class='line'> 39</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">&lt;</span><span class="NAME">graph.listNodes.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
-<span class='line'> 40</span> 		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">node</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 41</span> </span><span class="WHIT">			</span><span class="NAME">id</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">graph.listNodes</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 42</span> </span><span class="WHIT">			</span><span class="NAME">label</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">graph.listNodes</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="WHIT">
-<span class='line'> 43</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 44</span> </span><span class="WHIT">		</span><span class="NAME">nodes.push</span><span class="PUNC">(</span><span class="NAME">node</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 45</span> </span><span class="WHIT">		</span><span class="NAME">labelAnchors.push</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 46</span> </span><span class="WHIT">			</span><span class="NAME">node</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">node</span><span class="WHIT">
-<span class='line'> 47</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span> 		labelAnchors.push({
+<span class='line'> 37</span> 			node : node
+<span class='line'> 38</span> 		});
+<span class='line'> 39</span> 	};*/</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">	
+<span class='line'> 41</span> </span><span class="COMM">//console.log('graph.listNodes :' + graph.listNodes);</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">&lt;</span><span class="NAME">graph.listNodes.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'> 43</span> 		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">node</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">			</span><span class="NAME">id</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">graph.listNodes</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">			</span><span class="NAME">label</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">graph.listNodes</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">		</span><span class="NAME">nodes.push</span><span class="PUNC">(</span><span class="NAME">node</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 48</span> </span><span class="WHIT">		</span><span class="NAME">labelAnchors.push</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 49</span> </span><span class="WHIT">			</span><span class="NAME">node</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">node</span><span class="WHIT">
 <span class='line'> 50</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 51</span> </span><span class="WHIT">		</span><span class="COMM">// Labels of nodes</span><span class="WHIT">
-<span class='line'> 52</span> </span><span class="WHIT">		</span><span class="NAME">labelAnchorLinks.push</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 53</span> </span><span class="WHIT">			</span><span class="NAME">source</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 54</span> </span><span class="WHIT">			</span><span class="NAME">target</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 55</span> </span><span class="WHIT">			</span><span class="NAME">weight</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT">
-<span class='line'> 56</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 57</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 58</span> </span><span class="WHIT">	
-<span class='line'> 59</span> </span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="STRN">'nodes[0].label: '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">nodes</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">label</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 60</span> 
+<span class='line'> 51</span> </span><span class="WHIT">		</span><span class="NAME">labelAnchors.push</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">			</span><span class="NAME">node</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">node</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">		</span><span class="COMM">// Labels of nodes</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">		</span><span class="NAME">labelAnchorLinks.push</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">			</span><span class="NAME">source</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">			</span><span class="NAME">target</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">			</span><span class="NAME">weight</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'> 61</span> </span><span class="WHIT">	
-<span class='line'> 62</span> </span><span class="COMM">/*	for (i = 0; i &lt; nodes.length; i++) {
-<span class='line'> 63</span> 		for(var j = 0; j &lt; i; j++) {
-<span class='line'> 64</span> 			if(Math.random() > .95)
-<span class='line'> 65</span> 				links.push({
-<span class='line'> 66</span> 					source : i,
-<span class='line'> 67</span> 					target : j,
-<span class='line'> 68</span> 					weight : Math.random()
-<span class='line'> 69</span> 				});
-<span class='line'> 70</span> 		}
-<span class='line'> 71</span> 		labelAnchorLinks.push({
-<span class='line'> 72</span> 			source : i * 2,
-<span class='line'> 73</span> 			target : i * 2 + 1,
-<span class='line'> 74</span> 			weight : 1
-<span class='line'> 75</span> 		});
-<span class='line'> 76</span> 	};*/</span><span class="WHIT">
-<span class='line'> 77</span> 
-<span class='line'> 78</span> </span><span class="WHIT">	</span><span class="COMM">// Labels of nodes</span><span class="WHIT">
-<span class='line'> 79</span> </span><span class="COMM">/*	for (i=0; i&lt;graph.listNodes.length; i++) { 
-<span class='line'> 80</span> 		labelAnchorLinks.push({
-<span class='line'> 81</span> 			source : i * 2,
-<span class='line'> 82</span> 			target : i * 2 + 1,
-<span class='line'> 83</span> 			weight : 1
-<span class='line'> 84</span> 		});
-<span class='line'> 85</span> 	}*/</span><span class="WHIT">
-<span class='line'> 86</span> 
-<span class='line'> 87</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">&lt;</span><span class="NAME">graph.listEdges.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
-<span class='line'> 88</span> 		</span><span class="NAME">s</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">graph.listEdges</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 89</span> </span><span class="WHIT">		</span><span class="NAME">d</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">graph.listEdges</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 90</span> </span><span class="COMM">//console.log('s: ' + s);</span><span class="WHIT">
-<span class='line'> 91</span> </span><span class="COMM">//console.log('d: ' + d);</span><span class="WHIT">
-<span class='line'> 92</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">j</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">j</span><span class="PUNC">&lt;</span><span class="NAME">graph.listNodes.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">j</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 93</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">graph.listNodes</span><span class="PUNC">[</span><span class="NAME">j</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">==</span><span class="NAME">s</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 94</span> </span><span class="WHIT">				</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">k</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">k</span><span class="PUNC">&lt;</span><span class="NAME">graph.listNodes.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">k</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 95</span> </span><span class="WHIT">					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">graph.listNodes</span><span class="PUNC">[</span><span class="NAME">k</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">==</span><span class="NAME">d</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 96</span> </span><span class="COMM">//console.log('Inside');</span><span class="WHIT">
-<span class='line'> 97</span> </span><span class="WHIT">						</span><span class="NAME">links.push</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 98</span> </span><span class="WHIT">							</span><span class="NAME">source</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">j</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 99</span> </span><span class="WHIT">							</span><span class="NAME">target</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">k</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>100</span> </span><span class="WHIT">							</span><span class="NAME">weight</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT">
-<span class='line'>101</span> </span><span class="WHIT">						</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>102</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>103</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>104</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>105</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>106</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>107</span> 
-<span class='line'>108</span> </span><span class="COMM">/*	
-<span class='line'>109</span> console.log('graph.listEdges :' + graph.listEdges);
-<span class='line'>110</span> 	for (i=0; i&lt;graph.listNodes.length; i++) { 
-<span class='line'>111</span> 		for (j=0; j&lt;graph.listEdges.length; j++) { 
-<span class='line'>112</span> //console.log('graph.listEdges[j][0] :' + graph.listEdges[j][0]);
-<span class='line'>113</span> //console.log('graph.listNodes[0] :' + graph.listNodes[i][0]);
-<span class='line'>114</span> //console.log('graph.listEdges[i][1] :' + graph.listEdges[i][1]);
-<span class='line'>115</span> 			if (graph.listEdges[j][0]==graph.listNodes[i][0]) {
-<span class='line'>116</span> console.log('Inside');
-<span class='line'>117</span> console.log('  graph.listNodes[0] :' + graph.listNodes[i][0]);
-<span class='line'>118</span> console.log('    graph.listEdges[j][0] :' + graph.listEdges[j][0]);
-<span class='line'>119</span> console.log('    graph.listEdges[j][1] :' + graph.listEdges[j][1]);
-<span class='line'>120</span> 				links.push({
-<span class='line'>121</span> //					source : i,
-<span class='line'>122</span> //					target : j,
-<span class='line'>123</span> 					source : graph.listEdges[j][0],
-<span class='line'>124</span> 					target : graph.listEdges[j][1],
-<span class='line'>125</span> 					weight : 1
-<span class='line'>126</span> 				});
-<span class='line'>127</span> 			}
-<span class='line'>128</span> 		}
-<span class='line'>129</span> 
-<span class='line'>130</span> 	}*/</span><span class="WHIT">
-<span class='line'>131</span> 
+<span class='line'> 62</span> </span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="STRN">'nodes[0].label: '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">nodes</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">label</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> 
+<span class='line'> 64</span> </span><span class="WHIT">	
+<span class='line'> 65</span> </span><span class="COMM">/*	for (i = 0; i &lt; nodes.length; i++) {
+<span class='line'> 66</span> 		for(var j = 0; j &lt; i; j++) {
+<span class='line'> 67</span> 			if(Math.random() > .95)
+<span class='line'> 68</span> 				links.push({
+<span class='line'> 69</span> 					source : i,
+<span class='line'> 70</span> 					target : j,
+<span class='line'> 71</span> 					weight : Math.random()
+<span class='line'> 72</span> 				});
+<span class='line'> 73</span> 		}
+<span class='line'> 74</span> 		labelAnchorLinks.push({
+<span class='line'> 75</span> 			source : i * 2,
+<span class='line'> 76</span> 			target : i * 2 + 1,
+<span class='line'> 77</span> 			weight : 1
+<span class='line'> 78</span> 		});
+<span class='line'> 79</span> 	};*/</span><span class="WHIT">
+<span class='line'> 80</span> 
+<span class='line'> 81</span> </span><span class="WHIT">	</span><span class="COMM">// Labels of nodes</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="COMM">/*	for (i=0; i&lt;graph.listNodes.length; i++) { 
+<span class='line'> 83</span> 		labelAnchorLinks.push({
+<span class='line'> 84</span> 			source : i * 2,
+<span class='line'> 85</span> 			target : i * 2 + 1,
+<span class='line'> 86</span> 			weight : 1
+<span class='line'> 87</span> 		});
+<span class='line'> 88</span> 	}*/</span><span class="WHIT">
+<span class='line'> 89</span> 
+<span class='line'> 90</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">&lt;</span><span class="NAME">graph.listEdges.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'> 91</span> 		</span><span class="NAME">s</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">graph.listEdges</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">		</span><span class="NAME">d</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">graph.listEdges</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="COMM">//console.log('s: ' + s);</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="COMM">//console.log('d: ' + d);</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">j</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">j</span><span class="PUNC">&lt;</span><span class="NAME">graph.listNodes.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">j</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">graph.listNodes</span><span class="PUNC">[</span><span class="NAME">j</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">==</span><span class="NAME">s</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">				</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">k</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">k</span><span class="PUNC">&lt;</span><span class="NAME">graph.listNodes.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">k</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">graph.listNodes</span><span class="PUNC">[</span><span class="NAME">k</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">==</span><span class="NAME">d</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="COMM">//console.log('Inside');</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">						</span><span class="NAME">links.push</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">							</span><span class="NAME">source</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">j</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">							</span><span class="NAME">target</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">k</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">							</span><span class="NAME">weight</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">						</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>110</span> 
+<span class='line'>111</span> </span><span class="COMM">/*	
+<span class='line'>112</span> console.log('graph.listEdges :' + graph.listEdges);
+<span class='line'>113</span> 	for (i=0; i&lt;graph.listNodes.length; i++) { 
+<span class='line'>114</span> 		for (j=0; j&lt;graph.listEdges.length; j++) { 
+<span class='line'>115</span> //console.log('graph.listEdges[j][0] :' + graph.listEdges[j][0]);
+<span class='line'>116</span> //console.log('graph.listNodes[0] :' + graph.listNodes[i][0]);
+<span class='line'>117</span> //console.log('graph.listEdges[i][1] :' + graph.listEdges[i][1]);
+<span class='line'>118</span> 			if (graph.listEdges[j][0]==graph.listNodes[i][0]) {
+<span class='line'>119</span> console.log('Inside');
+<span class='line'>120</span> console.log('  graph.listNodes[0] :' + graph.listNodes[i][0]);
+<span class='line'>121</span> console.log('    graph.listEdges[j][0] :' + graph.listEdges[j][0]);
+<span class='line'>122</span> console.log('    graph.listEdges[j][1] :' + graph.listEdges[j][1]);
+<span class='line'>123</span> 				links.push({
+<span class='line'>124</span> //					source : i,
+<span class='line'>125</span> //					target : j,
+<span class='line'>126</span> 					source : graph.listEdges[j][0],
+<span class='line'>127</span> 					target : graph.listEdges[j][1],
+<span class='line'>128</span> 					weight : 1
+<span class='line'>129</span> 				});
+<span class='line'>130</span> 			}
+<span class='line'>131</span> 		}
 <span class='line'>132</span> 
-<span class='line'>133</span> </span><span class="COMM">//	console.log('nodes :' + nodes);</span><span class="WHIT">
-<span class='line'>134</span> </span><span class="COMM">//	console.log('labelAnchors :' + labelAnchors);</span><span class="WHIT">
-<span class='line'>135</span> </span><span class="COMM">//	console.log('labelAnchorLinks :' + labelAnchorLinks);</span><span class="WHIT">
-<span class='line'>136</span> </span><span class="COMM">//	console.log('links :' + links);</span><span class="WHIT">
-<span class='line'>137</span> 
-<span class='line'>138</span> 
-<span class='line'>139</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">force</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">d3.layout.force</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">size</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="NAME">WIDTH</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">HEIGHT</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">nodes</span><span class="PUNC">(</span><span class="NAME">nodes</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">links</span><span class="PUNC">(</span><span class="NAME">links</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">gravity</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">linkDistance</span><span class="PUNC">(</span><span class="NUMB">50</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">charge</span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NUMB">3000</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">linkStrength</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>140</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">x.weight</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="WHIT">
-<span class='line'>141</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>142</span> </span><span class="WHIT">	</span><span class="NAME">force.start</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>143</span> 
-<span class='line'>144</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">force2</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">d3.layout.force</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
-<span class='line'>145</span> </span><span class="WHIT">		</span><span class="PUNC">.</span><span class="NAME">nodes</span><span class="PUNC">(</span><span class="NAME">labelAnchors</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">links</span><span class="PUNC">(</span><span class="NAME">labelAnchorLinks</span><span class="PUNC">)</span><span class="WHIT">
-<span class='line'>146</span> </span><span class="WHIT">		</span><span class="PUNC">.</span><span class="NAME">gravity</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">linkDistance</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">linkStrength</span><span class="PUNC">(</span><span class="NUMB">8</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">charge</span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NUMB">100</span><span class="PUNC">)</span><span class="WHIT">
-<span class='line'>147</span> </span><span class="WHIT">		</span><span class="PUNC">.</span><span class="NAME">size</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="NAME">WIDTH</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">HEIGHT</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>148</span> </span><span class="WHIT">	</span><span class="NAME">force2.start</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>149</span> 
-<span class='line'>150</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">link</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">canvas.selectAll</span><span class="PUNC">(</span><span class="STRN">"line.link"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">data</span><span class="PUNC">(</span><span class="NAME">links</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">enter</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">append</span><span class="PUNC">(</span><span class="STRN">"svg:line"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"class"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"link"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">style</span><span class="PUNC">(</span><span class="STRN">"stroke"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"#CCC"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>151</span> 
-<span class='line'>152</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">node</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">canvas.selectAll</span><span class="PUNC">(</span><span class="STRN">"g.node"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">data</span><span class="PUNC">(</span><span class="NAME">force.nodes</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">enter</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">append</span><span class="PUNC">(</span><span class="STRN">"svg:g"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"class"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"node"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>153</span> </span><span class="WHIT">	</span><span class="NAME">node.append</span><span class="PUNC">(</span><span class="STRN">"svg:circle"</span><span class="PUNC">)</span><span class="WHIT">
-<span class='line'>154</span> </span><span class="WHIT">		</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"r"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">4.5</span><span class="PUNC">)</span><span class="WHIT">
-<span class='line'>155</span> </span><span class="COMM">//		.style("fill", "#555")</span><span class="WHIT">
-<span class='line'>156</span> </span><span class="COMM">//		.style("stroke", "#FFF")</span><span class="WHIT">
-<span class='line'>157</span> </span><span class="COMM">//		.style("stroke-width", 3);</span><span class="WHIT">
-<span class='line'>158</span> </span><span class="WHIT">	</span><span class="NAME">node.call</span><span class="PUNC">(</span><span class="NAME">force.drag</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>159</span> 
-<span class='line'>160</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">anchorLink</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">canvas.selectAll</span><span class="PUNC">(</span><span class="STRN">"line.anchorLink"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">data</span><span class="PUNC">(</span><span class="NAME">labelAnchorLinks</span><span class="PUNC">)</span><span class="COMM">//.enter().append("svg:line").attr("class", "anchorLink").style("stroke", "#999");</span><span class="WHIT">
-<span class='line'>161</span> 
-<span class='line'>162</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">anchorNode</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">canvas.selectAll</span><span class="PUNC">(</span><span class="STRN">"g.anchorNode"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">data</span><span class="PUNC">(</span><span class="NAME">force2.nodes</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">enter</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">append</span><span class="PUNC">(</span><span class="STRN">"svg:g"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"class"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"anchorNode"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>163</span> </span><span class="WHIT">	
-<span class='line'>164</span> 	</span><span class="NAME">anchorNode.append</span><span class="PUNC">(</span><span class="STRN">"svg:circle"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"r"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">style</span><span class="PUNC">(</span><span class="STRN">"fill"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"#FFF"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>165</span> </span><span class="WHIT">	
-<span class='line'>166</span> 	</span><span class="NAME">anchorNode.append</span><span class="PUNC">(</span><span class="STRN">"svg:text"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">text</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>167</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">%</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">""</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">d.node.label</span><span class="WHIT">
-<span class='line'>168</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">style</span><span class="PUNC">(</span><span class="STRN">"fill"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"#555"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">style</span><span class="PUNC">(</span><span class="STRN">"font-family"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"Arial"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">style</span><span class="PUNC">(</span><span class="STRN">"font-size"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">12</span><span class="PUNC">)</span><span class="WHIT">
-<span class='line'>169</span> </span><span class="WHIT">				</span><span class="PUNC">.</span><span class="NAME">on</span><span class="PUNC">(</span><span class="STRN">"click"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
-<span class='line'>170</span> </span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="STRN">'d: '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">JSON.stringify</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>171</span> </span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="STRN">'d.node.label: '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">d.node.label</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>172</span> </span><span class="WHIT">					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">answer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">prompt</span><span class="PUNC">(</span><span class="STRN">"Please enter the new name"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">d.node.label</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>173</span> </span><span class="WHIT">					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">answer</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>174</span> </span><span class="WHIT">						</span><span class="COMM">// Change text on layout</span><span class="WHIT">
-<span class='line'>175</span> </span><span class="WHIT">						</span><span class="NAME">d3.select</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">text</span><span class="PUNC">(</span><span class="NAME">answer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">	
-<span class='line'>176</span> 						</span><span class="COMM">// Change text on graph drawing object</span><span class="WHIT">
-<span class='line'>177</span> </span><span class="WHIT">						</span><span class="NAME">graph.changeLabel</span><span class="PUNC">(</span><span class="NAME">d.node.id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">answer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>178</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>179</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>180</span> 
-<span class='line'>181</span> 
-<span class='line'>182</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">updateLink</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>183</span> </span><span class="WHIT">		</span><span class="NAME">this.attr</span><span class="PUNC">(</span><span class="STRN">"x1"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>184</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">d.source.x</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>185</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"y1"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>186</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">d.source.y</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>187</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"x2"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>188</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">d.target.x</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>189</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"y2"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>190</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">d.target.y</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>191</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>192</span> 
-<span class='line'>193</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>194</span> 
-<span class='line'>195</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">updateNode</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>196</span> </span><span class="WHIT">		</span><span class="NAME">this.attr</span><span class="PUNC">(</span><span class="STRN">"transform"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>197</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">"translate("</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">d.x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">","</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">d.y</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">")"</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>198</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>199</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>200</span> 
-<span class='line'>201</span> </span><span class="WHIT">	</span><span class="NAME">force.on</span><span class="PUNC">(</span><span class="STRN">"tick"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>202</span> </span><span class="WHIT">		</span><span class="NAME">force2.start</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>203</span> </span><span class="WHIT">		</span><span class="NAME">node.call</span><span class="PUNC">(</span><span class="NAME">updateNode</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>204</span> </span><span class="WHIT">		</span><span class="NAME">anchorNode.each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>205</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">%</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>206</span> </span><span class="WHIT">				</span><span class="NAME">d.x</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">d.node.x</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>207</span> </span><span class="WHIT">				</span><span class="NAME">d.y</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">d.node.y</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>208</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> 
-<span class='line'>209</span> 			</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>210</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">b</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.childNodes</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">getBBox</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>211</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">diffX</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">d.x</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">d.node.x</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>212</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">diffY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">d.y</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">d.node.y</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>213</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dist</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.sqrt</span><span class="PUNC">(</span><span class="NAME">diffX</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">diffX</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">diffY</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">diffY</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>214</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">shiftX</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">b.width</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">diffX</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">dist</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">dist</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>215</span> </span><span class="WHIT">				</span><span class="NAME">shiftX</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.max</span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NAME">b.width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Math.min</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">shiftX</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>216</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">shiftY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">5</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>217</span> </span><span class="WHIT">				</span><span class="NAME">this.childNodes</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">setAttribute</span><span class="PUNC">(</span><span class="STRN">"transform"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"translate("</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">shiftX</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">","</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">shiftY</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">")"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>218</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>219</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>220</span> </span><span class="WHIT">		</span><span class="NAME">anchorNode.call</span><span class="PUNC">(</span><span class="NAME">updateNode</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>221</span> </span><span class="WHIT">		</span><span class="NAME">link.call</span><span class="PUNC">(</span><span class="NAME">updateLink</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>222</span> </span><span class="WHIT">		</span><span class="NAME">anchorLink.call</span><span class="PUNC">(</span><span class="NAME">updateLink</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>223</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>224</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>225</span> </span><span class="WHIT"> 
-<span class='line'>226</span> </span><span class="COMM">/*ForceDirectedLayout2 = function(canvas, graph) {
-<span class='line'>227</span>     var adjacencyList = graph.getAdjacencyList();
-<span class='line'>228</span>     console.log('adjacencyList: ' + adjacencyList);
-<span class='line'>229</span> 
-<span class='line'>230</span>     var nodes = d3.values(adjacencyList);
-<span class='line'>231</span>     var links = d3.merge(nodes.map(function(source) {
-<span class='line'>232</span>         return source.map(function(target) {
-<span class='line'>233</span>             return {source: source, target: adjacencyList[target]};
-<span class='line'>234</span>         });
-<span class='line'>235</span>     }));
-<span class='line'>236</span> 
-<span class='line'>237</span> //console.log('canvas: ', canvas);
-<span class='line'>238</span> 
-<span class='line'>239</span>     var force = d3.layout.force()
-<span class='line'>240</span>         .nodes(nodes)
-<span class='line'>241</span>         .links(links)
-<span class='line'>242</span>         .size([WIDTH, HEIGHT])
-<span class='line'>243</span>         .start();
-<span class='line'>244</span> 
-<span class='line'>245</span>     var link = canvas.selectAll("line.link")
-<span class='line'>246</span>         .data(links)
-<span class='line'>247</span>         .enter().append("svg:line");
-<span class='line'>248</span> 
-<span class='line'>249</span>     var node = canvas.selectAll("circle.node")
-<span class='line'>250</span>         .data(nodes)
-<span class='line'>251</span>         .enter().append("svg:circle")
-<span class='line'>252</span>         .attr("r", 5)
-<span class='line'>253</span>         .call(force.drag);
-<span class='line'>254</span> 
-<span class='line'>255</span>     force.on("tick", function() {
-<span class='line'>256</span>         link.attr("x1", function(d) { return d.source.x; })
-<span class='line'>257</span>             .attr("y1", function(d) { return d.source.y; })
-<span class='line'>258</span>             .attr("x2", function(d) { return d.target.x; })
-<span class='line'>259</span>             .attr("y2", function(d) { return d.target.y; });
-<span class='line'>260</span>         node.attr("cx", function(d) { return d.x; })
-<span class='line'>261</span>             .attr("cy", function(d) { return d.y; });
-<span class='line'>262</span>     });
-<span class='line'>263</span> }*/</span><span class="WHIT">
-<span class='line'>264</span> 
-<span class='line'>265</span> </span></pre></body></html>
+<span class='line'>133</span> 	}*/</span><span class="WHIT">
+<span class='line'>134</span> 
+<span class='line'>135</span> 
+<span class='line'>136</span> </span><span class="COMM">//	console.log('nodes :' + nodes);</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="COMM">//	console.log('labelAnchors :' + labelAnchors);</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="COMM">//	console.log('labelAnchorLinks :' + labelAnchorLinks);</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="COMM">//	console.log('links :' + links);</span><span class="WHIT">
+<span class='line'>140</span> 
+<span class='line'>141</span> 
+<span class='line'>142</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">force</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">d3.layout.force</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">size</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="NAME">WIDTH</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">HEIGHT</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">nodes</span><span class="PUNC">(</span><span class="NAME">nodes</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">links</span><span class="PUNC">(</span><span class="NAME">links</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">gravity</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">linkDistance</span><span class="PUNC">(</span><span class="NUMB">50</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">charge</span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NUMB">3000</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">linkStrength</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">x.weight</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">	</span><span class="NAME">force.start</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>146</span> 
+<span class='line'>147</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">force2</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">d3.layout.force</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">		</span><span class="PUNC">.</span><span class="NAME">nodes</span><span class="PUNC">(</span><span class="NAME">labelAnchors</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">links</span><span class="PUNC">(</span><span class="NAME">labelAnchorLinks</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">		</span><span class="PUNC">.</span><span class="NAME">gravity</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">linkDistance</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">linkStrength</span><span class="PUNC">(</span><span class="NUMB">8</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">charge</span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NUMB">100</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">		</span><span class="PUNC">.</span><span class="NAME">size</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="NAME">WIDTH</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">HEIGHT</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">	</span><span class="NAME">force2.start</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> 
+<span class='line'>153</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">link</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">canvas.selectAll</span><span class="PUNC">(</span><span class="STRN">"line.link"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">data</span><span class="PUNC">(</span><span class="NAME">links</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">enter</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">append</span><span class="PUNC">(</span><span class="STRN">"svg:line"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"class"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"link"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">style</span><span class="PUNC">(</span><span class="STRN">"stroke"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"#CCC"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>154</span> 
+<span class='line'>155</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">node</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">canvas.selectAll</span><span class="PUNC">(</span><span class="STRN">"g.node"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">data</span><span class="PUNC">(</span><span class="NAME">force.nodes</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">enter</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">append</span><span class="PUNC">(</span><span class="STRN">"svg:g"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"class"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"node"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">	</span><span class="NAME">node.append</span><span class="PUNC">(</span><span class="STRN">"svg:circle"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="WHIT">		</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"r"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">4.5</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="COMM">//		.style("fill", "#555")</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="COMM">//		.style("stroke", "#FFF")</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="COMM">//		.style("stroke-width", 3);</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">	</span><span class="NAME">node.call</span><span class="PUNC">(</span><span class="NAME">force.drag</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>162</span> 
+<span class='line'>163</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">anchorLink</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">canvas.selectAll</span><span class="PUNC">(</span><span class="STRN">"line.anchorLink"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">data</span><span class="PUNC">(</span><span class="NAME">labelAnchorLinks</span><span class="PUNC">)</span><span class="COMM">//.enter().append("svg:line").attr("class", "anchorLink").style("stroke", "#999");</span><span class="WHIT">
+<span class='line'>164</span> 
+<span class='line'>165</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">anchorNode</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">canvas.selectAll</span><span class="PUNC">(</span><span class="STRN">"g.anchorNode"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">data</span><span class="PUNC">(</span><span class="NAME">force2.nodes</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">enter</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">append</span><span class="PUNC">(</span><span class="STRN">"svg:g"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"class"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"anchorNode"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">	
+<span class='line'>167</span> 	</span><span class="NAME">anchorNode.append</span><span class="PUNC">(</span><span class="STRN">"svg:circle"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"r"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">style</span><span class="PUNC">(</span><span class="STRN">"fill"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"#FFF"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">	
+<span class='line'>169</span> 	</span><span class="NAME">anchorNode.append</span><span class="PUNC">(</span><span class="STRN">"svg:text"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">text</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">%</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">""</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">d.node.label</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">style</span><span class="PUNC">(</span><span class="STRN">"fill"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"#555"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">style</span><span class="PUNC">(</span><span class="STRN">"font-family"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"Arial"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">style</span><span class="PUNC">(</span><span class="STRN">"font-size"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">12</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">				</span><span class="PUNC">.</span><span class="NAME">on</span><span class="PUNC">(</span><span class="STRN">"click"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'>173</span> </span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="STRN">'d: '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">JSON.stringify</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="STRN">'d.node.label: '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">d.node.label</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">answer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">prompt</span><span class="PUNC">(</span><span class="STRN">"Please enter the new name"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">d.node.label</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">answer</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">						</span><span class="COMM">// Change text on layout</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">						</span><span class="NAME">d3.select</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">text</span><span class="PUNC">(</span><span class="NAME">answer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">	
+<span class='line'>179</span> 						</span><span class="COMM">// Change text on graph drawing object</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">						</span><span class="NAME">graph.changeLabel</span><span class="PUNC">(</span><span class="NAME">d.node.id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">answer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>183</span> 
+<span class='line'>184</span> 
+<span class='line'>185</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">updateLink</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">		</span><span class="NAME">this.attr</span><span class="PUNC">(</span><span class="STRN">"x1"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">d.source.x</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"y1"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">d.source.y</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"x2"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">d.target.x</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"y2"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">d.target.y</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>195</span> 
+<span class='line'>196</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>197</span> 
+<span class='line'>198</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">updateNode</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">		</span><span class="NAME">this.attr</span><span class="PUNC">(</span><span class="STRN">"transform"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">"translate("</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">d.x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">","</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">d.y</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">")"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>201</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>203</span> 
+<span class='line'>204</span> </span><span class="WHIT">	</span><span class="NAME">force.on</span><span class="PUNC">(</span><span class="STRN">"tick"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="WHIT">		</span><span class="NAME">force2.start</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">		</span><span class="NAME">node.call</span><span class="PUNC">(</span><span class="NAME">updateNode</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">		</span><span class="NAME">anchorNode.each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">%</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">				</span><span class="NAME">d.x</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">d.node.x</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">				</span><span class="NAME">d.y</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">d.node.y</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> 
+<span class='line'>212</span> 			</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">b</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.childNodes</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">getBBox</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">diffX</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">d.x</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">d.node.x</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">diffY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">d.y</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">d.node.y</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dist</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.sqrt</span><span class="PUNC">(</span><span class="NAME">diffX</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">diffX</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">diffY</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">diffY</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">shiftX</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">b.width</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">diffX</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">dist</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">dist</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">				</span><span class="NAME">shiftX</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.max</span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NAME">b.width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Math.min</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">shiftX</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">shiftY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">5</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">				</span><span class="NAME">this.childNodes</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">setAttribute</span><span class="PUNC">(</span><span class="STRN">"transform"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"translate("</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">shiftX</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">","</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">shiftY</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">")"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="WHIT">		</span><span class="NAME">anchorNode.call</span><span class="PUNC">(</span><span class="NAME">updateNode</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="WHIT">		</span><span class="NAME">link.call</span><span class="PUNC">(</span><span class="NAME">updateLink</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="WHIT">		</span><span class="NAME">anchorLink.call</span><span class="PUNC">(</span><span class="NAME">updateLink</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>227</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>228</span> </span><span class="WHIT"> 
+<span class='line'>229</span> </span><span class="COMM">/*ForceDirectedLayout2 = function(canvas, graph) {
+<span class='line'>230</span>     var adjacencyList = graph.getAdjacencyList();
+<span class='line'>231</span>     console.log('adjacencyList: ' + adjacencyList);
+<span class='line'>232</span> 
+<span class='line'>233</span>     var nodes = d3.values(adjacencyList);
+<span class='line'>234</span>     var links = d3.merge(nodes.map(function(source) {
+<span class='line'>235</span>         return source.map(function(target) {
+<span class='line'>236</span>             return {source: source, target: adjacencyList[target]};
+<span class='line'>237</span>         });
+<span class='line'>238</span>     }));
+<span class='line'>239</span> 
+<span class='line'>240</span> //console.log('canvas: ', canvas);
+<span class='line'>241</span> 
+<span class='line'>242</span>     var force = d3.layout.force()
+<span class='line'>243</span>         .nodes(nodes)
+<span class='line'>244</span>         .links(links)
+<span class='line'>245</span>         .size([WIDTH, HEIGHT])
+<span class='line'>246</span>         .start();
+<span class='line'>247</span> 
+<span class='line'>248</span>     var link = canvas.selectAll("line.link")
+<span class='line'>249</span>         .data(links)
+<span class='line'>250</span>         .enter().append("svg:line");
+<span class='line'>251</span> 
+<span class='line'>252</span>     var node = canvas.selectAll("circle.node")
+<span class='line'>253</span>         .data(nodes)
+<span class='line'>254</span>         .enter().append("svg:circle")
+<span class='line'>255</span>         .attr("r", 5)
+<span class='line'>256</span>         .call(force.drag);
+<span class='line'>257</span> 
+<span class='line'>258</span>     force.on("tick", function() {
+<span class='line'>259</span>         link.attr("x1", function(d) { return d.source.x; })
+<span class='line'>260</span>             .attr("y1", function(d) { return d.source.y; })
+<span class='line'>261</span>             .attr("x2", function(d) { return d.target.x; })
+<span class='line'>262</span>             .attr("y2", function(d) { return d.target.y; });
+<span class='line'>263</span>         node.attr("cx", function(d) { return d.x; })
+<span class='line'>264</span>             .attr("cy", function(d) { return d.y; });
+<span class='line'>265</span>     });
+<span class='line'>266</span> }*/</span><span class="WHIT">
+<span class='line'>267</span> 
+<span class='line'>268</span> </span></pre></body></html>

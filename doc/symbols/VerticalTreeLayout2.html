@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - GraphMLFile</title>
+		<title>JsDoc Reference - VerticalTreeLayout2</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -234,7 +234,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class GraphMLFile
+				Class VerticalTreeLayout2
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -245,13 +245,13 @@ ul.inheritsList
 				
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/core_graphml_file.js.html">graphml_file.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/layout_vertical-tree.js.html">vertical-tree.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class GraphMLFile.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class VerticalTreeLayout2.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -264,9 +264,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/GraphMLFile.html#constructor">GraphMLFile</a></b>(content)
+								<b><a href="../symbols/VerticalTreeLayout2.html#constructor">VerticalTreeLayout2</a></b>(canvas, graph)
 							</div>
-							<div class="description">Creates an instance of GraphMLFile.</div>
+							<div class="description">Create a Vertical tree</div>
 						</td>
 					</tr>
 				</tbody>
@@ -277,51 +277,6 @@ ul.inheritsList
 			
 
 <!-- ============================== methods summary ======================== -->
-			
-				
-				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class GraphMLFile.">
-					<caption>Method Summary</caption>
-					<thead>
-						<tr>
-							<th scope="col">Method Attributes</th>
-							<th scope="col">Method Name and Description</th>
-						</tr>
-					</thead>
-					<tbody>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/GraphMLFile.html#getEdges">getEdges</a></b>()
-								</div>
-								<div class="description">Get a list of edges from a GraphML file.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/GraphMLFile.html#getNodes">getNodes</a></b>()
-								</div>
-								<div class="description">Get a list of nodes from a GraphML file.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/GraphMLFile.html#save">save</a></b>(graph, filename)
-								</div>
-								<div class="description">Save the current graph drawing in GraphML format.</div>
-							</td>
-						</tr>
-					
-					</tbody>
-				</table>
-				
-				
-				
 			
 <!-- ============================== events summary ======================== -->
 			
@@ -334,11 +289,11 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>GraphMLFile</b>(content)
+						<b>VerticalTreeLayout2</b>(canvas, graph)
 				</div>
 				
 				<div class="description">
-					Creates an instance of GraphMLFile.
+					Create a Vertical tree
 					
 				</div>
 				
@@ -350,10 +305,16 @@ ul.inheritsList
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{string}</span>  <b>content</b>
+								<span class="light fixedFont">{string}</span>  <b>canvas</b>
 								
 							</dt>
-								<dd>The Content of the file.</dd>
+								<dd>Canvas where the graph drawing will be lay out.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{<a href="../symbols/GraphDrawing.html">GraphDrawing</a>}</span>  <b>graph</b>
+								
+							</dt>
+								<dd>Graph drawing object</dd>
 						
 						</dl>
 					
@@ -372,117 +333,6 @@ ul.inheritsList
 
 <!-- ============================== method details ========================= -->		
 			
-				<div class="sectionTitle">
-					Method Detail
-				</div>
-				
-					<a name="getEdges"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{<a href="../symbols/Edge.html">Edge</a>[]}</span>
-					<b>getEdges</b>()
-					
-					</div>
-					<div class="description">
-						Get a list of edges from a GraphML file.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{<a href="../symbols/Edge.html">Edge</a>[]}</span> True if the graph drawing is a tree.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="getNodes"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{<a href="../symbols/Node.html">Node</a>[]}</span>
-					<b>getNodes</b>()
-					
-					</div>
-					<div class="description">
-						Get a list of nodes from a GraphML file.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{<a href="../symbols/Node.html">Node</a>[]}</span> True if the graph drawing is a tree.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="save"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>save</b>(graph, filename)
-					
-					</div>
-					<div class="description">
-						Save the current graph drawing in GraphML format.
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{<a href="../symbols/GraphDrawing.html">GraphDrawing</a>}</span> <b>graph</b>
-									
-								</dt>
-								<dd>The graph drawing.</dd>
-							
-								<dt>
-									<span class="light fixedFont">{string}</span> <b>filename</b>
-									
-								</dt>
-								<dd>The name of the file.</dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-						
-						
-
-					
-				
-			
 			
 <!-- ============================== event details ========================= -->		
 			
@@ -494,7 +344,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Apr 02 2014 18:22:15 GMT+0200 (CEST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Apr 02 2014 18:22:16 GMT+0200 (CEST)
 		</div>
 	</body>
 </html>

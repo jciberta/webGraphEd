@@ -32,6 +32,7 @@ a.likeAButton {
   margin:1px;
   text-decoration:none;
 }
+
 a.likeAButton:hover {
   background-color:#5788af;
   border:1px outset #2683cf;
@@ -40,6 +41,7 @@ a.likeAButton:hover {
   margin:1px;
   text-decoration:none;
 }
+
 a.likeAButton:active {
   background-color:#67b4cf;
   border:1px inset #1d659f;
@@ -52,4 +54,16 @@ a.likeAButton:active {
 g.node circle {
     stroke  : gray;
     cursor  : pointer;
+}
+
+.drag_line {
+  stroke: #999;
+  stroke-width: 1.5px;
+  pointer-events: none;
+}
+
+.drag_line_hidden {
+  stroke: #999;
+  stroke-width: 0;
+  pointer-events: none;
 }

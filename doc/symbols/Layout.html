@@ -191,7 +191,9 @@ ul.inheritsList
 	
 	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
 	
-	<li><a href="../symbols/CollapsibleTreeLayout.html">CollapsibleTreeLayout</a></li>
+	<li><a href="../symbols/CustomLayout.html">CustomLayout</a></li>
+	
+	<li><a href="../symbols/Edge.html">Edge</a></li>
 	
 	<li><a href="../symbols/ForceDirectedLayout.html">ForceDirectedLayout</a></li>
 	
@@ -201,17 +203,27 @@ ul.inheritsList
 	
 	<li><a href="../symbols/GraphMLFile.html">GraphMLFile</a></li>
 	
+	<li><a href="../symbols/HorizontalTreeLayout.html">HorizontalTreeLayout</a></li>
+	
+	<li><a href="../symbols/HorizontalTreeLayout2.html">HorizontalTreeLayout2</a></li>
+	
 	<li><a href="../symbols/Layout.html">Layout</a></li>
 	
 	<li><a href="../symbols/Node.html">Node</a></li>
 	
-	<li><a href="../symbols/ReingoldTilfordTreeLayout.html">ReingoldTilfordTreeLayout</a></li>
+	<li><a href="../symbols/RadialTreeLayout.html">RadialTreeLayout</a></li>
+	
+	<li><a href="../symbols/RadialTreeLayout2.html">RadialTreeLayout2</a></li>
+	
+	<li><a href="../symbols/String.html">String</a></li>
 	
 	<li><a href="../symbols/Tree.html">Tree</a></li>
 	
 	<li><a href="../symbols/TreeNode.html">TreeNode</a></li>
 	
 	<li><a href="../symbols/VerticalTreeLayout.html">VerticalTreeLayout</a></li>
+	
+	<li><a href="../symbols/VerticalTreeLayout2.html">VerticalTreeLayout2</a></li>
 	
 </ul>
 <hr />
@@ -281,9 +293,18 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/Layout.html#addNode">addNode</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/Layout.html#addNode">addNode</a></b>(x, y)
 								</div>
 								<div class="description">Adds a node to the corresponding layout.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Layout.html#center">center</a></b>()
+								</div>
+								<div class="description">Centers the layout.</div>
 							</td>
 						</tr>
 					
@@ -317,6 +338,24 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Layout.html#fit">fit</a></b>()
+								</div>
+								<div class="description">Fits the layout.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Layout.html#getLayoutMargins">getLayoutMargins</a></b>()
+								</div>
+								<div class="description">Gets the margins of the layout.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/Layout.html#importGML">importGML</a></b>(newFile)
 								</div>
 								<div class="description">Import a GML file.</div>
@@ -335,9 +374,9 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/Layout.html#layoutCollapsibleTree">layoutCollapsibleTree</a></b>(canvas)
+								<div class="fixedFont"><b><a href="../symbols/Layout.html#layoutCustom">layoutCustom</a></b>(canvas)
 								</div>
-								<div class="description">Depict a Collapsible Tree layout on a canvas.</div>
+								<div class="description">Depict an empty Directed layout on a canvas.</div>
 							</td>
 						</tr>
 					
@@ -353,9 +392,18 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/Layout.html#layoutReingoldTilfordTree">layoutReingoldTilfordTree</a></b>(canvas)
+								<div class="fixedFont"><b><a href="../symbols/Layout.html#layoutHorizontalTree">layoutHorizontalTree</a></b>(canvas)
 								</div>
-								<div class="description">Depict a Reingold Tilford Tree layout on a canvas.</div>
+								<div class="description">Depict a Horizontal Tree layout on a canvas.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Layout.html#layoutRadialTree">layoutRadialTree</a></b>(canvas)
+								</div>
+								<div class="description">Depict a Radial Tree layout on a canvas.</div>
 							</td>
 						</tr>
 					
@@ -383,6 +431,15 @@ ul.inheritsList
 								<div class="fixedFont"><b><a href="../symbols/Layout.html#setFileName">setFileName</a></b>(newFile)
 								</div>
 								<div class="description">Set the file name.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Layout.html#setOrigin">setOrigin</a></b>()
+								</div>
+								<div class="description">Sets the origin to 0,0.</div>
 							</td>
 						</tr>
 					
@@ -438,11 +495,53 @@ ul.inheritsList
 					<div class="fixedFont">
 					
 					
-					<b>addNode</b>()
+					<b>addNode</b>(x, y)
 					
 					</div>
 					<div class="description">
 						Adds a node to the corresponding layout.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>x</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>y</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="center"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>center</b>()
+					
+					</div>
+					<div class="description">
+						Centers the layout.
 						
 						
 					</div>
@@ -534,6 +633,56 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name="fit"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>fit</b>()
+					
+					</div>
+					<div class="description">
+						Fits the layout.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getLayoutMargins"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getLayoutMargins</b>()
+					
+					</div>
+					<div class="description">
+						Gets the margins of the layout.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="importGML"> </a>
 					<div class="fixedFont">
 					
@@ -606,15 +755,15 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="layoutCollapsibleTree"> </a>
+					<a name="layoutCustom"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{<a href="../symbols/CollapsibleTreeLayout.html">CollapsibleTreeLayout</a>}</span>
-					<b>layoutCollapsibleTree</b>(canvas)
+					<span class="light">{EmptyLayout}</span>
+					<b>layoutCustom</b>(canvas)
 					
 					</div>
 					<div class="description">
-						Depict a Collapsible Tree layout on a canvas.
+						Depict an empty Directed layout on a canvas.
 						
 						
 					</div>
@@ -640,7 +789,7 @@ ul.inheritsList
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{<a href="../symbols/CollapsibleTreeLayout.html">CollapsibleTreeLayout</a>}</span> The new layout object.</dd>
+								<dd><span class="light fixedFont">{EmptyLayout}</span> The new layout object.</dd>
 							
 							</dl>
 						
@@ -652,7 +801,7 @@ ul.inheritsList
 					<a name="layoutForceDirected"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{<a href="../symbols/ReingoldTilfordTreeLayout.html">ReingoldTilfordTreeLayout</a>}</span>
+					<span class="light">{<a href="../symbols/ForceDirectedLayout.html">ForceDirectedLayout</a>}</span>
 					<b>layoutForceDirected</b>(canvas)
 					
 					</div>
@@ -683,7 +832,7 @@ ul.inheritsList
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{<a href="../symbols/ReingoldTilfordTreeLayout.html">ReingoldTilfordTreeLayout</a>}</span> The new layout object.</dd>
+								<dd><span class="light fixedFont">{<a href="../symbols/ForceDirectedLayout.html">ForceDirectedLayout</a>}</span> The new layout object.</dd>
 							
 							</dl>
 						
@@ -692,15 +841,15 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="layoutReingoldTilfordTree"> </a>
+					<a name="layoutHorizontalTree"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{<a href="../symbols/ReingoldTilfordTreeLayout.html">ReingoldTilfordTreeLayout</a>}</span>
-					<b>layoutReingoldTilfordTree</b>(canvas)
+					<span class="light">{<a href="../symbols/HorizontalTreeLayout.html">HorizontalTreeLayout</a>}</span>
+					<b>layoutHorizontalTree</b>(canvas)
 					
 					</div>
 					<div class="description">
-						Depict a Reingold Tilford Tree layout on a canvas.
+						Depict a Horizontal Tree layout on a canvas.
 						
 						
 					</div>
@@ -726,7 +875,50 @@ ul.inheritsList
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{<a href="../symbols/ReingoldTilfordTreeLayout.html">ReingoldTilfordTreeLayout</a>}</span> The new layout object.</dd>
+								<dd><span class="light fixedFont">{<a href="../symbols/HorizontalTreeLayout.html">HorizontalTreeLayout</a>}</span> The new layout object.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="layoutRadialTree"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/RadialTreeLayout.html">RadialTreeLayout</a>}</span>
+					<b>layoutRadialTree</b>(canvas)
+					
+					</div>
+					<div class="description">
+						Depict a Radial Tree layout on a canvas.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>canvas</b>
+									
+								</dt>
+								<dd>Canvas where layout is depicted.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/RadialTreeLayout.html">RadialTreeLayout</a>}</span> The new layout object.</dd>
 							
 							</dl>
 						
@@ -738,7 +930,7 @@ ul.inheritsList
 					<a name="layoutVerticalTree"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{<a href="../symbols/CollapsibleTreeLayout.html">CollapsibleTreeLayout</a>}</span>
+					<span class="light">{<a href="../symbols/VerticalTreeLayout.html">VerticalTreeLayout</a>}</span>
 					<b>layoutVerticalTree</b>(canvas)
 					
 					</div>
@@ -769,7 +961,7 @@ ul.inheritsList
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{<a href="../symbols/CollapsibleTreeLayout.html">CollapsibleTreeLayout</a>}</span> The new layout object.</dd>
+								<dd><span class="light fixedFont">{<a href="../symbols/VerticalTreeLayout.html">VerticalTreeLayout</a>}</span> The new layout object.</dd>
 							
 							</dl>
 						
@@ -848,6 +1040,31 @@ ul.inheritsList
 						
 						
 
+					<hr />
+				
+					<a name="setOrigin"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setOrigin</b>()
+					
+					</div>
+					<div class="description">
+						Sets the origin to 0,0.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
 					
 				
 			
@@ -862,7 +1079,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Thu Mar 06 2014 20:53:02 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Apr 02 2014 18:22:15 GMT+0200 (CEST)
 		</div>
 	</body>
 </html>

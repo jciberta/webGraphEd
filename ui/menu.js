@@ -47,25 +47,47 @@ function showAbout() {
 
 
 function showProperties() {
-  dialogProperties.setContent("<h1>Graph drawing properties</h1>" +
-  "Connected graph: " + (layout.graph.isConnected() ? "yes" : "no") + '<br>' +
-  "Cyclic graph: " + (layout.graph.isCyclic() ? "yes" : "no") + '<br>' +
-  "Tree: " + (layout.graph.isTree() ? "yes" : "no") + '<br>' +
-  "Binary tree: " + (layout.graph.isBinaryTree() ? "yes" : "no") + '<br>');
+	dialogProperties.setContent("<h1>Graph drawing properties</h1>" +
+		"Connected graph: " + (layout.graph.isConnected() ? "yes" : "no") + '<br>' +
+		"Cyclic graph: " + (layout.graph.isCyclic() ? "yes" : "no") + '<br>' +
+		"Tree: " + (layout.graph.isTree() ? "yes" : "no") + '<br>' +
+		"Binary tree: " + (layout.graph.isBinaryTree() ? "yes" : "no") + '<br>');
 	dialogProperties.setVisible(true);
 }
 
+function showDebug() {
+console.log('showDebug:');
+	var i, s = '';
+
+	s += '<b>GraphDrawing object</b><br>';
+	s += '<ul>';
+	s += '<li> List of nodes: ' + layout.graph.listNodes + '</li><br>';
+	s += '<li> List of edges: ' + layout.graph.listEdges + '</li><br>';
+	s += '</ul>';
+	s += '<b>Layout object</b><br>';
+	s += '<pre>';
+	s += '  - layout keys: ' + Object.keys(layout) + '<br>';
+	s += '  - layout.layout keys: ' + Object.keys(layout.layout) + '<br>';
+	s += '  - Nodes keys: ' + Object.keys(layout.layout.nodes) + '<br>';
+	s += '  - Links keys: ' + Object.keys(layout.layout.links) + '<br>';
+	s += '</pre>';
+
+	dialogDebug.setContent(s);
+console.dir(layout.layout.nodes);
+console.dir(layout.layout.links);
+	dialogDebug.setVisible(true);
+}
+
 function exportToGML() {
-console.log('exportToGML');
-  layout.exportGML();
+	layout.exportGML();
 }
 
 function exportToGraphML() {
-console.log('exportToGraphML');
-  layout.exportGraphML();
+	layout.exportGraphML();
 }
 
 function newLayout() {
+console.log('** newLayout **');
 
 	// Clear the canvas
 	clearCanvas();
@@ -123,7 +145,7 @@ function importFile(filename) {
 
 function updateMenu(graph) {
     if ((graph==true) || (graph==false)) {
-        menuFileProperties.setEnabled(graph);
+//        menuFileProperties.setEnabled(graph);
         menuTree.setEnabled(graph);	
         menuVerticalTree.setEnabled(graph);
         menuRadialTree.setEnabled(graph);
@@ -132,7 +154,7 @@ function updateMenu(graph) {
         menuFileExportToGraphML.setEnabled(graph);
     }
     else {
-        menuFileProperties.setEnabled(true);
+//        menuFileProperties.setEnabled(true);
         var bIsTree = graph.isTree();
         menuTree.setEnabled(bIsTree);	
         menuVerticalTree.setEnabled(bIsTree);	
@@ -145,13 +167,22 @@ function updateMenu(graph) {
 
 function updateStatusBar() { 
 	var sHTML = '';
+	pz = getPanAndZoom();
+//console.log('pz: ' + JSON.stringify(pz));
 	
 	sHTML += '<TABLE><TR>';
 	sHTML += '<TD style="width:200px"><B>Filename</B>: ' + textFileName + '</TD>';
-	if (d3.event == null) 
+	if (pz == null) {
+//	if (d3.event == null) {
 		sHTML += '<TD style="width:100px"><B>Zoom</B>: </TD>';
-	else
-		sHTML += '<TD style="width:100px"><B>Zoom</B>: ' + Math.floor(d3.event.scale*100) + '%</TD>';
+		sHTML += '<TD style="width:100px"><B>Pan</B>: </TD>';
+	} else {
+		sHTML += '<TD style="width:100px"><B>Zoom</B>: ' + Math.floor(pz.scale*100) + '%</TD>';
+//		sHTML += '<TD style="width:100px"><B>Zoom</B>: ' + Math.floor(d3.event.scale*100) + '%</TD>';
+//		sHTML += '<TD style="width:200px"><B>Pan</B>: ' + d3.event.translate + '</TD>';
+		sHTML += '<TD style="width:200px"><B>Pan</B>: ' + Math.floor(pz.translate.x) + ',' + Math.floor(pz.translate.y) + '</TD>';
+//console.dir(d3.event.translate);		
+	}
 	if (PAN_AND_ZOOM) 
         sHTML += '<TD style="width:200px"><B>Mode</B>: Pan & Zoom</TD>';
     else
@@ -225,7 +256,6 @@ goog.events.listen(btnFile, goog.ui.Component.EventType.ACTION, function(e) {
 		exportToGraphML();
 	}
 	else if (e.target && e.target.getCaption() == 'Properties') {
-//console.log('showProperties: ');
 		showProperties();
 	}
 });	
@@ -245,6 +275,19 @@ menuEditMode.setChecked(false);
 menuEditMode.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuEdit.addItem(menuEditMode); 
 menuEdit.addItem(new goog.ui.MenuSeparator());
+var menuZoomIn = new goog.ui.MenuItem('Zoom in');
+menuZoomIn.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuEdit.addItem(menuZoomIn); 
+var menuZoomOut = new goog.ui.MenuItem('Zoom out');
+menuZoomOut.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuEdit.addItem(menuZoomOut); 
+var menuCenter = new goog.ui.MenuItem('Center');
+menuCenter.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuEdit.addItem(menuCenter); 
+var menuFit = new goog.ui.MenuItem('Fit');
+menuFit.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuEdit.addItem(menuFit); 
+menuEdit.addItem(new goog.ui.MenuSeparator());
 var menuAddNode = new goog.ui.MenuItem('Add node');
 menuAddNode.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuEdit.addItem(menuAddNode); 
@@ -260,10 +303,24 @@ goog.events.listen(btnEdit, goog.ui.Component.EventType.ACTION, function(e) {
 	else if (e.target && e.target.getCaption() == 'Edit') {
         updatePanAndZoom(false);
 	}
+	else if (e.target && e.target.getCaption() == 'Zoom in') {
+		container.attr("transform", "translate(" + d3.event.translate + ")scale(" + (++d3.event.scale) + ")");
+		updateStatusBar();
+	}
+	else if (e.target && e.target.getCaption() == 'Zoom out') {
+        updatePanAndZoom(false);
+	}
+	else if (e.target && e.target.getCaption() == 'Center') {
+        layout.center();
+	}
+	else if (e.target && e.target.getCaption() == 'Fit') {
+        layout.fit();
+	}
 	else if (e.target && e.target.getCaption() == 'Add node') {
 //console.log('layout: ' + JSON.stringify(layout));
 console.log('Add node');
-		layout.addNode();
+		layout.addNode((-WIDTH/4+30), (-HEIGHT/4+30));
+//		layout.addNode(0, 0);
 	}
 });	
 
@@ -295,7 +352,7 @@ goog.events.listen(btnLayout, goog.ui.Component.EventType.ACTION, function(e) {
 	if (e.target && e.target.getCaption() == 'Horizontal Tree') {
 		timerStart = Date.now();
 		clearCanvas();
-		layout.layoutHorizontalTree(canvas);
+		layout.layoutHorizontalTree(container);
 		statusBarMessage = 'Layout done in ' + (Date.now()-timerStart)/1000 + ' s.';
 		updateStatusBar();
 	}
@@ -316,7 +373,7 @@ goog.events.listen(btnLayout, goog.ui.Component.EventType.ACTION, function(e) {
 		else if (e.target && e.target.getCaption() == 'Force directed') {
 		timerStart = Date.now();
 		clearCanvas();
-		layout.layoutForceDirected(canvas);
+		layout.layoutForceDirected(container);
 		statusBarMessage = 'Layout done in ' + (Date.now()-timerStart)/1000 + ' s.';
 		updateStatusBar();
 	}
@@ -324,6 +381,14 @@ goog.events.listen(btnLayout, goog.ui.Component.EventType.ACTION, function(e) {
 
 // Help menu
 var menuHelp = new goog.ui.Menu();
+if (DEBUG) {
+	var menuDebug = new goog.ui.MenuItem('Debug'); 
+	menuDebug.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+	menuHelp.addItem(menuDebug); 
+}
+var menuContents = new goog.ui.MenuItem('Contents'); 
+menuContents.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuHelp.addItem(menuContents); 
 var menuDocumentation = new goog.ui.MenuItem('Documentation'); 
 menuDocumentation.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuHelp.addItem(menuDocumentation); 
@@ -335,7 +400,13 @@ var btnAbout = new goog.ui.MenuButton('Help', menuHelp);
 btnAbout.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menubar.addChild(btnAbout, true);
 goog.events.listen(btnAbout, goog.ui.Component.EventType.ACTION, function(e) {
-	if (e.target && e.target.getCaption() == 'Documentation') {
+	if (e.target && e.target.getCaption() == 'Debug') {
+		showDebug();
+	}
+	else if (e.target && e.target.getCaption() == 'Contents') {
+		window.open("help.html");
+	}
+	else if (e.target && e.target.getCaption() == 'Documentation') {
 		window.open("doc/index.html");
 	}
 	else if (e.target && e.target.getCaption() == 'About') {

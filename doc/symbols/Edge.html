@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - GraphMLFile</title>
+		<title>JsDoc Reference - Edge</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -234,7 +234,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class GraphMLFile
+				Class Edge
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -245,13 +245,13 @@ ul.inheritsList
 				
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/core_graphml_file.js.html">graphml_file.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/core_graph_drawing.js.html">graph_drawing.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class GraphMLFile.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class Edge.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -264,9 +264,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/GraphMLFile.html#constructor">GraphMLFile</a></b>(content)
+								<b><a href="../symbols/Edge.html#constructor">Edge</a></b>(src, dst, label)
 							</div>
-							<div class="description">Creates an instance of GraphMLFile.</div>
+							<div class="description">Creates an instance of Edge.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -277,51 +277,6 @@ ul.inheritsList
 			
 
 <!-- ============================== methods summary ======================== -->
-			
-				
-				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class GraphMLFile.">
-					<caption>Method Summary</caption>
-					<thead>
-						<tr>
-							<th scope="col">Method Attributes</th>
-							<th scope="col">Method Name and Description</th>
-						</tr>
-					</thead>
-					<tbody>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/GraphMLFile.html#getEdges">getEdges</a></b>()
-								</div>
-								<div class="description">Get a list of edges from a GraphML file.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/GraphMLFile.html#getNodes">getNodes</a></b>()
-								</div>
-								<div class="description">Get a list of nodes from a GraphML file.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/GraphMLFile.html#save">save</a></b>(graph, filename)
-								</div>
-								<div class="description">Save the current graph drawing in GraphML format.</div>
-							</td>
-						</tr>
-					
-					</tbody>
-				</table>
-				
-				
-				
 			
 <!-- ============================== events summary ======================== -->
 			
@@ -334,11 +289,11 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>GraphMLFile</b>(content)
+						<b>Edge</b>(src, dst, label)
 				</div>
 				
 				<div class="description">
-					Creates an instance of GraphMLFile.
+					Creates an instance of Edge.
 					
 				</div>
 				
@@ -350,10 +305,22 @@ ul.inheritsList
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{string}</span>  <b>content</b>
+								<span class="light fixedFont">{number}</span>  <b>src</b>
 								
 							</dt>
-								<dd>The Content of the file.</dd>
+								<dd>The source of the edge.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{number}</span>  <b>dst</b>
+								
+							</dt>
+								<dd>The destinations of the edge.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{number}</span>  <b>label</b>
+								
+							</dt>
+								<dd>The label of the node.</dd>
 						
 						</dl>
 					
@@ -371,117 +338,6 @@ ul.inheritsList
 			
 
 <!-- ============================== method details ========================= -->		
-			
-				<div class="sectionTitle">
-					Method Detail
-				</div>
-				
-					<a name="getEdges"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{<a href="../symbols/Edge.html">Edge</a>[]}</span>
-					<b>getEdges</b>()
-					
-					</div>
-					<div class="description">
-						Get a list of edges from a GraphML file.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{<a href="../symbols/Edge.html">Edge</a>[]}</span> True if the graph drawing is a tree.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="getNodes"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{<a href="../symbols/Node.html">Node</a>[]}</span>
-					<b>getNodes</b>()
-					
-					</div>
-					<div class="description">
-						Get a list of nodes from a GraphML file.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{<a href="../symbols/Node.html">Node</a>[]}</span> True if the graph drawing is a tree.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="save"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>save</b>(graph, filename)
-					
-					</div>
-					<div class="description">
-						Save the current graph drawing in GraphML format.
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{<a href="../symbols/GraphDrawing.html">GraphDrawing</a>}</span> <b>graph</b>
-									
-								</dt>
-								<dd>The graph drawing.</dd>
-							
-								<dt>
-									<span class="light fixedFont">{string}</span> <b>filename</b>
-									
-								</dt>
-								<dd>The name of the file.</dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-						
-						
-
-					
-				
 			
 			
 <!-- ============================== event details ========================= -->		

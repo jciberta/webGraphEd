@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - GraphMLFile</title>
+		<title>JsDoc Reference - RadialTreeLayout</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -234,7 +234,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class GraphMLFile
+				Class RadialTreeLayout
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -245,13 +245,13 @@ ul.inheritsList
 				
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/core_graphml_file.js.html">graphml_file.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/layout_radial-tree.js.html">radial-tree.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class GraphMLFile.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class RadialTreeLayout.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -264,9 +264,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/GraphMLFile.html#constructor">GraphMLFile</a></b>(content)
+								<b><a href="../symbols/RadialTreeLayout.html#constructor">RadialTreeLayout</a></b>(canvas, graph)
 							</div>
-							<div class="description">Creates an instance of GraphMLFile.</div>
+							<div class="description">Create a Radial Tree based on the Reingold Tilford Tree layout</div>
 						</td>
 					</tr>
 				</tbody>
@@ -280,7 +280,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class GraphMLFile.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class RadialTreeLayout.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -293,27 +293,9 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/GraphMLFile.html#getEdges">getEdges</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/RadialTreeLayout.html#addNode">addNode</a></b>()
 								</div>
-								<div class="description">Get a list of edges from a GraphML file.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/GraphMLFile.html#getNodes">getNodes</a></b>()
-								</div>
-								<div class="description">Get a list of nodes from a GraphML file.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/GraphMLFile.html#save">save</a></b>(graph, filename)
-								</div>
-								<div class="description">Save the current graph drawing in GraphML format.</div>
+								<div class="description">Adds a node to the corresponding layout.</div>
 							</td>
 						</tr>
 					
@@ -334,11 +316,11 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>GraphMLFile</b>(content)
+						<b>RadialTreeLayout</b>(canvas, graph)
 				</div>
 				
 				<div class="description">
-					Creates an instance of GraphMLFile.
+					Create a Radial Tree based on the Reingold Tilford Tree layout
 					
 				</div>
 				
@@ -350,10 +332,16 @@ ul.inheritsList
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{string}</span>  <b>content</b>
+								<span class="light fixedFont">{string}</span>  <b>canvas</b>
 								
 							</dt>
-								<dd>The Content of the file.</dd>
+								<dd>- Canvas where the graph drawing will be lay out.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{<a href="../symbols/GraphDrawing.html">GraphDrawing</a>}</span>  <b>graph</b>
+								
+							</dt>
+								<dd>- Graph drawing object</dd>
 						
 						</dl>
 					
@@ -376,102 +364,21 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
-					<a name="getEdges"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{<a href="../symbols/Edge.html">Edge</a>[]}</span>
-					<b>getEdges</b>()
-					
-					</div>
-					<div class="description">
-						Get a list of edges from a GraphML file.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{<a href="../symbols/Edge.html">Edge</a>[]}</span> True if the graph drawing is a tree.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="getNodes"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{<a href="../symbols/Node.html">Node</a>[]}</span>
-					<b>getNodes</b>()
-					
-					</div>
-					<div class="description">
-						Get a list of nodes from a GraphML file.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{<a href="../symbols/Node.html">Node</a>[]}</span> True if the graph drawing is a tree.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="save"> </a>
+					<a name="addNode"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>save</b>(graph, filename)
+					<b>addNode</b>()
 					
 					</div>
 					<div class="description">
-						Save the current graph drawing in GraphML format.
+						Adds a node to the corresponding layout.
 						
 						
 					</div>
 					
 					
 					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{<a href="../symbols/GraphDrawing.html">GraphDrawing</a>}</span> <b>graph</b>
-									
-								</dt>
-								<dd>The graph drawing.</dd>
-							
-								<dt>
-									<span class="light fixedFont">{string}</span> <b>filename</b>
-									
-								</dt>
-								<dd>The name of the file.</dd>
-							
-							</dl>
 						
 						
 						

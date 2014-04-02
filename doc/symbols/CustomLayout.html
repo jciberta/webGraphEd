@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - GraphMLFile</title>
+		<title>JsDoc Reference - CustomLayout</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -234,7 +234,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class GraphMLFile
+				Class CustomLayout
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -245,13 +245,13 @@ ul.inheritsList
 				
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/core_graphml_file.js.html">graphml_file.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/layout_custom-layout.js.html">custom-layout.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class GraphMLFile.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class CustomLayout.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -264,9 +264,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/GraphMLFile.html#constructor">GraphMLFile</a></b>(content)
+								<b><a href="../symbols/CustomLayout.html#constructor">CustomLayout</a></b>(canvas, graph, nodes, links)
 							</div>
-							<div class="description">Creates an instance of GraphMLFile.</div>
+							<div class="description">Create an custom layout</div>
 						</td>
 					</tr>
 				</tbody>
@@ -280,7 +280,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class GraphMLFile.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class CustomLayout.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -293,27 +293,63 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/GraphMLFile.html#getEdges">getEdges</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/CustomLayout.html#addLink">addLink</a></b>(a, b)
 								</div>
-								<div class="description">Get a list of edges from a GraphML file.</div>
+								<div class="description">Adds a link to the corresponding layout.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/GraphMLFile.html#getNodes">getNodes</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/CustomLayout.html#addNode">addNode</a></b>(x, y)
 								</div>
-								<div class="description">Get a list of nodes from a GraphML file.</div>
+								<div class="description">Adds a node to the corresponding layout.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/GraphMLFile.html#save">save</a></b>(graph, filename)
+								<div class="fixedFont"><b><a href="../symbols/CustomLayout.html#getNode">getNode</a></b>(id)
 								</div>
-								<div class="description">Save the current graph drawing in GraphML format.</div>
+								<div class="description">Gets the node with a specific id.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/CustomLayout.html#layoutHorizontalTree">layoutHorizontalTree</a></b>()
+								</div>
+								<div class="description">Loads into the [nodes, links] structure a Horizontal Tree layout.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/CustomLayout.html#layoutRadialTree">layoutRadialTree</a></b>()
+								</div>
+								<div class="description">Loads into the [nodes, links] structure a Radial Tree layout.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/CustomLayout.html#layoutVerticalTree">layoutVerticalTree</a></b>()
+								</div>
+								<div class="description">Loads into the [nodes, links] structure a Horizontal Tree layout.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/CustomLayout.html#updateLayout">updateLayout</a></b>()
+								</div>
+								<div class="description">Updates the layout, drawing the whole graph drawing.</div>
 							</td>
 						</tr>
 					
@@ -334,11 +370,11 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>GraphMLFile</b>(content)
+						<b>CustomLayout</b>(canvas, graph, nodes, links)
 				</div>
 				
 				<div class="description">
-					Creates an instance of GraphMLFile.
+					Create an custom layout
 					
 				</div>
 				
@@ -350,10 +386,28 @@ ul.inheritsList
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{string}</span>  <b>content</b>
+								<span class="light fixedFont">{string}</span>  <b>canvas</b>
 								
 							</dt>
-								<dd>The Content of the file.</dd>
+								<dd>Canvas where the graph drawing will be lay out.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{<a href="../symbols/GraphDrawing.html">GraphDrawing</a>}</span>  <b>graph</b>
+								
+							</dt>
+								<dd>Graph drawing object</dd>
+						
+							<dt>
+								 <b>nodes</b>
+								
+							</dt>
+								<dd></dd>
+						
+							<dt>
+								 <b>links</b>
+								
+							</dt>
+								<dd></dd>
 						
 						</dl>
 					
@@ -376,79 +430,15 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
-					<a name="getEdges"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{<a href="../symbols/Edge.html">Edge</a>[]}</span>
-					<b>getEdges</b>()
-					
-					</div>
-					<div class="description">
-						Get a list of edges from a GraphML file.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{<a href="../symbols/Edge.html">Edge</a>[]}</span> True if the graph drawing is a tree.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="getNodes"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{<a href="../symbols/Node.html">Node</a>[]}</span>
-					<b>getNodes</b>()
-					
-					</div>
-					<div class="description">
-						Get a list of nodes from a GraphML file.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{<a href="../symbols/Node.html">Node</a>[]}</span> True if the graph drawing is a tree.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="save"> </a>
+					<a name="addLink"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>save</b>(graph, filename)
+					<b>addLink</b>(a, b)
 					
 					</div>
 					<div class="description">
-						Save the current graph drawing in GraphML format.
+						Adds a link to the corresponding layout.
 						
 						
 					</div>
@@ -460,18 +450,203 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{<a href="../symbols/GraphDrawing.html">GraphDrawing</a>}</span> <b>graph</b>
+									<span class="light fixedFont">{number}</span> <b>a</b>
 									
 								</dt>
-								<dd>The graph drawing.</dd>
+								<dd>The source node.</dd>
 							
 								<dt>
-									<span class="light fixedFont">{string}</span> <b>filename</b>
+									<span class="light fixedFont">{number}</span> <b>b</b>
 									
 								</dt>
-								<dd>The name of the file.</dd>
+								<dd>The target node.</dd>
 							
 							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="addNode"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addNode</b>(x, y)
+					
+					</div>
+					<div class="description">
+						Adds a node to the corresponding layout.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>x</b>
+									
+								</dt>
+								<dd>The x coordinate.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>y</b>
+									
+								</dt>
+								<dd>The y coordinate.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getNode"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Object}</span>
+					<b>getNode</b>(id)
+					
+					</div>
+					<div class="description">
+						Gets the node with a specific id.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>id</b>
+									
+								</dt>
+								<dd>The id of the node.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> The node or null.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="layoutHorizontalTree"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>layoutHorizontalTree</b>()
+					
+					</div>
+					<div class="description">
+						Loads into the [nodes, links] structure a Horizontal Tree layout.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="layoutRadialTree"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>layoutRadialTree</b>()
+					
+					</div>
+					<div class="description">
+						Loads into the [nodes, links] structure a Radial Tree layout.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="layoutVerticalTree"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>layoutVerticalTree</b>()
+					
+					</div>
+					<div class="description">
+						Loads into the [nodes, links] structure a Horizontal Tree layout.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="updateLayout"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>updateLayout</b>()
+					
+					</div>
+					<div class="description">
+						Updates the layout, drawing the whole graph drawing.
+						
+						
+					</div>
+					
+					
+					
 						
 						
 						
