@@ -6,9 +6,9 @@
  * @param {GraphDrawing} graph - Graph drawing object
  */
 RadialTreeLayout = function(canvas, graph) {
-console.log('RadialTreeLayout');
+//console.log('RadialTreeLayout');
     var jsonList = graph.getTreeD3JSON();
-console.log('jsonList: ' + JSON.stringify(jsonList));
+//console.log('jsonList: ' + JSON.stringify(jsonList));
 
     var diameter = HEIGHT;
 
@@ -19,54 +19,25 @@ console.log('jsonList: ' + JSON.stringify(jsonList));
     this.nodes = tree.nodes(jsonList);
     this.links = tree.links(this.nodes);
 	
-console.log('nodes:');
-console.dir(this.nodes);
-console.log('links:');
-console.dir(this.links);
-
-
-/*	function transformToCartesianCoordinates(obj, x, y) {
-		var i, r = obj.y, t = obj.x;
-		obj.x = cartesianX(r, t);
-		obj.y = cartesianY(r, t);
-	console.log('r: ' + r + ', t: ' + t + ' -> x: ' + obj.x + ', y: ' + obj.y);		
-		for (i=0; i<this.links.length;i++) {
-			if (this.links[i].source.id == obj.id) {
-				this.links[i].source.x = obj.x;
-				this.links[i].source.y = obj.y;
-			}
-			else if (this.links[i].target.id == obj.id) {
-				this.links[i].target.x = obj.x;
-				this.links[i].target.y = obj.y;
-			}
-		}
-			if (obj.hasOwnProperty('children')) {
-			for (i=0; i<obj.children.length;i++) {
-				this.transformToCartesianCoordinates(obj.children[i], obj.x, obj.y);
-			}
-		}
-	}*/
-
-
+//console.log('nodes:');
+//console.dir(this.nodes);
+//console.log('links:');
+//console.dir(this.links);
 
 	// Transform polar coordinates to cartesian coordinates in the layout
 	this.transformToCartesianCoordinates(this.nodes[0], 0, 0);
 
-console.log('nodes:');
-console.dir(this.nodes);
-console.log('links:');
-console.dir(this.links);
-	
-//	this.links = links;
-
-//	this.updateLayout();
+//console.log('nodes:');
+//console.dir(this.nodes);
+//console.log('links:');
+//console.dir(this.links);
 }
 
 RadialTreeLayout.prototype.transformToCartesianCoordinates = function(obj, x, y) {
 	var i, r = obj.y, t = obj.x;
 	obj.x = cartesianX(r, t);
 	obj.y = cartesianY(r, t);
-console.log('r: ' + r + ', t: ' + t + ' -> x: ' + obj.x + ', y: ' + obj.y);		
+//console.log('r: ' + r + ', t: ' + t + ' -> x: ' + obj.x + ', y: ' + obj.y);		
 	for (i=0; i<this.links.length;i++) {
 		if (this.links[i].source.id == obj.id) {
 			this.links[i].source.x = obj.x;
@@ -86,12 +57,21 @@ console.log('r: ' + r + ', t: ' + t + ' -> x: ' + obj.x + ', y: ' + obj.y);
 
 /**
  * Create a Radial Tree based on the Reingold Tilford Tree layout
+ * @constructor
+ * @param {string} canvas - Canvas where the graph drawing will be lay out.
+ * @param {GraphDrawing} graph - Graph drawing object
+ */
+RadialTreeLayout.prototype.getSubTree = function(node) {
+
+}
+/**
+ * Create a Radial Tree based on the Reingold Tilford Tree layout
  * Based on http://bl.ocks.org/mbostock/4063550
  * @constructor
  * @param {string} canvas - Canvas where the graph drawing will be lay out.
  * @param {GraphDrawing} graph - Graph drawing object
  */
-RadialTreeLayout2 = function(canvas, graph) {
+/*RadialTreeLayout2 = function(canvas, graph) {
 	this.canvas = canvas;
 	this.graph = graph;
  
@@ -235,7 +215,7 @@ console.dir(nodes);
 				graph.changeLabel(d.id, answer);
 			}
 		});
-}
+}*/
 
 /**
  * Adds a node to the corresponding layout.

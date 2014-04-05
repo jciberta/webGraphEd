@@ -25,12 +25,10 @@ console.log('jsonList: ' + JSON.stringify(jsonList));
 
 	this.links = tree.links(this.nodes);
 		
-console.log('nodes:');
-console.dir(this.nodes);
-console.log('links:');
-console.dir(this.links);
-		
-		
+//console.log('nodes:');
+//console.dir(this.nodes);
+//console.log('links:');
+//console.dir(this.links);
 }
 /**
  * Create a Vertical tree

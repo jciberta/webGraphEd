@@ -70,12 +70,54 @@ console.log('showDebug:');
 	s += '  - layout.layout keys: ' + Object.keys(layout.layout) + '<br>';
 	s += '  - Nodes keys: ' + Object.keys(layout.layout.nodes) + '<br>';
 	s += '  - Links keys: ' + Object.keys(layout.layout.links) + '<br>';
+	s += '  - isCollapsed? ' + layout.isCollapsed() + '<br>';
 	s += '</pre>';
 
 	dialogDebug.setContent(s);
 console.dir(layout.layout.nodes);
 console.dir(layout.layout.links);
 	dialogDebug.setVisible(true);
+}
+
+function showNodeProperties() {
+	var i, s = '';
+
+	s += '<b>Shape</b><br>';
+	s += '<input type="radio" name="shape" value="circle">Circle<br>';
+	s += '<input type="radio" name="shape" value="square">Square';
+	s += '</form>';
+	s += '<br>';
+	s += '<div id="cp"></div>';
+	s += '<script type="text/javascript">';
+	s += "createColorPaletteDemo(['black', 'blue', 'red', 'magenta', 'green', 'cyan', 'orange', 'yellow', ";
+	s += "'#404040', '#808080', '#b0b0b0', 'white'], 4, ";
+	s += "'This is a 4x3 color palette with named colors:');";
+	s += 'console.log("Inside showNodeProperties")';
+	s += '</script>';
+	s += '<form>';
+	s += '<b>Color</b><br>';
+console.log(s);
+	dialogNodeProperties.setContent(s);
+//	dialogNodeProperties.setVisible(true);
+	
+/*
+window.open("http://www.w3schools.com","_blank","toolbar=yes, scrollbars=yes, resizable=yes, top=500, left=500, width=400, height=400");
+window.open('http://www.quackit.com/common/link_builder.cfm','popUpWindow','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');	
+*/
+
+window.open("nodeProperties.html","_blank","toolbar=yes, scrollbars=yes, resizable=yes, top=500, left=500, width=400, height=400");
+
+/*
+var popupWindow = null;
+function centeredPopup(url,winName,w,h,scroll){
+LeftPosition = (screen.width) ? (screen.width-w)/2 : 0;
+TopPosition = (screen.height) ? (screen.height-h)/2 : 0;
+settings =
+'height='+h+',width='+w+',top='+TopPosition+',left='+LeftPosition+',scrollbars='+scroll+',resizable'
+popupWindow = window.open(url,winName,settings)
+}
+centeredPopup(this.href,'myWindow','500','300','yes');*/
+
 }
 
 function exportToGML() {
@@ -87,34 +129,8 @@ function exportToGraphML() {
 }
 
 function newLayout() {
-console.log('** newLayout **');
-
-	// Clear the canvas
 	clearCanvas();
-	
-	
-/*	// Remove the SVG element
-	var element = document.getElementById("canvas");
-	element.parentNode.removeChild(element);
-
-	// Insert the SVG element
-	createCanvas();
-/*  vis = d3.select("#main")
-    .append("svg:svg")
-    .attr("width", WIDTH)
-    .attr("height", HEIGHT)
-    .attr("id", "canvas")
-  frame = d3.select("svg")
-    .append("svg:rect")
-      .attr("width", "100%")
-      .attr("height", "100%")
-      .attr("stroke", "#000")
-      .attr("stroke-width", 1)
-      .attr("fill", "none");
-*/
-	// Clear the layout
 	layout.clear();
-
 	updateMenu(false);
 }
 
@@ -155,10 +171,10 @@ function updateMenu(graph) {
     }
     else {
 //        menuFileProperties.setEnabled(true);
-        var bIsTree = graph.isTree();
-        menuTree.setEnabled(bIsTree);	
-        menuVerticalTree.setEnabled(bIsTree);	
-        menuRadialTree.setEnabled(bIsTree);
+        isTree = graph.isTree();
+        menuTree.setEnabled(isTree);	
+        menuVerticalTree.setEnabled(isTree);	
+        menuRadialTree.setEnabled(isTree);
         menuForceDirected.setEnabled(true);
         menuFileExportToGML.setEnabled(true);
         menuFileExportToGraphML.setEnabled(true);
@@ -168,7 +184,7 @@ function updateMenu(graph) {
 function updateStatusBar() { 
 	var sHTML = '';
 	pz = getPanAndZoom();
-//console.log('pz: ' + JSON.stringify(pz));
+console.log('pz: ' + JSON.stringify(pz));
 	
 	sHTML += '<TABLE><TR>';
 	sHTML += '<TD style="width:200px"><B>Filename</B>: ' + textFileName + '</TD>';
@@ -262,19 +278,17 @@ goog.events.listen(btnFile, goog.ui.Component.EventType.ACTION, function(e) {
 	
 // Edit menu
 var menuEdit = new goog.ui.Menu();
-var menuPanZoomMode = new goog.ui.CheckBoxMenuItem('Pan & Zoom');
-//menuPanZoomMode.setSelectable(true);
+/*var menuPanZoomMode = new goog.ui.CheckBoxMenuItem('Pan & Zoom');
 menuPanZoomMode.setCheckable(true);
 menuPanZoomMode.setChecked(true);
 menuPanZoomMode.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuEdit.addItem(menuPanZoomMode); 
 var menuEditMode = new goog.ui.CheckBoxMenuItem('Edit');
-//menuEditMode.setSelectable(true);
 menuEditMode.setCheckable(true);
 menuEditMode.setChecked(false);
 menuEditMode.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuEdit.addItem(menuEditMode); 
-menuEdit.addItem(new goog.ui.MenuSeparator());
+menuEdit.addItem(new goog.ui.MenuSeparator());*/
 var menuZoomIn = new goog.ui.MenuItem('Zoom in');
 menuZoomIn.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuEdit.addItem(menuZoomIn); 
@@ -291,6 +305,11 @@ menuEdit.addItem(new goog.ui.MenuSeparator());
 var menuAddNode = new goog.ui.MenuItem('Add node');
 menuAddNode.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuEdit.addItem(menuAddNode); 
+var menuUncollapseAll = new goog.ui.MenuItem('Uncollapse all');
+menuUncollapseAll.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuUncollapseAll.setEnabled(false);
+menuUncollapseAll.setEnabled(false);
+menuEdit.addItem(menuUncollapseAll); 
 
 var btnEdit = new goog.ui.MenuButton('Edit', menuEdit);
 btnEdit.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
@@ -321,6 +340,9 @@ goog.events.listen(btnEdit, goog.ui.Component.EventType.ACTION, function(e) {
 console.log('Add node');
 		layout.addNode((-WIDTH/4+30), (-HEIGHT/4+30));
 //		layout.addNode(0, 0);
+	}
+	else if (e.target && e.target.getCaption() == 'Uncollapse all') {
+        layout.uncollapseAll();
 	}
 });	
 
@@ -415,7 +437,6 @@ goog.events.listen(btnAbout, goog.ui.Component.EventType.ACTION, function(e) {
 });	
 
 updateMenu(false);
-
 
 menubar.render(goog.dom.getElement('menuBar'));
 

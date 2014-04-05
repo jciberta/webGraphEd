@@ -1,4 +1,13 @@
 
+body {
+	font-family: Verdana;
+}
+
+/*h1 {
+	font-size: 32px;
+	font-weight: bold;
+}*/
+
 .node circle {
 	fill: #fff;
 	stroke: steelblue;
@@ -14,6 +23,12 @@
 	fill: none;
 	stroke: #ccc;
 	stroke-width: 1.5px;
+}
+
+.link_hidden{
+	fill: none;
+	stroke: #ccc;
+	stroke-width: 0px;
 }
 
 line {

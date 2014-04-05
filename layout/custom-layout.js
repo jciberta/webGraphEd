@@ -31,16 +31,6 @@ CustomLayout = function(canvas, graph, nodes, links) {
 			.on("mousemove", mousemove)
 			.on("mouseup", mouseup);
 	
-/*console.log('Creating VIS');
-	vis = container
-        .append("svg:g")
-			.attr("id", "vis")
-			.attr("transform", "translate(" + WIDTH / 2 + "," + HEIGHT / 2 + ")")
-//			.on("mousedown", mousedown)
-//			.on("mousemove", mousemove)
-//			.on("mouseup", mouseup)
-*/			
-	
 	var computeTransitionPath = function(d) {
 		var deltaX = d.target.x - d.source.x,
         deltaY = d.target.y - d.source.y,
@@ -67,24 +57,14 @@ CustomLayout = function(canvas, graph, nodes, links) {
 		.attr("y2", 0);	
 	
 	function mousedown() {
-//console.log('canvas.mousedown');	
-//            if (event.ctrlKey) {
-//console.log('CTRL mousedown');
-//console.log('mousedown');	
-//console.log('d3.event.ctrlKey: ' + d3.event.ctrlKey);	
-//		if (source_node!=null) linking = true;
-console.log('source_node: ' + source_node);	
-console.log('linking: ' + linking);	
+//console.log('source_node: ' + source_node);	
+//console.log('linking: ' + linking);	
 		if (source_node!=null || linking) {
-//console.log('mousedown');
-console.log('CTRL mousedown');
-                coord.x = d3.mouse(this)[0] - WIDTH / 2;
-                coord.y = d3.mouse(this)[1] - HEIGHT / 2;
-                linking = true;
-                drag_line.attr("class", "drag_line");
-//console.dir(coord);
-            }
-//		}
+            coord.x = d3.mouse(this)[0] - WIDTH / 2;
+            coord.y = d3.mouse(this)[1] - HEIGHT / 2;
+            linking = true;
+            drag_line.attr("class", "drag_line");
+        }
 	}
 
 	function mousemove() {
@@ -133,7 +113,7 @@ console.log('Linking and mousemove');
 	
 	this.drag = d3.behavior.drag()
 		.on("dragstart", function(d) {
-console.log('dragstart');	
+//console.log('dragstart');	
 			if (d3.event.ctrlKey) return;
 			if (PAN_AND_ZOOM) {
 				d3.event.sourceEvent.stopPropagation();
@@ -180,19 +160,32 @@ console.log('dragstart');
 	this.addNode(-100, -100); // 2
 	this.addNode(-50, -100); // 3
 	this.addNode(-50, -50); // 4
-	this.addLink(1, 2);
-	this.addLink(1, 3);
-	this.addLink(1, 4);*/
+	this.addLink(this.getNode(1), this.getNode(2));
+	this.addLink(this.getNode(1), this.getNode(3));*/
 }
 
 /**
  * Updates the layout, drawing the whole graph drawing.
  */
-CustomLayout.prototype.updateLayout = function() {
+CustomLayout.prototype.updateLayout = function(source) {
 //console.log('** CustomLayout.prototype.updateLayout **');
 	var vis = d3.select("#vis");
 	var self = this;
 	//var graph = this.graph;
+
+/*    var root = null;
+    var tree = d3.layout.tree().size([HEIGHT, WIDTH]);
+    
+    // Used when collapsing
+    if (source !== undefined) {
+        root = this.graph.getTreeD3JSON;
+        root.x0 = HEIGHT / 2;
+        root.y0 = 0;
+        this.nodes = tree.nodes(root).reverse();
+        this.links = tree.links(this.nodes);
+    }*/
+    
+    //var duration = d3.event && d3.event.altKey ? 5000 : 500;
 	
 	// http://stackoverflow.com/questions/16070150/d3-substituting-d3-svg-diagonal-with-d3-svg-line
     var line = d3.svg.line()
@@ -215,6 +208,10 @@ CustomLayout.prototype.updateLayout = function() {
         .data(this.links)
         .enter().append("path")
             .attr("class", "link")
+			.attr("id", function(d) { 
+//				console.dir(d); 
+				return d; 
+			})
             .attr("d", lineData);
 //console.log('- link: ' + link);	
 //console.dir(link); 
@@ -222,7 +219,9 @@ CustomLayout.prototype.updateLayout = function() {
 //console.log('Nodes: ');
 //console.dir(this.nodes);
 	var node = vis.selectAll(".node")
-		.data(this.nodes)
+		.data(this.nodes);
+
+    var nodeEnter = node
 		.enter().append("g")
 			.attr("class", "node")
 			.attr("id", function(d) { 
@@ -241,6 +240,8 @@ console.log('node.mousedown');
 
 //                linking = true;
                 if (event.ctrlKey) {
+					// Link nodes is not allowed when there are some collapsed nodes
+					if (self.isCollapsed()) return;
                     linking = true;
 					d3.select(this).select("circle").style("stroke-width", "3");	
 console.log('Linking...');	
@@ -250,6 +251,14 @@ console.log('Linking...');
 //                    coord.y = d3.mouse(this)[1] - HEIGHT / 2;
 //                    drag_line.attr("class", "drag_line");
                 }
+				else if (event.shiftKey) {
+//console.log('Colapse. Is a tree? ' + isTree);	
+//console.dir(d);	
+					// Collapse only allowed in trees
+					if (!isTree) return;
+                    self.toggle(d);
+                    self.updateLayout(d);
+				}
 //console.dir(source_node);		
 			})
 //			.on("mousemove", mousemove)
@@ -266,9 +275,9 @@ console.log('Linking...');
 				}
 			})
 			.on("mouseup", function(d) {	
-console.log('node.mouseup');	
-console.dir(d);	
-console.dir(d.firstChild);	
+//console.log('node.mouseup');	
+//console.dir(d);	
+//console.dir(d.firstChild);	
 //				d.firstChild.style("stroke-width", "3");
                 //drag_line.attr("class", "drag_line_hidden");
 				target_node = d;
@@ -281,8 +290,17 @@ console.dir(d.firstChild);
 					self.graph.listEdges.push([source_node.id, target_node.id]);
 //console.dir(self); 
                     // Add link
+//                    self.links.unshift({source: source_node, target: target_node});
                     self.links.push({source: source_node, target: target_node});
-					//self.createLinks();
+console_listLinks(self.links);					
+					
+//console.log('addLink.source_node: ' + source_node);	
+//console.dir(source_node);
+					// Add child
+					if (!source_node.children) source_node.children = [];
+					source_node.children.push(target_node);
+//console.dir(source_node);
+
 //console.log('createLinks called');	
 //console.dir(self.links);
 					self.updateLayout();
@@ -291,30 +309,39 @@ console.dir(d.firstChild);
 					// Let's put the link (path) in the first place, if not it overwrites the node
 					var v = document.getElementById('vis');
 					var element = v.lastChild;
-//console.dir(element);
 					v.insertBefore(element, v.firstChild);
+					
+					// Let's put the last link node in the first place
+					var n = self.links.pop();
+					self.links.unshift(n);
+console.log('Lets put the last link node in the first place');	
+console_listLinks(self.links);					
 
 					// Unselect nodes
 					source_object.select("circle").style("stroke-width", "1.5");	
-					target_object.select("circle").style("stroke-width", "1.5");	
+					target_object.select("circle").style("stroke-width", "1.5");
 				}
 			})
 
 //console.log('node: ' + node);	
 //console.dir(node); 
-	node.append("circle")
+	nodeEnter.append("circle")
 		.attr("r", 5)
-//		.attr("r", 4.5)
+//        .attr("r", 1e-6)
+//        .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; })
+		.on("dblclick", function(d) { 
+			event.stopPropagation();
+			if (event.ctrlKey || event.altKey || event.shiftKey) return;
+			showNodeProperties();
+		});	
 
-	node.append("text")
+	nodeEnter.append("text")
 		.attr("dy", ".31em")
 		.attr("transform", function(d) { 
 			return "translate(8)";	})
 		.text(function(d) { return d.name; })
 		.on("dblclick", function(d) { 
 			event.stopPropagation();
-//console.log('1');
-//			doingAction = true;
 			var answer = prompt("Please enter the new name", d.name); // d.name could be also d3.select(this).text()
 			if (answer != null) {
 				// Change text in "nodes" structure
@@ -324,9 +351,38 @@ console.dir(d.firstChild);
 				// Change text on graph drawing object
 				self.graph.changeLabel(d.id, answer);
 			}
-//			return;
-//console.log('actionDone: ' + actionDone);
 		});	
+        
+/*        
+  // Transition nodes to their new position.
+  var nodeUpdate = node.transition()
+      .duration(duration)
+      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+  nodeUpdate.select("circle")
+      .attr("r", 4.5)
+      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+
+  nodeUpdate.select("text")
+      .style("fill-opacity", 1);  
+
+  // Transition exiting nodes to the parent's new position.
+  var nodeExit = node.exit().transition()
+      .duration(duration)
+      .attr("transform", function(d) { return "translate(" + source.x + "," + source.y + ")"; })
+      .remove();
+
+  nodeExit.select("circle")
+      .attr("r", 1e-6);
+
+  nodeExit.select("text")
+      .style("fill-opacity", 1e-6);
+      
+    // Stash the old positions for transition.
+    this.nodes.forEach(function(d) {
+        d.x0 = d.x;
+        d.y0 = d.y;
+    });*/
 }
 
 /**
@@ -338,7 +394,7 @@ CustomLayout.prototype.getNode = function(id) {
     var i;
     for (i=0; i<this.nodes.length; i++) { 
         if (this.nodes[i].id==id)
-        return this.nodes[i];
+			return this.nodes[i];
     } 
     return null;   
 }
@@ -359,21 +415,39 @@ CustomLayout.prototype.addNode = function(x, y) {
 }
 
 /**
- * Adds a link to the corresponding layout.
- * @param {number} a The source node.
- * @param {number} b The target node.
+ * Adds a link to the corresponding layout. NOT WORKING!
+ * @param {int} source_node The source node.
+ * @param {int} target_node The target node.
  */
-CustomLayout.prototype.addLink = function(a, b) {
-	var source_node = this.getNode(a);
-	var target_node = this.getNode(b);
+CustomLayout.prototype.addLink = function(source_node, target_node) {
+//	var source_node = this.getNode(a);
+//	var target_node = this.getNode(b);
 
-	// Add an edge (GraphDrawing structure)
-	this.graph.listEdges.push([a, b]);
-	// Add a link (Layout structure)
+	// Add an edge (to the GraphDrawing structure)
+	this.graph.listEdges.push([source_node.id, target_node.id]);
+	// Add a link (to the Layout structure)
 	this.links.push({source: source_node, target: target_node});
+console_listLinks(this.links);					
+	// Add child
+	if (!source_node.children) source_node.children = [];
+	source_node.children.push(target_node);
 
 	this.updateLayout();
 	updateMenu(this.graph);
+	
+	// Let's put the link (path) in the first place, if not it overwrites the node
+	var v = document.getElementById('vis');
+	var element = v.lastChild;
+	v.insertBefore(element, v.firstChild);
+					
+	// Let's put the last link node in the first place
+	var n = this.links.pop();
+	this.links.unshift(n);
+console_listLinks(this.links);					
+
+	// Unselect nodes
+	source_object.select("circle").style("stroke-width", "1.5");	
+	target_object.select("circle").style("stroke-width", "1.5");	
 }
 
 /**
@@ -403,26 +477,136 @@ CustomLayout.prototype.layoutVerticalTree = function() {
 	this.links = verticalTree.links;
 };
 
-/*CustomLayout.prototype.transformToCartesianCoordinates = function(obj, x, y) {
-	var i, r = obj.y, t = obj.x;
-	obj.x = cartesianX(r, t);
-	obj.y = cartesianY(r, t);
-console.log('r: ' + r + ', t: ' + t + ' -> x: ' + obj.x + ', y: ' + obj.y);		
-	for (i=0; i<this.links.length;i++) {
-		if (this.links[i].source.id == obj.id) {
-			this.links[i].source.x = obj.x;
-			this.links[i].source.y = obj.y;
+/**
+ * Toggle a node between collapsed and uncollapsed.
+ * @param {Object} d The node to toggle.
+ */
+CustomLayout.prototype.toggle = function(d) {
+
+	// Leaves are not allowed to collapse
+	if (!d.children) return;
+
+	function toggle(node, v) {
+console.log(' - Toggle ' + node.id);	
+console.dir(node);
+		if (node.children) {
+			var i;
+			
+			for (i = 0; i<node.children.length; i++) {
+				if (node.children[i].collapsed == undefined) node.children[i].collapsed = false;
+				if (!node.children[i].collapsed)
+					toggle(node.children[i], v)
+				else
+					node.children[i].visible = v;
+			}			
+//console.log('d.visible: ' + node.visible);	
 		}
-		else if (this.links[i].target.id == obj.id) {
-			this.links[i].target.x = obj.x;
-			this.links[i].target.y = obj.y;
-		}
+		node.visible = v;
+//console.log('node.visible: ' + node.visible);	
 	}
-		if (obj.hasOwnProperty('children')) {
-		for (i=0; i<obj.children.length;i++) {
-			this.transformToCartesianCoordinates(obj.children[i], obj.x, obj.y);
-		}
+	
+console.log('d.collapsed=' + d.collapsed);	
+	if (d.collapsed == undefined) d.collapsed = false;
+	d.collapsed = !d.collapsed;
+	toggle(d, !d.collapsed);
+	d.visible = true;
+	
+	this.updateCollapsedLayout();	
+/*console.log('Update the layout (collapse)	');	
+	// Update the layout (collapse)	
+	var vis = d3.select("#vis");
+	var node = vis.selectAll("g");
+	var c = vis.selectAll("circle")
+	c.attr("r", function(d) {
+		return (d.visible || d.visible==undefined) ? (d.collapsed ? 8 : 5) : 1e-6; 
+	})
+	
+	var t = vis.selectAll("text")
+		t.style("fill-opacity", function(d) {
+			return (d.visible || d.visible==undefined) ? 1 : 1e-6; 
+		});
+	
+//console_listLinks(this.links);	
+	
+	var l = vis.selectAll("path");
+//console.log('link:');	
+//console.dir(l);	
+	l.style("stroke-width", function(d) { 
+		var hideLink;
+		if (d.source.visible == undefined) d.source.visible = true;
+		if (d.target.visible == undefined) d.target.visible = true;
+//console.dir(d);	
+//console.log('d.source.id:' + d.source.id + ', d.target.id:' + d.target.id);	
+//console.log('d.source.visible:' + d.source.visible);	
+//console.log('d.target.visible:' + d.target.visible);	
+		hideLink = (!d.source.visible || !d.target.visible);
+//console.log('hideLink:' + hideLink);	
+		return hideLink ? 1e-6 : 1.5; 
+	});
+	
+	menuUncollapseAll.setVisible(this.isCollapsed());*/
+}
+
+/**
+ * Updates the layout when collapsing/uncollapsing.
+ */
+CustomLayout.prototype.updateCollapsedLayout = function(d) {
+console.log('Update the layout (collapse)	');	
+	// Update the layout (collapse)	
+	var vis = d3.select("#vis");
+	var node = vis.selectAll("g");
+	var c = vis.selectAll("circle")
+	c.attr("r", function(d) {
+		return (d.visible || d.visible==undefined) ? (d.collapsed ? 8 : 5) : 1e-6; 
+	})
+	
+	var t = vis.selectAll("text")
+		t.style("fill-opacity", function(d) {
+			return (d.visible || d.visible==undefined) ? 1 : 1e-6; 
+		});
+	
+//console_listLinks(this.links);	
+	
+	var l = vis.selectAll("path");
+//console.log('link:');	
+//console.dir(l);	
+	l.style("stroke-width", function(d) { 
+		var hideLink;
+		if (d.source.visible == undefined) d.source.visible = true;
+		if (d.target.visible == undefined) d.target.visible = true;
+//console.dir(d);	
+//console.log('d.source.id:' + d.source.id + ', d.target.id:' + d.target.id);	
+//console.log('d.source.visible:' + d.source.visible);	
+//console.log('d.target.visible:' + d.target.visible);	
+		hideLink = (!d.source.visible || !d.target.visible);
+//console.log('hideLink:' + hideLink);	
+		return hideLink ? 1e-6 : 1.5; 
+	});
+	
+	menuUncollapseAll.setEnabled(this.isCollapsed());
+}
+
+/**
+ * Toggle a node and its sons.
+ * @param {Object} d The node to toggle.
+ */
+/*CustomLayout.prototype.toggleAll = function(d) {
+	if (d.children) {
+		d.children.forEach(toggleAll);
+		toggle(d);
 	}
 }*/
 
-
+/**
+ * Checks if there is any node collapsed.
+ * @return {Boolean} True if there is any node collapsed, otherwise, false.
+ */
+CustomLayout.prototype.isCollapsed = function(d) {
+//console.dir(this);
+	var i;
+	for (i=0; i<this.nodes.length; i++) {
+		if (this.nodes[i].collapsed != undefined && this.nodes[i].collapsed)
+			return true;
+	}
+	return false;
+}

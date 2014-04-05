@@ -7,6 +7,7 @@
   <script type="text/javascript" src="lib/string_utils.js"></script>
   <script type="text/javascript" src="lib/classes.js"></script>
   <script type="text/javascript" src="lib/binary_heap.js"></script>
+  <script type="text/javascript" src="lib/file_utils.js"></script>
   <script type="text/javascript" src="core/graph_drawing.js"></script>
   <!--script type="text/javascript" src="jquery/jquery-1.11.0.min.js"></script-->
 
@@ -160,6 +161,14 @@
     equal(gd.getRoot(), undefined);
   });
 
+	// File utils
+	test("File utils", function() {
+		equal(getFileNameFromURL('file:///home/DADES/GRAF/webGraphEd/webGraphEd.html'), 'webGraphEd.html');
+		equal(getFileExtension('file:///home/DADES/GRAF/webGraphEd/webGraphEd.html'), 'html');
+		equal(getPathFromURL('file:///home/DADES/GRAF/webGraphEd/webGraphEd.html'), '/home/DADES/GRAF/webGraphEd');
+	});
+  
+  
 	</script>
 </HEAD>
 

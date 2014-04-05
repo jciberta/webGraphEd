@@ -301,7 +301,7 @@ console.log('root: ' + root.id);
         nodeExit.select("text")
             .style("fill-opacity", 1e-6);
 
-        // Update the links…
+        // Update the links
 //        var link = canvas.selectAll("path.link")
         var link = vis.selectAll("path.link")
             .data(tree.links(nodes), function(d) { return d.target.id; });

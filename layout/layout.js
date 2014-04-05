@@ -9,6 +9,7 @@ Layout = function() {
 	this.fileName = "";
 	//this.layout = null;
 	this.layout = new CustomLayout(canvas, this.graph);
+console_listNodes(this.layout.nodes);
 }
 
 /**
@@ -147,7 +148,6 @@ console.log('** Layout.prototype.layoutRadialTree **');
  * Adds a node to the corresponding layout.
  */
 Layout.prototype.addNode = function(x, y) {
-//console.log('addNode');		
 	this.layout.addNode(x, y);
 };
 
@@ -158,6 +158,13 @@ Layout.prototype.getLayoutMargins = function() {
 	var xmin=0, ymin=0, xmax=0, ymax=0;
 	var i, n, l;
 	
+	if (this.layout.nodes.length>0) {
+		n = this.layout.nodes[0];
+		xmin = n.x;
+		xmax = n.x;
+		ymin = n.y;
+		ymax = n.y;
+	}
 	for (i=0; i<this.layout.nodes.length; i++) {
 		n = this.layout.nodes[i];
 		if (n.x < xmin) xmin = n.x;
@@ -165,8 +172,6 @@ Layout.prototype.getLayoutMargins = function() {
 		if (n.y < ymin) ymin = n.y;
 		if (n.y > ymax) ymax = n.y;
 	}
-console.log('xmin=' + xmin + ', xmax=' + xmax + ', ymin=' + ymin + ', ymax=' + ymax);	
-
 	return {xMin: xmin, xMax: xmax, yMin: ymin, yMax: ymax};
 }
 
@@ -174,21 +179,25 @@ console.log('xmin=' + xmin + ', xmax=' + xmax + ', ymin=' + ymin + ', ymax=' + y
  * Sets the origin to 0,0.
  */
 Layout.prototype.setOrigin = function() {
-/*console.log(container.attr("transform"));
+console.log(container.attr("transform"));
 	zoom.translate([0, 0]);
 	zoom.scale(1);
-	container.attr('transform', 'translate(0,0)scale(1)');*/
+	container.attr('transform', 'translate(0,0)scale(1)');
+	updateStatusBar();
 }
 
 /**
  * Centers the layout.
  */
 Layout.prototype.center = function() {
+	this.setOrigin();
 //console.log('** Layout.prototype.center **');	
 	var box = this.getLayoutMargins();
+console.log('Box:' + JSON.stringify(this.getLayoutMargins()));	
+console_listNodes(this.layout.nodes);
 	var deltaX = (box.xMax - box.xMin) / 2 + box.xMin; // - (WIDTH / 2);
-	var deltaY = (box.yMax - box.yMin) / 2 + box.yMin; - (HEIGHT / 2); 
-//console.log('deltaX=' + deltaX + ', deltaY=' + deltaY);	
+	var deltaY = (box.yMax - box.yMin) / 2 + box.yMin; //- (HEIGHT / 2); 
+console.log('deltaX=' + deltaX + ', deltaY=' + deltaY);	
 
 	for (i=0; i<this.layout.nodes.length; i++) {
 		n = this.layout.nodes[i];
@@ -196,7 +205,7 @@ Layout.prototype.center = function() {
 		n.x = n.x - deltaX;
 		n.y = n.y - deltaY; 
 //console.log('this.layout.nodes[i]:');	
-console.dir(this.layout.nodes[i]);	
+//console.dir(this.layout.nodes[i]);	
 	}
 
 	var nodes = this.layout.nodes;
@@ -208,7 +217,8 @@ console.dir(this.layout.nodes[i]);
 		d3.event.translate[0] = 0;
 		d3.event.translate[1] = 0;
 	}*/
-	this.setOrigin();
+console.log('Box:' + JSON.stringify(this.getLayoutMargins()));	
+console_listNodes(this.layout.nodes);
 	this.layout = new CustomLayout(canvas, this.graph, nodes, links);
 }
 
@@ -216,21 +226,9 @@ console.dir(this.layout.nodes[i]);
  * Fits the layout.
  */
 Layout.prototype.fit = function() {
-/*	var xmin=0, ymin=0, xmax=0, ymax=0;
-	var i, n, l;
-	
-	for (i=0; i<this.layout.nodes.length; i++) {
-		n = this.layout.nodes[i];
-		if (n.x < xmin) xmin = n.x;
-		if (n.x > xmax) xmax = n.x;
-		if (n.y < ymin) ymin = n.y;
-		if (n.y > ymax) ymax = n.y;
-	}
-console.log('xmin=' + xmin + ', xmax=' + xmax + ', ymin=' + ymin + ', ymax=' + ymax);	
-*/
 	var box = this.getLayoutMargins();
-console.log('box=' + box);	
-console.log('xmin=' + box.xMin + ', xmax=' + box.xMax + ', ymin=' + box.yMin + ', ymax=' + box.yMax);	
+//console.log('box=' + box);	
+//console.log('xmin=' + box.xMin + ', xmax=' + box.xMax + ', ymin=' + box.yMin + ', ymax=' + box.yMax);	
 
 	
 	var deltaX = box.xMax - box.xMin - (margin.left + margin.right);
@@ -259,3 +257,24 @@ console.log('xmin=' + box.xMin + ', xmax=' + box.xMax + ', ymin=' + box.yMin + '
 	this.center();
 	
 };
+
+/**
+ * Checks if there is any node collapsed.
+ * @return {Boolean} True if there is any node collapsed, otherwise, false.
+ */
+Layout.prototype.isCollapsed = function(d) {
+	return this.layout.isCollapsed();
+}
+
+/**
+ * Uncollapse all nodes.
+ * @return {Boolean} True if there is any node collapsed, otherwise, false.
+ */
+Layout.prototype.uncollapseAll = function(d) {
+	var i;
+	for (i=0; i<this.layout.nodes.length; i++) { 
+		this.layout.nodes[i].collapsed = false;
+		this.layout.nodes[i].visible = true;
+	}
+	this.layout.updateCollapsedLayout();
+}

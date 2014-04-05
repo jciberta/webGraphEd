@@ -14,6 +14,7 @@
   
   <script type="text/javascript" src="lib/global.js"></script>
   <script type="text/javascript" src="lib/utils.js"></script>
+  <script type="text/javascript" src="lib/debug.js"></script>
   <!--script type="text/javascript" src="lib/classes.js"></script-->
   <script type="text/javascript" src="lib/dom_utils.js"></script>
   <script type="text/javascript" src="lib/file_utils.js"></script>
@@ -35,12 +36,15 @@
   <script src="external/closure-library/closure/goog/base.js"></script>
   <script>
     goog.require('goog.array');
+    goog.require('goog.color');
     goog.require('goog.events');
+    goog.require('goog.object');
     goog.require('goog.events.EventType');
     goog.require('goog.debug.DivConsole');
     goog.require('goog.debug.Logger');
     goog.require('goog.debug.LogManager');
     goog.require('goog.object');
+    goog.require('goog.ui.Component.EventType');
     goog.require('goog.ui.Component.State');
     goog.require('goog.ui.Control');
     goog.require('goog.ui.ControlContent');
@@ -56,6 +60,9 @@
     goog.require('goog.ui.Separator');
     goog.require('goog.ui.decorate');
     goog.require('goog.ui.Dialog');	
+    goog.require('goog.ui.Palette');
+    goog.require('goog.ui.ColorPalette');
+    goog.require('goog.ui.CustomColorPalette');	
   </script>
   <link rel="stylesheet" href="external/closure-library/closure/goog/demos/css/demo.css">
   <link rel="stylesheet" href="external/closure-library/closure/goog/css/menu.css">
@@ -79,8 +86,26 @@ function performClick(node) {
 	evt.initEvent("click", true, false);
 	node.dispatchEvent(evt);
 }
+
+// Cross-window messaging with postMessage
+// http://javascript.info/tutorial/cross-window-messaging-with-postmessage
+function listener(event) {
+console.log('event.origin: ' + event.origin);	
+//	if (event.origin !== 'nodeProperties.html')
+//		return
+
+	document.getElementById("test").innerHTML = "received: "+event.data
+}
+ 
+if (window.addEventListener){
+  addEventListener("message", listener, false)
+} else {
+  attachEvent("onmessage", listener)
+}
+
 </script>
 
+<!--div id="test">Send me a message!</div-->
 <div id="menuBar"></div>
 <div id="main"></div>
 <div id="statusBar"></div>
@@ -89,25 +114,11 @@ function performClick(node) {
 </div>
 
 
-
-
 <script type="text/javascript" src="ui/canvas.js"></script>
 <script type="text/javascript" src="ui/dialogs.js"></script>
 <script type="text/javascript" src="ui/menu.js"></script>
 
-<script type="text/javascript">
-
-
-
-</script>
-<br>
-
-
 <script>
-
-
-
-
 // ----------------------------------------------------------------------------
 //                               Initialization
 // ----------------------------------------------------------------------------
@@ -115,7 +126,6 @@ function performClick(node) {
 createCanvas();	
 layout = new Layout();
 //console.log('layout: ' + JSON.stringify(layout));
-
 
 function loadGraphDrawing() {
 	// Load file into layout object
@@ -183,8 +193,8 @@ if (query.layout != undefined) {
 
     // Get the graph drawing
     if (query.format != undefined && query.graph != undefined) {
-console.log('format: ' + query.format.toUpperCase());    
-console.log('graph: ' + decodeURIComponent(query.graph));    
+//console.log('format: ' + query.format.toUpperCase());    
+//console.log('graph: ' + decodeURIComponent(query.graph));    
 
 		graph = decodeURIComponent(query.graph);
 		format = query.format.toUpperCase();
@@ -204,8 +214,8 @@ console.log('graph: ' + decodeURIComponent(query.graph));
 				graph = txtFile.responseText; 
 				textFileName = getFileNameFromURL(query.url);
 				format = getFileExtension(query.url).toUpperCase();
-console.log('graph: ' + graph);
-console.log('format: ' + format);
+//console.log('graph: ' + graph);
+//console.log('format: ' + format);
 				loadGraphDrawing();
 			}
 		  }
@@ -213,50 +223,9 @@ console.log('format: ' + format);
 		txtFile.send(null);    
    }
 
-updateStatusBar();   
+	updateStatusBar();   
    
-/*   while (!bWait);
-   
-console.log('graph: ' + graph);
-console.log('format: ' + format);
-
-	// Load file into layout object
-	switch (format) {
-		case 'GML':
-			layout.importGML(graph);
-			break;
-		case 'GRAPHML':
-			layout.importGraphML(graph);
-			break;
-		default:
-			alert("Format not supported!"); 
-			throw "Format not supported!";
-			break;
-	}
-   
-    // Layout the graph drawing
-    switch (query.layout) {
-        case 't':
-            layout.layoutCollapsibleTree(canvas);
-            break;
-        case 'rt':
-            layout.layoutReingoldTilfordTree(container);
-            break;
-        case 'fd':
-            layout.layoutForceDirected(canvas);
-            break;
-        default:
-            alert("Layout not supported!"); 
-            throw "Layout not supported!";
-            break;
-    }
-    updateMenu(layout.graph);*/
 }
-
-	
-
-
-
 </script>
 
 <!--input type="button" value="Show Dialog" onclick="$('#openFile').click();" />
