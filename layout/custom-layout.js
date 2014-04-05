@@ -601,7 +601,7 @@ console.log('Update the layout (collapse)	');
  * Checks if there is any node collapsed.
  * @return {Boolean} True if there is any node collapsed, otherwise, false.
  */
-CustomLayout.prototype.isCollapsed = function(d) {
+CustomLayout.prototype.isCollapsed = function() {
 //console.dir(this);
 	var i;
 	for (i=0; i<this.nodes.length; i++) {

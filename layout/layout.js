@@ -146,6 +146,8 @@ console.log('** Layout.prototype.layoutRadialTree **');
 
 /**
  * Adds a node to the corresponding layout.
+ * @param {int} x The x coordinate.
+ * @param {int} y The y coordinate.
  */
 Layout.prototype.addNode = function(x, y) {
 	this.layout.addNode(x, y);
@@ -179,7 +181,19 @@ Layout.prototype.getLayoutMargins = function() {
  * Sets the origin to 0,0.
  */
 Layout.prototype.setOrigin = function() {
-console.log(container.attr("transform"));
+	var pz = getPanAndZoom();
+	var coord = [-WIDTH/2*(pz.scale-1), -HEIGHT/2*(pz.scale-1)];
+	zoom.translate(coord);
+	zoom.scale(pz.scale);
+//console.log('setOrigin.scale: ' + pz.scale);	
+	container.attr('transform', 'translate(' + coord + ')scale(' + pz.scale + ')');
+	updateStatusBar();
+}
+
+/**
+ * Sets the origin to 0,0 and scale to 1.
+*/
+Layout.prototype.setOriginWithNoUnZoom = function() {
 	zoom.translate([0, 0]);
 	zoom.scale(1);
 	container.attr('transform', 'translate(0,0)scale(1)');
@@ -257,6 +271,7 @@ console.log('Box:' + JSON.stringify(this.getLayoutMargins()));
 console_listNodes(this.layout.nodes);
 
 	this.layout = new CustomLayout(canvas, this.graph, nodes, links);
+	this.setOriginWithNoUnZoom();
 	this.center();
 	
 };

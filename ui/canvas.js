@@ -186,5 +186,30 @@ function getPanAndZoom() {
 //console.log("zoom: " + s);
 	
 	return {translate: {x: m, y: n}, scale: s}*/
-}	
+}
+
+/**
+ * Zooms in the layout.
+ */
+function zoomIn() {
+	var pz = getPanAndZoom();
+	pz.scale += 0.5;
+	if (pz.scale > 10) pz.scale = 10;
+	zoom.scale(pz.scale);
+	container.attr("transform", "translate(" + [pz.translate.x, pz.translate.y] + ")scale(" + pz.scale + ")");
+	layout.center();
+	updateStatusBar(); 
+}
+
+function zoomOut() {
+	var pz = getPanAndZoom();
+	pz.scale -= 0.5;
+	if (pz.scale < 1) pz.scale = 1;
+	zoom.scale(pz.scale);
+	container.attr("transform", "translate(" + [pz.translate.x, pz.translate.y] + ")scale(" + pz.scale + ")");
+	layout.center();
+	updateStatusBar();
+}
+
+
 

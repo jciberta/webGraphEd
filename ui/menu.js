@@ -289,12 +289,12 @@ menuEditMode.setChecked(false);
 menuEditMode.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuEdit.addItem(menuEditMode); 
 menuEdit.addItem(new goog.ui.MenuSeparator());*/
-var menuZoomIn = new goog.ui.MenuItem('Zoom in');
+/*var menuZoomIn = new goog.ui.MenuItem('Zoom in');
 menuZoomIn.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuEdit.addItem(menuZoomIn); 
 var menuZoomOut = new goog.ui.MenuItem('Zoom out');
 menuZoomOut.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
-menuEdit.addItem(menuZoomOut); 
+menuEdit.addItem(menuZoomOut); */
 var menuCenter = new goog.ui.MenuItem('Center');
 menuCenter.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuEdit.addItem(menuCenter); 
@@ -323,8 +323,10 @@ goog.events.listen(btnEdit, goog.ui.Component.EventType.ACTION, function(e) {
         updatePanAndZoom(false);
 	}
 	else if (e.target && e.target.getCaption() == 'Zoom in') {
-		container.attr("transform", "translate(" + d3.event.translate + ")scale(" + (++d3.event.scale) + ")");
-		updateStatusBar();
+		zoomIn();
+	}
+	else if (e.target && e.target.getCaption() == 'Zoom out') {
+		zoomOut();
 	}
 	else if (e.target && e.target.getCaption() == 'Zoom out') {
         updatePanAndZoom(false);
