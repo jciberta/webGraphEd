@@ -24,21 +24,36 @@
 <span class='line'> 17</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">url.substring</span><span class="PUNC">(</span><span class="NAME">url.lastIndexOf</span><span class="PUNC">(</span><span class="STRN">'/'</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 18</span> </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'> 19</span> 
-<span class='line'> 20</span> </span><span class="COMM">/*function readFile(that) {
-<span class='line'> 21</span> alert("that:" + that.files[0]);
-<span class='line'> 22</span>   var output;
-<span class='line'> 23</span> 	if (that.files && that.files[0]) {
-<span class='line'> 24</span> 		var reader = new FileReader();
-<span class='line'> 25</span> 		reader.onload = function (e) {  
-<span class='line'> 26</span> 			output = e.target.result;
-<span class='line'> 27</span> alert("e:" + output);
-<span class='line'> 28</span> 		};
-<span class='line'> 29</span> 		prova = reader.readAsText(that.files[0]);
-<span class='line'> 30</span> alert("reader:" + output);
-<span class='line'> 31</span> alert("prova:" + prova);
-<span class='line'> 32</span> 	}
-<span class='line'> 33</span>   return output;
-<span class='line'> 34</span> } 
-<span class='line'> 35</span> */</span><span class="WHIT">
-<span class='line'> 36</span> 
-<span class='line'> 37</span> </span></pre></body></html>
+<span class='line'> 20</span> </span><span class="COMM">/**
+<span class='line'> 21</span>  * Gets the path from a URL
+<span class='line'> 22</span>  * @param {string} url The URL.
+<span class='line'> 23</span>  * @return {string} The path.
+<span class='line'> 24</span>  */</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">getPathFromURL</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="STRN">'url: '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">a</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">url.split</span><span class="PUNC">(</span><span class="STRN">'://'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">a</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">lastIndexOf</span><span class="PUNC">(</span><span class="STRN">'/'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="COMM">//console.log('a[1]: ' + a[1] + ', i: ' + i);	</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="COMM">//console.log('a[1]: ' + a[1] + ', s: ' + s);	</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">s</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">a</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">substring</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 33</span> 
+<span class='line'> 34</span> 
+<span class='line'> 35</span> </span><span class="COMM">/*function readFile(that) {
+<span class='line'> 36</span> alert("that:" + that.files[0]);
+<span class='line'> 37</span>   var output;
+<span class='line'> 38</span> 	if (that.files && that.files[0]) {
+<span class='line'> 39</span> 		var reader = new FileReader();
+<span class='line'> 40</span> 		reader.onload = function (e) {  
+<span class='line'> 41</span> 			output = e.target.result;
+<span class='line'> 42</span> alert("e:" + output);
+<span class='line'> 43</span> 		};
+<span class='line'> 44</span> 		prova = reader.readAsText(that.files[0]);
+<span class='line'> 45</span> alert("reader:" + output);
+<span class='line'> 46</span> alert("prova:" + prova);
+<span class='line'> 47</span> 	}
+<span class='line'> 48</span>   return output;
+<span class='line'> 49</span> } 
+<span class='line'> 50</span> */</span><span class="WHIT">
+<span class='line'> 51</span> 
+<span class='line'> 52</span> </span></pre></body></html>

@@ -213,7 +213,7 @@ ul.inheritsList
 	
 	<li><a href="../symbols/RadialTreeLayout.html">RadialTreeLayout</a></li>
 	
-	<li><a href="../symbols/RadialTreeLayout2.html">RadialTreeLayout2</a></li>
+	<li><a href="../symbols/RadialTreeLayout%23getSubTree.html">RadialTreeLayout#getSubTree</a></li>
 	
 	<li><a href="../symbols/String.html">String</a></li>
 	
@@ -293,7 +293,7 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/CustomLayout.html#addLink">addLink</a></b>(a, b)
+								<div class="fixedFont"><b><a href="../symbols/CustomLayout.html#addLink">addLink</a></b>(source_node, target_node)
 								</div>
 								<div class="description">Adds a link to the corresponding layout.</div>
 							</td>
@@ -314,6 +314,15 @@ ul.inheritsList
 								<div class="fixedFont"><b><a href="../symbols/CustomLayout.html#getNode">getNode</a></b>(id)
 								</div>
 								<div class="description">Gets the node with a specific id.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/CustomLayout.html#isCollapsed">isCollapsed</a></b>(d)
+								</div>
+								<div class="description">Checks if there is any node collapsed.</div>
 							</td>
 						</tr>
 					
@@ -347,7 +356,25 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/CustomLayout.html#updateLayout">updateLayout</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/CustomLayout.html#toggle">toggle</a></b>(d)
+								</div>
+								<div class="description">Toggle a node between collapsed and uncollapsed.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/CustomLayout.html#updateCollapsedLayout">updateCollapsedLayout</a></b>(d)
+								</div>
+								<div class="description">Updates the layout when collapsing/uncollapsing.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/CustomLayout.html#updateLayout">updateLayout</a></b>(source)
 								</div>
 								<div class="description">Updates the layout, drawing the whole graph drawing.</div>
 							</td>
@@ -434,11 +461,11 @@ ul.inheritsList
 					<div class="fixedFont">
 					
 					
-					<b>addLink</b>(a, b)
+					<b>addLink</b>(source_node, target_node)
 					
 					</div>
 					<div class="description">
-						Adds a link to the corresponding layout.
+						Adds a link to the corresponding layout. NOT WORKING!
 						
 						
 					</div>
@@ -450,13 +477,13 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{number}</span> <b>a</b>
+									<span class="light fixedFont">{int}</span> <b>source_node</b>
 									
 								</dt>
 								<dd>The source node.</dd>
 							
 								<dt>
-									<span class="light fixedFont">{number}</span> <b>b</b>
+									<span class="light fixedFont">{int}</span> <b>target_node</b>
 									
 								</dt>
 								<dd>The target node.</dd>
@@ -557,6 +584,49 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name="isCollapsed"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Boolean}</span>
+					<b>isCollapsed</b>(d)
+					
+					</div>
+					<div class="description">
+						Checks if there is any node collapsed.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>d</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Boolean}</span> True if there is any node collapsed, otherwise, false.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
 					<a name="layoutHorizontalTree"> </a>
 					<div class="fixedFont">
 					
@@ -632,11 +702,83 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name="toggle"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>toggle</b>(d)
+					
+					</div>
+					<div class="description">
+						Toggle a node between collapsed and uncollapsed.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>d</b>
+									
+								</dt>
+								<dd>The node to toggle.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="updateCollapsedLayout"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>updateCollapsedLayout</b>(d)
+					
+					</div>
+					<div class="description">
+						Updates the layout when collapsing/uncollapsing.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>d</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="updateLayout"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>updateLayout</b>()
+					<b>updateLayout</b>(source)
 					
 					</div>
 					<div class="description">
@@ -647,6 +789,17 @@ ul.inheritsList
 					
 					
 					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>source</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
 						
 						
 						
@@ -669,7 +822,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Apr 02 2014 18:22:15 GMT+0200 (CEST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Apr 05 2014 12:39:18 GMT+0200 (CEST)
 		</div>
 	</body>
 </html>

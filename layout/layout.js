@@ -226,21 +226,20 @@ console_listNodes(this.layout.nodes);
  * Fits the layout.
  */
 Layout.prototype.fit = function() {
+	var k = 4; // k times the margin for fitting
 	var box = this.getLayoutMargins();
-//console.log('box=' + box);	
-//console.log('xmin=' + box.xMin + ', xmax=' + box.xMax + ', ymin=' + box.yMin + ', ymax=' + box.yMax);	
-
+console.log('Box:' + JSON.stringify(this.getLayoutMargins()));	
 	
-	var deltaX = box.xMax - box.xMin - (margin.left + margin.right);
-	var deltaY = box.yMax - box.yMin - (margin.top + margin.bottom); 
+	var deltaX = box.xMax - box.xMin - (k*margin.left + k*margin.right);
+	var deltaY = box.yMax - box.yMin - (k*margin.top + k*margin.bottom); 
 	
 	var factorX = WIDTH / deltaX;
 	var factorY = HEIGHT / deltaY;
 	
 	for (i=0; i<this.layout.nodes.length; i++) {
 		n = this.layout.nodes[i];
-		n.x = (n.x - box.xMin) * factorX - WIDTH/2 + margin.left;
-		n.y = (n.y - box.yMin) * factorY - HEIGHT/2 + margin.top;
+		n.x = (n.x - box.xMin) * factorX - WIDTH/2 + k*margin.left;
+		n.y = (n.y - box.yMin) * factorY - HEIGHT/2 + k*margin.top;
 	}
 	
 	
@@ -253,6 +252,10 @@ Layout.prototype.fit = function() {
 	clearCanvas();
 //console.dir(nodes);	
 //console.dir(links);	
+
+console.log('Box:' + JSON.stringify(this.getLayoutMargins()));	
+console_listNodes(this.layout.nodes);
+
 	this.layout = new CustomLayout(canvas, this.graph, nodes, links);
 	this.center();
 	
