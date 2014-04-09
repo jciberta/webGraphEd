@@ -79,8 +79,12 @@ console.dir(layout.layout.links);
 	dialogDebug.setVisible(true);
 }
 
-function showNodeProperties() {
+function showNodeProperties(d) {
 	var i, s = '';
+	
+	chooseNodeProperties(4);
+	//openprompt();
+	return;
 
 	s += '<b>Shape</b><br>';
 	s += '<input type="radio" name="shape" value="circle">Circle<br>';
@@ -119,6 +123,7 @@ popupWindow = window.open(url,winName,settings)
 centeredPopup(this.href,'myWindow','500','300','yes');*/
 
 }
+
 
 function exportToGML() {
 	layout.exportGML();
@@ -184,7 +189,7 @@ function updateMenu(graph) {
 function updateStatusBar() { 
 	var sHTML = '';
 	pz = getPanAndZoom();
-console.log('pz: ' + JSON.stringify(pz));
+//console.log('pz: ' + JSON.stringify(pz));
 	
 	sHTML += '<TABLE><TR>';
 	sHTML += '<TD style="width:200px"><B>Filename</B>: ' + textFileName + '</TD>';
@@ -364,7 +369,7 @@ var menuRadialTree = new goog.ui.MenuItem('Radial tree');
 menuRadialTree.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuLayout.addItem(menuRadialTree); 
 menuLayout.addItem(new goog.ui.MenuSeparator());
-var menuForceDirected = new goog.ui.MenuItem('Force directed');
+var menuForceDirected = new goog.ui.MenuItem(FORCE_DIRECTED);
 menuForceDirected.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuLayout.addItem(menuForceDirected); 
 updateMenu(false);
@@ -394,7 +399,7 @@ goog.events.listen(btnLayout, goog.ui.Component.EventType.ACTION, function(e) {
 		statusBarMessage = 'Layout done in ' + (Date.now()-timerStart)/1000 + ' s.';
 		updateStatusBar();
 	}
-		else if (e.target && e.target.getCaption() == 'Force directed') {
+		else if (e.target && e.target.getCaption() == FORCE_DIRECTED) {
 		timerStart = Date.now();
 		clearCanvas();
 		layout.layoutForceDirected(container);

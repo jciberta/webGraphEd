@@ -211,5 +211,152 @@ function zoomOut() {
 	updateStatusBar();
 }
 
+/**
+ * Updates the layout, perfoming the generic update.
+ * @param {Object} node Every node in the layout.
+ * @param {Object} link Every link in the layout.
+ */
+function updateGenericLayout(node, link) {
 
+
+
+
+/*	var node = vis.selectAll(".node")
+		.data(this.nodes)
+		.enter().append("g")
+			.attr("class", "node")
+			.attr("id", function(d) { return d.id; })
+			.attr("transform", function(d) { 
+				return "translate(" + [ d.x, d.y ] + ")";
+			})
+//			.call(this.drag)
+			.on("mousedown", function(d) {
+				source_node = d;
+				source_object = d3.select(this);
+
+                if (event.ctrlKey) {
+					// Link nodes is not allowed when there are some collapsed nodes
+					if (self.isCollapsed()) return;
+                    linking = true;
+					d3.select(this).select("circle").style("stroke-width", "3");	
+                    coord.x = d.x;
+                    coord.y = d.y;
+                }
+				else if (event.shiftKey) {
+					// Collapse only allowed in trees
+					if (!isTree) return;
+                    self.toggle(d);
+                    self.updateLayout(d);
+				}
+			})
+			.on("mouseover", function(d) {
+				if (linking) {
+					target_object = d3.select(this);
+					target_object.select("circle").style("stroke-width", "3");
+				}
+			})
+			.on("mouseout", function(d) {
+				if (linking && d!=source_node) {
+					target_object = d3.select(this);
+					target_object.select("circle").style("stroke-width", "1.5");
+				}
+			})
+			.on("mouseup", function(d) {	
+				target_node = d;
+				target_object = d3.select(this);
+
+				if (event.ctrlKey && (source_node != target_node)) {
+					// Add an edge
+					self.graph.listEdges.push([source_node.id, target_node.id]);
+                    // Add link
+                    self.links.push({source: source_node, target: target_node});
+					// Add child
+					if (!source_node.children) source_node.children = [];
+					source_node.children.push(target_node);
+
+					self.updateLayout();
+					updateMenu(self.graph);
+                    
+					// Let's put the link (path) in the first place, if not it overwrites the node
+					var v = document.getElementById('vis');
+					var element = v.lastChild;
+					v.insertBefore(element, v.firstChild);
+					
+					// Let's put the last link node in the first place
+					var n = self.links.pop();
+					self.links.unshift(n);
+
+					// Unselect nodes
+					source_object.select("circle").style("stroke-width", "1.5");	
+					target_object.select("circle").style("stroke-width", "1.5");
+				}
+			})
+
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+	// CIRCLE
+	node.append("circle")
+		.attr("r", function(d) { 
+			if (d.shape == undefined) d.shape = 'Circle';
+			return d.shape == 'Circle' ? 5 : 0; 
+		})
+		.attr("id", function(d) { return 'circle' + d.id; })
+		.style("fill", function(d) {
+			return d.color==undefined ? "White" : d.color;
+		})
+		.on("dblclick", function(d) { 
+			event.stopPropagation();
+			if (event.ctrlKey || event.altKey || event.shiftKey) return;
+			chooseNodeProperties(d);
+		});	
+
+	// SQUARE
+	node.append("rect")
+		.attr("x", -5).attr("y", -5)
+		.attr("width", function(d) { return d.shape == 'Square' ? 10 : 0; })
+		.attr("height", function(d) { return d.shape == 'Square' ? 10 : 0; })
+		.attr("id", function(d) { return 'rect' + d.id; })
+		.style("fill", function(d) {
+			return d.color==undefined ? "White" : d.color;
+		})
+		.attr("stroke", "#000")
+		.attr("stroke-width", 1)
+		.on("dblclick", function(d) { 
+			event.stopPropagation();
+			if (event.ctrlKey || event.altKey || event.shiftKey) return;
+			chooseNodeProperties(d);
+		});	
+		
+	// TEXT
+	node.append("text")
+		.attr("dy", ".31em")
+		.attr("transform", function(d) { 
+			return "translate(8)";	})
+		.text(function(d, i) { return d.name; })
+		.on("dblclick", function(d) { 
+			event.stopPropagation();
+			var answer = prompt("Please enter the new name", d.name); // d.name could be also d3.select(this).text()
+			if (answer != null) {
+				// Change text in "nodes" structure
+				d.name = answer;
+				// Change text on layout
+				d3.select(this).text(answer);				
+				// Change text on graph drawing object
+				self.graph.changeLabel(d.id, answer);
+			}
+		});
+}
 

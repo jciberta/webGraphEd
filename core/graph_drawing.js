@@ -12,12 +12,16 @@
  * Creates an instance of Node.
  * @constructor
  * @this {Node}
- * @param {number} id The identification of the node.
- * @param {number} label The label of the node.
+ * @param {int} id The identification of the node.
+ * @param {string} label The label of the node.
+ * @param {string} shape The shape of the node.
+ * @param {string} color The color of the node.
  */
-function Node(id, label) {
+function Node(id, label, shape, color) {
     this.id = id;
-    this.label = label; 
+	(label == undefined) ? this.label = '' : this.label = label; 
+	(shape == undefined) ? this.shape = 'Circle' : this.shape = label; 
+	(color == undefined) ? this.color = 'White' : this.color = label; 
 }
 
 Node.prototype.getId = function() {
@@ -32,9 +36,9 @@ Node.prototype.getLabel = function() {
  * Creates an instance of Edge.
  * @constructor
  * @this {Edge}
- * @param {number} src The source of the edge.
- * @param {number} dst The destinations of the edge.
- * @param {number} label The label of the node.
+ * @param {int} src The source of the edge.
+ * @param {int} dst The destinations of the edge.
+ * @param {int} label The label of the node.
  */
 function Edge(src, dst, label) {
     this.source = src;
@@ -49,8 +53,8 @@ function Edge(src, dst, label) {
  *
  * @constructor
  * @this {GraphDrawing}
- * @param {[]} ln List of nodes.
- * @param {[]} le List of edges.
+ * @param {Array} ln List of nodes.
+ * @param {Array} le List of edges.
  */
 function GraphDrawing(ln, le) {
   if (ln===undefined) { // parameter was omitted in call
@@ -129,6 +133,26 @@ GraphDrawing.prototype.getNode = function(id) {
         return this.listNodes[i];
     } 
     return null;   
+}
+
+/**
+ * Sets the node with a specific values.
+ * @param {int} id The id of the node.
+ * @param {string} label The label of the node.
+ * @param {string} shape The shape of the node.
+ * @param {string} color The color of the node.
+ */
+GraphDrawing.prototype.setNode = function(id, array) {
+    var i;
+    for (i=0; i<this.listNodes.length; i++) { 
+        if (this.listNodes[i][0]==id) {
+			this.listNodes[i][1] = array[1];
+			this.listNodes[i][2] = array[2];
+			this.listNodes[i][3] = array[3];
+//console.log('this.listNodes:');
+//console.dir(this.listNodes);			
+		}
+    } 
 }
 
 /**

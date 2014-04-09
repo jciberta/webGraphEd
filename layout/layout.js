@@ -2,14 +2,15 @@
 /**
  * Create a Layout
  * @constructor
+ * @this {Layout}
  */
 Layout = function() {
 	this.graph = new GraphDrawing();
 	this.file = "";
 	this.fileName = "";
-	//this.layout = null;
+	this.type = 'None';
 	this.layout = new CustomLayout(canvas, this.graph);
-console_listNodes(this.layout.nodes);
+//console_listNodes(this.layout.nodes);
 }
 
 /**
@@ -18,9 +19,25 @@ console_listNodes(this.layout.nodes);
 Layout.prototype.clear = function() {
 	delete this.graph;
 	this.graph = new GraphDrawing();
+	this.type = 'None';
 	delete this.layout;
-	//this.layout = null;
 	this.layout = new CustomLayout(canvas, this.graph);
+};
+
+/**
+ * Updates the layout.
+ */
+Layout.prototype.update = function() {
+	var nodes = this.layout.nodes;
+	var links = this.layout.links;
+//console.dir(nodes);	
+//console.dir(links);
+    clearCanvas();	
+	if (this.type == 'Force directed')
+		this.layout = new ForceDirectedLayout2(canvas, this.graph, nodes, links)
+	else
+		this.layout = new CustomLayout(canvas, this.graph, nodes, links);
+//	this.center();	
 };
 
 /**
@@ -86,61 +103,59 @@ Layout.prototype.layoutCustom = function(canvas) {
  * @return {ForceDirectedLayout} The new layout object.
  */
 Layout.prototype.layoutForceDirected = function(canvas) {
-	this.layout = new ForceDirectedLayout(canvas, this.graph);
+	this.type = 'Force directed';
+	var nodes = this.layout.nodes;
+	var links = this.layout.links;
+	this.type = FORCE_DIRECTED;
+	this.layout = new ForceDirectedLayout2(canvas, this.graph, nodes, links, this.type);
+
+/*	// Calculate the new layout
+	this.layout.layoutForceDirected();
+	var nodes = this.layout.nodes;
+	var links = this.layout.links;
+	this.layout = new CustomLayout(canvas, this.graph, nodes, links, 'Force directed');
+//	this.center();*/
 };
 
 /**
  * Depict a Horizontal Tree layout on a canvas.
  * @param {string} canvas Canvas where layout is depicted.
- * @return {HorizontalTreeLayout} The new layout object.
  */
 Layout.prototype.layoutHorizontalTree = function(canvas) {
-//	this.layout = new HorizontalTreeLayout(canvas, this.graph);
-
 	// Calculate the new layout
-	this.layout.layoutHorizontalTree();
-	var nodes = this.layout.nodes;
-	var links = this.layout.links;
-//console.dir(nodes);	
-//console.dir(links);	
-	this.layout = new CustomLayout(canvas, this.graph, nodes, links);
+	var horizontalTree = new HorizontalTreeLayout(canvas, this.graph);
+	var nodes = horizontalTree.nodes;
+	var links = horizontalTree.links;
+	this.type = 'Horizontal tree';
+	this.layout = new CustomLayout(canvas, this.graph, nodes, links, this.type);
 	this.center();
 };
 
 /**
  * Depict a Vertical Tree layout on a canvas.
  * @param {string} canvas Canvas where layout is depicted.
- * @return {VerticalTreeLayout} The new layout object.
  */
 Layout.prototype.layoutVerticalTree = function(canvas) {
-//	this.layout = new VerticalTreeLayout(canvas, this.graph);
-
 	// Calculate the new layout
-	this.layout.layoutVerticalTree();
-	var nodes = this.layout.nodes;
-	var links = this.layout.links;
-//console.dir(nodes);	
-//console.dir(links);	
-	this.layout = new CustomLayout(canvas, this.graph, nodes, links);
+	var verticalTree = new VerticalTreeLayout(canvas, this.graph);
+	var nodes = verticalTree.nodes;
+	var links = verticalTree.links;
+	this.type = 'Vertical tree';
+	this.layout = new CustomLayout(canvas, this.graph, nodes, links, this.type);
 	this.center();
 };
 
 /**
  * Depict a Radial Tree layout on a canvas.
  * @param {string} canvas Canvas where layout is depicted.
- * @return {RadialTreeLayout} The new layout object.
  */
 Layout.prototype.layoutRadialTree = function(canvas) {
-console.log('** Layout.prototype.layoutRadialTree **');		
-//	this.layout = new RadialTreeLayout(canvas, this.graph);
-
 	// Calculate the new layout
-	this.layout.layoutRadialTree();
-	var nodes = this.layout.nodes;
-	var links = this.layout.links;
-//console.dir(nodes);	
-//console.dir(links);	
-	this.layout = new CustomLayout(canvas, this.graph, nodes, links);
+	var radialTree = new RadialTreeLayout(canvas, this.graph);
+	var nodes = radialTree.nodes;
+	var links = radialTree.links;
+	this.type = 'Radial tree';
+	this.layout = new CustomLayout(canvas, this.graph, nodes, links, this.type);
 	this.center();
 };
 
@@ -193,7 +208,7 @@ Layout.prototype.setOrigin = function() {
 /**
  * Sets the origin to 0,0 and scale to 1.
 */
-Layout.prototype.setOriginWithNoUnZoom = function() {
+Layout.prototype.setOriginWithNoZoom = function() {
 	zoom.translate([0, 0]);
 	zoom.scale(1);
 	container.attr('transform', 'translate(0,0)scale(1)');
@@ -271,7 +286,7 @@ console.log('Box:' + JSON.stringify(this.getLayoutMargins()));
 console_listNodes(this.layout.nodes);
 
 	this.layout = new CustomLayout(canvas, this.graph, nodes, links);
-	this.setOriginWithNoUnZoom();
+	this.setOriginWithNoZoom();
 	this.center();
 	
 };
@@ -295,4 +310,30 @@ Layout.prototype.uncollapseAll = function(d) {
 		this.layout.nodes[i].visible = true;
 	}
 	this.layout.updateCollapsedLayout();
+}
+
+/**
+ * Changes the color of a node.
+ * @param {Object} d The node.
+ */
+Layout.prototype.changeNodeColor = function(d) {
+	d3.select("#circle" + d.id)
+		.style('fill', d.color);
+	d3.select("#rect" + d.id)
+		.style('fill', d.color);
+}
+
+/**
+ * Changes the shape of a node.
+ * @param {Object} d The node.
+ */
+Layout.prototype.changeNodeShape = function(d) {
+	d3.select("#circle" + d.id)		
+		.attr("r", function(d) { 
+			if (d.shape == undefined) d.shape = 'Circle';
+			return d.shape == 'Circle' ? 5 : 0; 
+		})
+	d3.select("#rect" + d.id)
+		.attr("width", function(d) { return d.shape == 'Square' ? 10 : 0; })
+		.attr("height", function(d) { return d.shape == 'Square' ? 10 : 0; })
 }
