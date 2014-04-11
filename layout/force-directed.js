@@ -375,7 +375,7 @@ console.dir(self.links);
 
 /**
  * Gets the node with a specific id.
- * @param {number} id The id of the node.
+ * @param {int} id The id of the node.
  * @return {Object} The node or null.
  */
 ForceDirectedLayout.prototype.getNode = function(id) {
@@ -389,8 +389,8 @@ ForceDirectedLayout.prototype.getNode = function(id) {
 
 /**
  * Adds a node to the corresponding layout.
- * @param {number} x The x coordinate.
- * @param {number} y The y coordinate.
+ * @param {int} x The x coordinate.
+ * @param {int} y The y coordinate.
  */
 ForceDirectedLayout.prototype.addNode = function(coordX, coordY) {
 console.log('x: ' + coordX + ', y:' + coordY);

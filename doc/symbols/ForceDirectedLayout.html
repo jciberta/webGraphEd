@@ -264,10 +264,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/ForceDirectedLayout.html#constructor">ForceDirectedLayout</a></b>(canvas, graph)
+								<b><a href="../symbols/ForceDirectedLayout.html#constructor">ForceDirectedLayout</a></b>(canvas, graph, nodes, links, type)
 							</div>
-							<div class="description">Create a Force Directed layout
-Based on http://bl.ocks.org/MoritzStefaner/1377729</div>
+							<div class="description">Create a Force Directed layout</div>
 						</td>
 					</tr>
 				</tbody>
@@ -278,6 +277,60 @@ Based on http://bl.ocks.org/MoritzStefaner/1377729</div>
 			
 
 <!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class ForceDirectedLayout.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ForceDirectedLayout.html#addNode">addNode</a></b>(x, y)
+								</div>
+								<div class="description">Adds a node to the corresponding layout.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ForceDirectedLayout.html#getNode">getNode</a></b>(id)
+								</div>
+								<div class="description">Gets the node with a specific id.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ForceDirectedLayout.html#isCollapsed">isCollapsed</a></b>()
+								</div>
+								<div class="description">Checks if there is any node collapsed.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ForceDirectedLayout.html#updateLayout">updateLayout</a></b>()
+								</div>
+								<div class="description">Updates the layout, drawing the whole graph drawing.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
 			
 <!-- ============================== events summary ======================== -->
 			
@@ -290,12 +343,11 @@ Based on http://bl.ocks.org/MoritzStefaner/1377729</div>
 				</div>
 				
 				<div class="fixedFont">
-						<b>ForceDirectedLayout</b>(canvas, graph)
+						<b>ForceDirectedLayout</b>(canvas, graph, nodes, links, type)
 				</div>
 				
 				<div class="description">
 					Create a Force Directed layout
-Based on http://bl.ocks.org/MoritzStefaner/1377729
 					
 				</div>
 				
@@ -318,6 +370,24 @@ Based on http://bl.ocks.org/MoritzStefaner/1377729
 							</dt>
 								<dd>Graph drawing object</dd>
 						
+							<dt>
+								 <b>nodes</b>
+								
+							</dt>
+								<dd></dd>
+						
+							<dt>
+								 <b>links</b>
+								
+							</dt>
+								<dd></dd>
+						
+							<dt>
+								 <b>type</b>
+								
+							</dt>
+								<dd></dd>
+						
 						</dl>
 					
 					
@@ -335,6 +405,153 @@ Based on http://bl.ocks.org/MoritzStefaner/1377729
 
 <!-- ============================== method details ========================= -->		
 			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name="addNode"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addNode</b>(x, y)
+					
+					</div>
+					<div class="description">
+						Adds a node to the corresponding layout.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{int}</span> <b>x</b>
+									
+								</dt>
+								<dd>The x coordinate.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{int}</span> <b>y</b>
+									
+								</dt>
+								<dd>The y coordinate.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getNode"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Object}</span>
+					<b>getNode</b>(id)
+					
+					</div>
+					<div class="description">
+						Gets the node with a specific id.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{int}</span> <b>id</b>
+									
+								</dt>
+								<dd>The id of the node.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> The node or null.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="isCollapsed"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Boolean}</span>
+					<b>isCollapsed</b>()
+					
+					</div>
+					<div class="description">
+						Checks if there is any node collapsed.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Boolean}</span> True if there is any node collapsed, otherwise, false.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="updateLayout"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>updateLayout</b>()
+					
+					</div>
+					<div class="description">
+						Updates the layout, drawing the whole graph drawing.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					
+				
+			
 			
 <!-- ============================== event details ========================= -->		
 			
@@ -346,7 +563,7 @@ Based on http://bl.ocks.org/MoritzStefaner/1377729
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Apr 05 2014 13:43:35 GMT+0200 (CEST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Apr 11 2014 18:04:45 GMT+0200 (CEST)
 		</div>
 	</body>
 </html>

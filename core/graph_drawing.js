@@ -369,7 +369,7 @@ GraphDrawing.prototype.getNewNodeId = function() {
 
 /**
  * Adds a node to the graph drawing
- * @param {number} id The identification of the node.
+ * @param {int} id The identification of the node.
  * @param {string} label The label of the node.
  */
 GraphDrawing.prototype.addNode = function(id, label) {
