@@ -167,11 +167,6 @@ console.log('Linking and mousemove');
 	this.addLink(this.getNode(1), this.getNode(2));
 	this.addLink(this.getNode(1), this.getNode(3));*/
 	
-	if (this.type == 'Force directed') 
-		this.force.start();
-console.log('this.type: ' + this.type + ', this.force:');		
-console.dir(this.force);
-	
 }
 
 /**
