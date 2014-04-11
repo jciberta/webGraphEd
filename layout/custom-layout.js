@@ -51,7 +51,7 @@ console.log('Type: ' + this.type);
 	};	
 	
 	// Line displayed when dragging new nodes
-	var drag_line = vis.append("line")
+	drag_line = vis.append("line")
 //	var drag_line = canvas.append("line")
 //	var drag_line = container.append("line")
 		.attr("class", "drag_line_hidden")
@@ -346,7 +346,7 @@ console_listLinks(self.links);
 
 	node.call(this.drag);
 	
-	updateGenericLayout(node, link);
+	updateGenericLayout(this, node, link);
 	
 /*	// CIRCLE
 	node.append("circle")

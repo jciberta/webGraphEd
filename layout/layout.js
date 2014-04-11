@@ -107,7 +107,7 @@ Layout.prototype.layoutForceDirected = function(canvas) {
 	var nodes = this.layout.nodes;
 	var links = this.layout.links;
 	this.type = FORCE_DIRECTED;
-	this.layout = new ForceDirectedLayout2(canvas, this.graph, nodes, links, this.type);
+	this.layout = new ForceDirectedLayout(canvas, this.graph, nodes, links, this.type);
 
 /*	// Calculate the new layout
 	this.layout.layoutForceDirected();

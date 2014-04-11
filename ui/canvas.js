@@ -100,6 +100,7 @@ function clearCanvas2() {
 
 	// Insert the SVG element (canvas)
 	createCanvas();
+	coord = {x: 0, y: 0};
 }
 
 
@@ -216,7 +217,7 @@ function zoomOut() {
  * @param {Object} node Every node in the layout.
  * @param {Object} link Every link in the layout.
  */
-function updateGenericLayout(node, link) {
+function updateGenericLayout(self, node, link) {
 
 
 
