@@ -204,27 +204,21 @@ function updateStatusBar() {
 		sHTML += '<TD style="width:200px"><B>Pan</B>: ' + Math.floor(pz.translate.x) + ',' + Math.floor(pz.translate.y) + '</TD>';
 //console.dir(d3.event.translate);		
 	}
-	if (PAN_AND_ZOOM) 
+/*	if (PAN_AND_ZOOM) 
         sHTML += '<TD style="width:200px"><B>Mode</B>: Pan & Zoom</TD>';
     else
-        sHTML += '<TD style="width:200px"><B>Mode</B>: Edit</TD>';
+        sHTML += '<TD style="width:200px"><B>Mode</B>: Edit</TD>';*/
 	sHTML += '<TD>' + statusBarMessage + '</TD>';
 	sHTML += '</TR></TABLE>';
 	document.getElementById('statusBar').innerHTML = sHTML;
 }
 
-function updatePanAndZoom(bValue) {
+/*function updatePanAndZoom(bValue) {
     PAN_AND_ZOOM = bValue;
-	if (PAN_AND_ZOOM) {
-/*		oldTranslate = d3.event.translate;
-		oldScale = d3.event.scale;
-console.log('oldTranslate: ' + oldTranslate);
-console.log('oldScale: ' + oldScale);*/
-	}
     menuPanZoomMode.setChecked(PAN_AND_ZOOM); 
     menuEditMode.setChecked(!PAN_AND_ZOOM);    
     updateStatusBar();
-}
+}*/
 
 
 var menubar = goog.ui.menuBar.create();
@@ -321,7 +315,7 @@ btnEdit.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menubar.addChild(btnEdit, true);
 goog.events.listen(btnEdit, goog.ui.Component.EventType.ACTION, function(e) {
 //console.log('listen');
-	if (e.target && e.target.getCaption() == 'Pan & Zoom') {
+/*	if (e.target && e.target.getCaption() == 'Pan & Zoom') {
         updatePanAndZoom(true);
 	}
 	else if (e.target && e.target.getCaption() == 'Edit') {
@@ -335,8 +329,8 @@ goog.events.listen(btnEdit, goog.ui.Component.EventType.ACTION, function(e) {
 	}
 	else if (e.target && e.target.getCaption() == 'Zoom out') {
         updatePanAndZoom(false);
-	}
-	else if (e.target && e.target.getCaption() == 'Center') {
+	}*/
+	if (e.target && e.target.getCaption() == 'Center') {
         layout.center();
 	}
 	else if (e.target && e.target.getCaption() == 'Fit') {

@@ -71,7 +71,6 @@ console.log('Creating VIS');
 //			.on("mousedown", mousedown)
 //			.on("mousemove", mousemove)
 //			.on("mouseup", mouseup)
-	
 }
 
 function destroyCanvas() {
@@ -103,6 +102,18 @@ function clearCanvas2() {
 	coord = {x: 0, y: 0};
 }
 
+function createDragLine() {
+	var vis = d3.select("#vis");
+
+	// Line displayed when dragging new nodes
+	drag_line = vis.append("line")
+		.attr("class", "drag_line_hidden")
+		.attr("x1", 0)
+		.attr("y1", 0)
+		.attr("x2", 0)
+		.attr("y2", 0);		
+}
+
 
 // ----------------------------------------------------------------------------
 //                               Pan & Zoom
@@ -126,11 +137,11 @@ function zoomed() {
     if (d3.event.ctrlKey) { return; }
 //console.log('PAN_AND_ZOOM: ' + PAN_AND_ZOOM);
 //console.log('zoomed. translate: ' + d3.event.translate + " scale: " + d3.event.scale);
-	if (PAN_AND_ZOOM) {
+//	if (PAN_AND_ZOOM) {
 		container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 		updateStatusBar();
 		//document.getElementById('statusBar').innerHTML = 'Zoom: ' + Math.floor(d3.event.scale*100) + '%';
-	}
+//	}
 }
 
 /*function dragstarted(d) {

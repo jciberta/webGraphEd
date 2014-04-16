@@ -38,7 +38,7 @@ Node.prototype.getLabel = function() {
  * @this {Edge}
  * @param {int} src The source of the edge.
  * @param {int} dst The destinations of the edge.
- * @param {int} label The label of the node.
+ * @param {string} label The label of the edge (never used).
  */
 function Edge(src, dst, label) {
     this.source = src;
@@ -224,10 +224,10 @@ console.log('Nodes=' + this.listNodes);
 console.log('Edges=' + this.listEdges);
 }
 
-GraphDrawing.prototype.markAsUnvisited = function() {
+/*GraphDrawing.prototype.markAsUnvisited = function() {
 	for (var i=0; i<listNodes.length; i++)
 		listNodes[i].visited = false;
-}
+}*/
 
 /**
 * Determines if a graph drawing is connected.
@@ -379,4 +379,33 @@ console.log('Nodes=' + this.listNodes);
 //	n.push([this.getPair(a[i], 'id'), this.getQuotedPair(a[i], 'label')]);
 //	this.id = id;
 //    this.label = label; 
+}
+
+/**
+ * Deletes a node from the graph drawing
+ * @param {int} id The identification of the node.
+ */
+GraphDrawing.prototype.deleteNode = function(id) {
+console.log('id=' + id);
+
+	var i;
+console.log('Nodes: ' + this.listNodes);
+	for (i=0; i<this.listNodes.length; i++) {
+		if (this.listNodes[i][0] == id) {
+			this.listNodes.splice(i, 1);
+			break;
+		}
+	}
+console.log('Nodes: ' + this.listNodes);
+
+console.log('Edges: ' + this.listEdges);
+	for (i=this.listEdges.length-1; i>=0; i--) {
+		if (this.listEdges[i][0] == id) {
+			this.listEdges.splice(i, 1);
+		} 
+		else if (this.listEdges[i][1] == id) {
+			this.listEdges.splice(i, 1);
+		} 
+	}
+console.log('Edges: ' + this.listEdges);
 }

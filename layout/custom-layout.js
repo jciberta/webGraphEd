@@ -34,6 +34,10 @@ console.log('Type: ' + this.type);
 			.on("mousedown", mousedown)
 			.on("mousemove", mousemove)
 			.on("mouseup", mouseup);
+			
+	// Add keyboard callback
+	d3.select(window)
+		.on("keydown", keydown);
 	
 	var computeTransitionPath = function(d) {
 		var deltaX = d.target.x - d.source.x,
@@ -61,6 +65,7 @@ console.log('Type: ' + this.type);
 		.attr("y2", 0);	
 	
 	function mousedown() {
+	
 //console.log('source_node: ' + source_node);	
 //console.log('linking: ' + linking);	
 		if (source_node!=null || linking) {
@@ -90,7 +95,7 @@ console.log('Linking and mousemove');
 	}
 
 	function mouseup() {
-//console.log('canvas.mouseup');	
+console.log('canvas.mouseup');	
 //console.log('linking: ' + linking);	
 //console.log('d3.event.ctrlKey: ' + d3.event.ctrlKey);	
 
@@ -104,37 +109,43 @@ console.log('Linking and mousemove');
 
 	function doubleclick() {
 //console.log('2');
-//console.log('canvas.doubleclick');	
-//console.log('doingAction: ' + doingAction);
-//		if (!doingAction) {
+console.log('canvas.doubleclick');	
 			coord.x = parseInt((d3.mouse(this)[0] / pz.scale - WIDTH / 2) - pz.translate.x / pz.scale);
 			coord.y = parseInt((d3.mouse(this)[1] / pz.scale - HEIGHT / 2) - pz.translate.y / pz.scale);
 //console.log('doubleclick: ' + coord.x + ', ' + coord.y);
 			self.addNode(coord.x, coord.y);
-//		}
-//		doingAction = false;
 	}	
 	
+	function keydown() {
+		if (selected_node == null) return;
+		switch (d3.event.keyCode) {
+			case 8: // Backspace
+			case 46: // Delete
+				var answer = confirm('You are going to delete the node and its links. \nAre you sure?');
+				if (answer == true) {
+					self.deleteNode(selected_node.id);
+				}
+				break;
+		}
+	}	
+
 	this.drag = d3.behavior.drag()
 		.on("dragstart", function(d) {
 //console.log('dragstart');	
 			if (d3.event.ctrlKey) return;
-//			if (PAN_AND_ZOOM) {
 				d3.event.sourceEvent.stopPropagation();
 				d3.select(this).classed("dragging", true);
-//			}
 		})
 		.on("drag", function(d, i) {
-//console.log('drag');	
+console.log('drag');	
 //console.log('event.ctrlKey: ' + event.ctrlKey);	
             if (event.ctrlKey) return;
-//			if (PAN_AND_ZOOM) {	
 //console.log('onDrag:');
 //console.dir(d);
 				d.x += d3.event.dx
 				d.y += d3.event.dy
-//				d3.select(this).select("circle").style("fill", "yellow");
 				d3.select(this).select("circle").style("stroke-width", "3");
+				d3.select(this).select("rect").style("stroke-width", "3");
 				d3.select(this).attr("transform", function(d){
 //console.log('translate:');
 //console.dir(d);
@@ -145,17 +156,13 @@ console.log('Linking and mousemove');
 				d3.selectAll('path.link')
 //					.style('fill', 'blue')
 					.attr('d', computeTransitionPath);
-//			}
 		})
 		.on("dragend", function(d) {
-//console.log('dragend');	
+console.log('dragend');	
 //console.log('d3.event.ctrlKey: ' + d3.event.ctrlKey);	
             if (event.ctrlKey) return;
-//			if (PAN_AND_ZOOM) {
-				d3.select(this).classed("dragging", false);
-//				d3.select(this).select("circle").style("fill", "white");
-				d3.select(this).select("circle").style("stroke-width", "1.5");
-//			}
+			d3.select(this).classed("dragging", false);
+			//d3.select(this).select("circle").style("stroke-width", "1.5");
 		});		
 
 	this.updateLayout();
@@ -177,23 +184,8 @@ CustomLayout.prototype.updateLayout = function(source) {
 	var i, n;
 	var vis = d3.select("#vis");
 	var self = this;
-	//var graph = this.graph;
 
 	vis.attr("transform", "translate(" + WIDTH / 2 + "," + HEIGHT / 2 + ")");
-	
-/*    var root = null;
-    var tree = d3.layout.tree().size([HEIGHT, WIDTH]);
-    
-    // Used when collapsing
-    if (source !== undefined) {
-        root = this.graph.getTreeD3JSON;
-        root.x0 = HEIGHT / 2;
-        root.y0 = 0;
-        this.nodes = tree.nodes(root).reverse();
-        this.links = tree.links(this.nodes);
-    }*/
-    
-    //var duration = d3.event && d3.event.altKey ? 5000 : 500;
 	
 	// http://stackoverflow.com/questions/16070150/d3-substituting-d3-svg-diagonal-with-d3-svg-line
     var line = d3.svg.line()
@@ -259,12 +251,15 @@ console.log('node.mousedown');
 				source_node = d;
 				source_object = d3.select(this);
 
+
 //                linking = true;
                 if (event.ctrlKey) {
+					self.selectNode(d, d3.select(this));
 					// Link nodes is not allowed when there are some collapsed nodes
 					if (self.isCollapsed()) return;
                     linking = true;
 					d3.select(this).select("circle").style("stroke-width", "3");	
+					d3.select(this).select("rect").style("stroke-width", "3");	
 console.log('Linking...');	
                     coord.x = d.x;
                     coord.y = d.y;
@@ -280,6 +275,9 @@ console.log('Linking...');
                     self.toggle(d);
                     self.updateLayout(d);
 				}
+				else {
+					self.selectNode(d, d3.select(this));
+				}
 //console.dir(source_node);		
 			})
 //			.on("mousemove", mousemove)
@@ -287,12 +285,14 @@ console.log('Linking...');
 				if (linking) {
 					target_object = d3.select(this);
 					target_object.select("circle").style("stroke-width", "3");
+					target_object.select("rect").style("stroke-width", "3");
 				}
 			})
 			.on("mouseout", function(d) {
 				if (linking && d!=source_node) {
 					target_object = d3.select(this);
 					target_object.select("circle").style("stroke-width", "1.5");
+					target_object.select("rect").style("stroke-width", "1.5");
 				}
 			})
 			.on("mouseup", function(d) {	
@@ -306,7 +306,6 @@ console.log('Linking...');
 //console.log('target_node: ' + target_node);	
 //console.dir(target_node); 
 				if (event.ctrlKey && (source_node != target_node)) {
-//				if (!PAN_AND_ZOOM && (source_node != target_node)) {
 					// Add an edge
 					self.graph.listEdges.push([source_node.id, target_node.id]);
 //console.dir(self); 
@@ -340,7 +339,9 @@ console_listLinks(self.links);
 
 					// Unselect nodes
 					source_object.select("circle").style("stroke-width", "1.5");	
+					source_object.select("rect").style("stroke-width", "1.5");	
 					target_object.select("circle").style("stroke-width", "1.5");
+					target_object.select("rect").style("stroke-width", "1.5");
 				}
 			})
 
@@ -404,6 +405,31 @@ console_listLinks(self.links);
 }
 
 /**
+ * Selects or unselects a node.
+ * @param {Object} node The node.
+ * @param {Object} object The object that represents the node on the canvas.
+ */
+CustomLayout.prototype.selectNode = function(node, object) {
+	var sameNode = (node == selected_node);
+
+	// Unselect old node
+	if (selected_object != null) {
+		selected_object.select("circle").style("stroke-width", "1.5");	
+		selected_object.select("rect").style("stroke-width", "1.5");	
+	}
+	selected_object = null;
+	selected_node = null;
+
+	if (!sameNode) {
+		// Select new node
+		selected_node = node;
+		selected_object = object;
+		selected_object.select("circle").style("stroke-width", "3");	
+		selected_object.select("rect").style("stroke-width", "3");	
+	}
+}
+
+/**
  * Gets the node with a specific id.
  * @param {int} id The id of the node.
  * @return {Object} The node or null.
@@ -429,6 +455,38 @@ CustomLayout.prototype.addNode = function(x, y) {
 	this.nodes.push(n);
 	this.updateLayout();
 	this.graph.addNode(newId, 'Node ' + newId);
+	updateMenu(this.graph);
+}
+
+/**
+ * Deletes a node from the graph drawing
+ * @param {int} id The identification of the node.
+ */
+CustomLayout.prototype.deleteNode = function(id) {
+	var i;
+
+	this.graph.deleteNode(id);
+
+	for (i=this.links.length-1; i>=0; i--) {
+		if (this.links[i].source.id == id) {
+			this.links.splice(i, 1);
+		} 
+		else if (this.links[i].target.id == id) {
+			this.links.splice(i, 1);
+		} 
+	}
+	
+	for (i=0; i<this.nodes.length; i++) {
+		if (this.nodes[i].id == id) {
+			this.nodes.splice(i, 1);
+			break;
+		}
+	}	
+
+	clearCanvas();
+	createDragLine();
+	this.updateLayout();
+	//this.updateCollapsedLayout();	
 	updateMenu(this.graph);
 }
 
@@ -465,7 +523,9 @@ console_listLinks(this.links);
 
 	// Unselect nodes
 	source_object.select("circle").style("stroke-width", "1.5");	
+	source_object.select("rect").style("stroke-width", "1.5");	
 	target_object.select("circle").style("stroke-width", "1.5");	
+	target_object.select("rect").style("stroke-width", "1.5");	
 }
 
 /**
