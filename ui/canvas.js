@@ -123,7 +123,7 @@ var zoom = d3.behavior.zoom()
 	.on("dragend", dragended);*/
 
 function zoomed() {
-    if (event.ctrlKey) { return; }
+    if (d3.event.ctrlKey) { return; }
 //console.log('PAN_AND_ZOOM: ' + PAN_AND_ZOOM);
 //console.log('zoomed. translate: ' + d3.event.translate + " scale: " + d3.event.scale);
 	if (PAN_AND_ZOOM) {

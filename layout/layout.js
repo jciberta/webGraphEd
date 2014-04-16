@@ -103,10 +103,15 @@ Layout.prototype.layoutCustom = function(canvas) {
  * @return {ForceDirectedLayout} The new layout object.
  */
 Layout.prototype.layoutForceDirected = function(canvas) {
-	this.type = 'Force directed';
-	var nodes = this.layout.nodes;
-	var links = this.layout.links;
 	this.type = FORCE_DIRECTED;
+//		clearCanvas();
+
+console.log('this.layout.nodes:');
+console.dir(this.layout.nodes);		
+	var nodes = this.layout.nodes;
+console.log('this.layout.links:');
+console.dir(this.layout.links);		
+	var links = this.layout.links;
 	this.layout = new ForceDirectedLayout(canvas, this.graph, nodes, links, this.type);
 
 /*	// Calculate the new layout
@@ -150,11 +155,11 @@ Layout.prototype.layoutVerticalTree = function(canvas) {
  * @param {string} canvas Canvas where layout is depicted.
  */
 Layout.prototype.layoutRadialTree = function(canvas) {
+	this.type = RADIAL_TREE;
 	// Calculate the new layout
 	var radialTree = new RadialTreeLayout(canvas, this.graph);
 	var nodes = radialTree.nodes;
 	var links = radialTree.links;
-	this.type = 'Radial tree';
 	this.layout = new CustomLayout(canvas, this.graph, nodes, links, this.type);
 	this.center();
 };

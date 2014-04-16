@@ -272,7 +272,7 @@ console.log('Linking...');
 //                    coord.y = d3.mouse(this)[1] - HEIGHT / 2;
 //                    drag_line.attr("class", "drag_line");
                 }
-				else if (event.shiftKey) {
+				else if (d3.event.shiftKey) {
 //console.log('Colapse. Is a tree? ' + isTree);	
 //console.dir(d);	
 					// Collapse only allowed in trees
@@ -555,6 +555,22 @@ console.log('Update the layout (collapse)	');
 	c.attr("r", function(d) {
 		return (d.visible || d.visible==undefined) ? (d.collapsed ? 8 : 5) : 1e-6; 
 	})
+
+	var r = vis.selectAll("rect")
+	r.attr("x", function(d) { return (d.collapsed ? -8 : -5); });
+	r.attr("y", function(d) { return (d.collapsed ? -8 : -5); });
+	r.attr("width", function(d) { 
+		if (d.shape == 'Square')
+			return (d.visible || d.visible==undefined) ? (d.collapsed ? 16 : 10) : 0
+		else
+			return 0;
+	});
+	r.attr("height", function(d) { 
+		if (d.shape == 'Square')
+			return (d.visible || d.visible==undefined) ? (d.collapsed ? 16 : 10) : 0
+		else
+			return 0;
+	});
 	
 	var t = vis.selectAll("text")
 		t.style("fill-opacity", function(d) {
@@ -581,17 +597,6 @@ console.log('Update the layout (collapse)	');
 	
 	menuUncollapseAll.setEnabled(this.isCollapsed());
 }
-
-/**
- * Toggle a node and its sons.
- * @param {Object} d The node to toggle.
- */
-/*CustomLayout.prototype.toggleAll = function(d) {
-	if (d.children) {
-		d.children.forEach(toggleAll);
-		toggle(d);
-	}
-}*/
 
 /**
  * Checks if there is any node collapsed.

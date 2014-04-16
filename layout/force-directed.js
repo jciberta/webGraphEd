@@ -12,6 +12,14 @@ ForceDirectedLayout = function(canvas, graph, nodes, links, type) {
 
 	this.nodes = [];
 	this.links = [];
+	
+	container.attr('transform', 'translate(0,0)scale(1)');
+/*source_node = null, source_object = null;
+target_node = null, target_object = null;
+linking = false;
+coord = {x: 0, y: 0};
+pz = {translate: {x: 0, y: 0}, scale: 1}; // Pan & Zoom
+drag_line = null;*/
 
 	for (i=0; i<graph.listNodes.length; i++) { 
 		node = {
@@ -64,13 +72,15 @@ ForceDirectedLayout = function(canvas, graph, nodes, links, type) {
 
 	function mousemove() {
 		if (linking) {
+console.log('canvas.mousemove, coord.x: ' + coord.x + ', coord.y: ' + coord.y + ', mousex: ' + d3.mouse(this)[0] + ', mousey: ' + d3.mouse(this)[1] + ', pz: ' + JSON.stringify(pz));	
+console.log('x2: ' + (d3.mouse(this)[0] / pz.scale) - pz.translate.x / pz.scale + ', y2: ' + (d3.mouse(this)[1] / pz.scale) - pz.translate.y / pz.scale);	
 			// Update drag line
 			drag_line
 				.attr("class", "drag_line")
 				.attr("x1", coord.x)
 				.attr("y1", coord.y)
-				.attr("x2", parseInt((d3.mouse(this)[0] / pz.scale) - pz.translate.x / pz.scale))
-				.attr("y2", parseInt((d3.mouse(this)[1] / pz.scale) - pz.translate.y / pz.scale));
+				.attr("x2", (d3.mouse(this)[0] / pz.scale) - pz.translate.x / pz.scale)
+				.attr("y2", (d3.mouse(this)[1] / pz.scale) - pz.translate.y / pz.scale);
         }
 	}
 
@@ -147,18 +157,22 @@ ForceDirectedLayout.prototype.updateLayout = function() {
 	}
 
 	function dragmove(d, i) {
-		if (event.ctrlKey) return;
+console.dir(event);	
+console.dir(d3.event);	
+		if (event.ctrlKey) return; // BUG: d3.event.ctrlKey DOES NOT WORK!
 		d.px += d3.event.dx;
 		d.py += d3.event.dy;
 		d.x += d3.event.dx;
 		d.y += d3.event.dy; 
 		d3.select(this).select("circle").style("stroke-width", "3");
+		d3.select(this).select("rect").style("stroke-width", "3");
 		tick(); 
 	}
 
 	function dragend(d, i) {
-		if (event.ctrlKey) return;
+		if (d3.event.ctrlKey) return;
 		d3.select(this).select("circle").style("stroke-width", "1.5");
+		d3.select(this).select("rect").style("stroke-width", "1.5");
 		tick();
 		self.force.resume();
 	}	
@@ -168,11 +182,18 @@ ForceDirectedLayout.prototype.updateLayout = function() {
 //	this.link = this.link
 //		.data(this.force.links())
 		.enter().append("svg:line").attr("class", "link").style("stroke", "#CCC")
+		.style("stroke-width", function(d) { 
+			var hideLink;
+			if (d.source.visible == undefined) d.source.visible = true;
+			if (d.target.visible == undefined) d.target.visible = true;
+			hideLink = (!d.source.visible || !d.target.visible);
+			return hideLink ? 1e-6 : 1.5; 
+		})
 		.attr("x1", function(d) { return d.source.x; })
         .attr("y1", function(d) { return d.source.y; })
         .attr("x2", function(d) { return d.target.x; })
         .attr("y2", function(d) { return d.target.y; });
-
+		
 	this.node = vis.selectAll("g.node")
 		.data(this.nodes)
 //	this.node = this.node
@@ -182,25 +203,30 @@ ForceDirectedLayout.prototype.updateLayout = function() {
 			.attr("id", function(d) { return d.id; })
 			.call(this.drag)
 			.on("mousedown", function(d) {
-console.log('node.mousedown');	
-console.log('event.ctrlKey: ' + event.ctrlKey);	
+console.log('1. node.mousedown. d3.event.ctrlKey: ' + d3.event.ctrlKey);	
+console.log('2. coord.x: ' + coord.x + ', coord.y: ' + coord.y + ', mousex: ' + d3.mouse(this)[0] + ', mousey: ' + d3.mouse(this)[1] + ', pz: ' + JSON.stringify(pz));	
+//console.log('x2: ' + (d3.mouse(this)[0] / pz.scale) - pz.translate.x / pz.scale + ', y2: ' + (d3.mouse(this)[1] / pz.scale) - pz.translate.y / pz.scale);	
+
 				source_node = d;
 				source_object = d3.select(this);
 
-                if (event.ctrlKey) {
+                if (d3.event.ctrlKey) {
 					// Link nodes is not allowed when there are some collapsed nodes
 //					if (self.isCollapsed()) return;
                     linking = true;
 					d3.select(this).select("circle").style("stroke-width", "3");	
                     coord.x = d.x;
                     coord.y = d.y;
-console.log('coord.x: ' + coord.x + ', coord.y: ' + coord.y);                    
+console.log('3. d.x: ' + d.x + ', d.y: ' + d.y);	
+//		coord.x = d3.mouse(this)[0] / pz.scale;
+//		coord.y = d3.mouse(this)[1] / pz.scale;
+console.log('4. coord.x: ' + coord.x + ', coord.y: ' + coord.y);                    
                 }
-				else if (event.shiftKey) {
+				else if (d3.event.shiftKey) {
 					// Collapse only allowed in trees
 					if (!isTree) return;
                     self.toggle(d);
-                    self.updateLayout(d);
+//                    self.updateLayout(d);
 				}
 			})
 			.on("mouseover", function(d) {
@@ -219,7 +245,7 @@ console.log('coord.x: ' + coord.x + ', coord.y: ' + coord.y);
 				target_node = d;
 				target_object = d3.select(this);
 
-				if (event.ctrlKey && (source_node != target_node)) {
+				if (d3.event.ctrlKey && (source_node != target_node)) {
 					// Add an edge
 					self.graph.listEdges.push([source_node.id, target_node.id]);
                     // Add link
@@ -286,13 +312,13 @@ console.dir(self.links);
 //		.exit().remove();	
 			
 			
-	updateGenericLayout(this, this.node, this.link);
+	//updateGenericLayout(this, this.node, this.link);
 	
-/*	// CIRCLE
-	node.append("circle")
+	// CIRCLE
+	this.node.append("circle")
 		.attr("r", function(d) { 
 			if (d.shape == undefined) d.shape = 'Circle';
-			return d.shape == 'Circle' ? 5 : 0; 
+			return d.shape == 'Circle' ? ((d.visible || d.visible==undefined) ? (d.collapsed ? 8 : 5) : 0) : 0; 
 		})
 		.attr("id", function(d) { return 'circle' + d.id; })
 		.style("fill", function(d) {
@@ -305,10 +331,21 @@ console.dir(self.links);
 		});	
 
 	// SQUARE
-	node.append("rect")
-		.attr("x", -5).attr("y", -5)
-		.attr("width", function(d) { return d.shape == 'Square' ? 10 : 0; })
-		.attr("height", function(d) { return d.shape == 'Square' ? 10 : 0; })
+	this.node.append("rect")
+		.attr("x", function(d) { return (d.collapsed ? -8 : -5); })
+		.attr("y", function(d) { return (d.collapsed ? -8 : -5); })
+		.attr("width", function(d) { 
+			if (d.shape == 'Square')
+				return (d.visible || d.visible==undefined) ? (d.collapsed ? 16 : 10) : 0
+			else
+				return 0;
+		})
+		.attr("height", function(d) { 
+			if (d.shape == 'Square')
+				return (d.visible || d.visible==undefined) ? (d.collapsed ? 16 : 10) : 0
+			else
+				return 0;
+		})
 		.attr("id", function(d) { return 'rect' + d.id; })
 		.style("fill", function(d) {
 			return d.color==undefined ? "White" : d.color;
@@ -322,14 +359,17 @@ console.dir(self.links);
 		});	
 		
 	// TEXT
-	node.append("text")
+	this.node.append("text")
 		.attr("dy", ".31em")
 		.attr("transform", function(d) { 
 			return "translate(8)";	})
-		.text(function(d, i) { return d.label; })
+		.text(function(d, i) { return d.name; })
+		.style("fill-opacity", function(d) {
+			return (d.visible || d.visible==undefined) ? 1 : 1e-6; 
+		})
 		.on("dblclick", function(d) { 
 			event.stopPropagation();
-			var answer = prompt("Please enter the new name", d.label); // d.name could be also d3.select(this).text()
+			var answer = prompt("Please enter the new name", d.name); // d.name could be also d3.select(this).text()
 			if (answer != null) {
 				// Change text in "nodes" structure
 				d.name = answer;
@@ -338,7 +378,7 @@ console.dir(self.links);
 				// Change text on graph drawing object
 				self.graph.changeLabel(d.id, answer);
 			}
-		});*/
+		});
 		
 //	node.call(this.drag);
 
@@ -370,6 +410,9 @@ console.dir(self.links);
 	force.on("tick", tick);*/
 	//this.createForce();
 	
+//	this.force
+//		.nodes(this.nodes)
+//		.links(this.links);
 	this.force.start();
 }
 
@@ -406,15 +449,103 @@ console.dir(this.nodes);
 }
 
 /**
+ * Given a force directed layout structure, put children to their nodes (like tree layouts).
+ */
+ForceDirectedLayout.prototype.putChildren = function() {
+	//var root = this.graph.getRoot();
+	var i, j, id;
+	var lc = [];
+	
+	for (i = 0; i<this.nodes.length; i++) {
+		id = this.nodes[i].id;
+		lc = this.graph.getDirectedAdjacents(id);
+//console.log('getAdjacents(' + id + '): ' + lc);		
+		for (j = 0; j<lc.length; j++) {
+			if (!this.nodes[i].children) this.nodes[i].children = [];
+			this.nodes[i].children[j] = this.getNode(lc[j]);
+		}
+	}
+	
+//	for (i = 0; i<this.links.length; i++) {
+		
+//	}
+}
+
+/**
+ * Toggle a node between collapsed and uncollapsed.
+ * @param {Object} d The node to toggle.
+ */
+ForceDirectedLayout.prototype.toggle = function(d) {
+	this.putChildren();
+console.dir(d);
+	// Leaves are not allowed to collapse
+	if (!d.children) return;
+
+	function toggle(node, v) {
+		if (node.children) {
+			var i;
+			
+			for (i = 0; i<node.children.length; i++) {
+				if (node.children[i].collapsed == undefined) node.children[i].collapsed = false;
+				if (!node.children[i].collapsed)
+					toggle(node.children[i], v)
+				else
+					node.children[i].visible = v;
+			}			
+		}
+		node.visible = v;
+	}
+	
+	if (d.collapsed == undefined) d.collapsed = false;
+	d.collapsed = !d.collapsed;
+	toggle(d, !d.collapsed);
+	d.visible = true;
+	
+	this.updateCollapsedLayout();	
+}
+
+/**
+ * Updates the layout when collapsing/uncollapsing.
+ */
+ForceDirectedLayout.prototype.updateCollapsedLayout = function(d) {
+/*console.log('Update the layout (collapse). Nodes:');	
+console.dir(this.nodes);
+	// Update the layout (collapse)	
+	var vis = d3.select("#vis");
+	var node = vis.selectAll("g");
+	var c = vis.selectAll("circle")
+console.dir(c);
+	c.style("r", function(d) {
+console.dir(d);
+//		return 10;
+		return (d.visible || d.visible==undefined) ? (d.collapsed ? 8 : 5) : 1e-6; 
+	})
+	var t = vis.selectAll("text")
+		t.style("fill-opacity", function(d) {
+			return (d.visible || d.visible==undefined) ? 1 : 1e-6; 
+		});
+	var l = vis.selectAll("path");
+	l.style("stroke-width", function(d) { 
+		var hideLink;
+		if (d.source.visible == undefined) d.source.visible = true;
+		if (d.target.visible == undefined) d.target.visible = true;
+		hideLink = (!d.source.visible || !d.target.visible);
+		return hideLink ? 1e-6 : 1.5; 
+	});*/
+	this.updateLayout(d);
+	menuUncollapseAll.setEnabled(this.isCollapsed());
+}
+
+/**
  * Checks if there is any node collapsed.
  * @return {Boolean} True if there is any node collapsed, otherwise, false.
  */
 ForceDirectedLayout.prototype.isCollapsed = function() {
-/*	var i;
+	var i;
 	for (i=0; i<this.nodes.length; i++) {
 		if (this.nodes[i].collapsed != undefined && this.nodes[i].collapsed)
 			return true;
-	}*/
+	}
 	return false;
 }
 

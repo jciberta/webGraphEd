@@ -365,7 +365,7 @@ var menuVerticalTree = new goog.ui.MenuItem('Vertical tree');
 menuVerticalTree.setEnabled(false);	
 menuVerticalTree.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuLayout.addItem(menuVerticalTree); 
-var menuRadialTree = new goog.ui.MenuItem('Radial tree'); 
+var menuRadialTree = new goog.ui.MenuItem(RADIAL_TREE); 
 menuRadialTree.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuLayout.addItem(menuRadialTree); 
 menuLayout.addItem(new goog.ui.MenuSeparator());
@@ -392,7 +392,7 @@ goog.events.listen(btnLayout, goog.ui.Component.EventType.ACTION, function(e) {
 		statusBarMessage = 'Layout done in ' + (Date.now()-timerStart)/1000 + ' s.';
 		updateStatusBar();
 	}
-	else if (e.target && e.target.getCaption() == 'Radial tree') {
+	else if (e.target && e.target.getCaption() == RADIAL_TREE) {
 		timerStart = Date.now();
 		clearCanvas();
 		layout.layoutRadialTree(container);
