@@ -157,7 +157,7 @@ ForceDirectedLayout.prototype.updateLayout = function() {
 	}
 
 	function dragmove(d, i) {
-console.dir(event);	
+//console.dir(event);	
 console.dir(d3.event);	
 		if (event.ctrlKey) return; // BUG: d3.event.ctrlKey DOES NOT WORK!
 		d.px += d3.event.dx;
