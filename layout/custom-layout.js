@@ -118,6 +118,9 @@ console.log('canvas.doubleclick');
 	
 	function keydown() {
 		if (selected_node == null) return;
+		// Delete nodes is not allowed when there are some collapsed nodes
+		if (self.isCollapsed()) return;
+
 		switch (d3.event.keyCode) {
 			case 8: // Backspace
 			case 46: // Delete

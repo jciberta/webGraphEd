@@ -106,6 +106,9 @@ console.log('x2: ' + (d3.mouse(this)[0] / pz.scale) - pz.translate.x / pz.scale 
 	
 	function keydown() {
 		if (selected_node == null) return;
+		// Delete nodes is not allowed when there are some collapsed nodes
+		if (self.isCollapsed()) return;
+
 		switch (d3.event.keyCode) {
 			case 8: // Backspace
 			case 46: // Delete
