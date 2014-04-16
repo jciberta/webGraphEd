@@ -342,3 +342,30 @@ Layout.prototype.changeNodeShape = function(d) {
 		.attr("width", function(d) { return d.shape == 'Square' ? 10 : 0; })
 		.attr("height", function(d) { return d.shape == 'Square' ? 10 : 0; })
 }
+
+/**
+ * Selects or unselects a node.
+ * @param {Object} node The node.
+ * @param {Object} object The object that represents the node on the canvas.
+ */
+Layout.prototype.selectNode = function(node, object) {
+	var sameNode = (node == selected_node);
+
+	// Unselect old node
+	if (selected_object != null) {
+		selected_object.select("circle").style("stroke-width", "1.5");	
+		selected_object.select("rect").style("stroke-width", "1.5");	
+	}
+	selected_object = null;
+	selected_node = null;
+
+	if (!sameNode) {
+		// Select new node
+		selected_node = node;
+		selected_object = object;
+		selected_object.select("circle").style("stroke-width", "3");	
+		selected_object.select("rect").style("stroke-width", "3");	
+	}
+}
+
+

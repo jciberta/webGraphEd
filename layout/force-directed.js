@@ -50,6 +50,10 @@ drag_line = null;*/
 			.on("mousemove", mousemove)
 			.on("mouseup", mouseup);	
 	
+	// Add keyboard callback
+	d3.select(window)
+		.on("keydown", keydown);
+	
 	vis.attr('transform', 'translate(0,0)scale(1)');
 
 	// Line displayed when dragging new nodes
@@ -98,6 +102,19 @@ console.log('x2: ' + (d3.mouse(this)[0] / pz.scale) - pz.translate.x / pz.scale 
 //		coord.x = parseInt((d3.mouse(this)[0] / pz.scale) - pz.translate.x / pz.scale);
 //		coord.y = parseInt((d3.mouse(this)[1] / pz.scale) - pz.translate.y / pz.scale);
 		self.addNode(coord.x, coord.y);
+	}	
+	
+	function keydown() {
+		if (selected_node == null) return;
+		switch (d3.event.keyCode) {
+			case 8: // Backspace
+			case 46: // Delete
+				var answer = confirm('You are going to delete the node and its links. \nAre you sure?');
+				if (answer == true) {
+					self.deleteNode(selected_node.id);
+				}
+				break;
+		}
 	}	
     
 	this.createForce();
@@ -171,8 +188,8 @@ console.dir(d3.event);
 
 	function dragend(d, i) {
 		if (d3.event.ctrlKey) return;
-		d3.select(this).select("circle").style("stroke-width", "1.5");
-		d3.select(this).select("rect").style("stroke-width", "1.5");
+		//d3.select(this).select("circle").style("stroke-width", "1.5");
+		//d3.select(this).select("rect").style("stroke-width", "1.5");
 		tick();
 		self.force.resume();
 	}	
@@ -211,10 +228,12 @@ console.log('2. coord.x: ' + coord.x + ', coord.y: ' + coord.y + ', mousex: ' + 
 				source_object = d3.select(this);
 
                 if (d3.event.ctrlKey) {
+					layout.selectNode(d, d3.select(this));
 					// Link nodes is not allowed when there are some collapsed nodes
-//					if (self.isCollapsed()) return;
+					if (self.isCollapsed()) return;
                     linking = true;
 					d3.select(this).select("circle").style("stroke-width", "3");	
+					d3.select(this).select("rect").style("stroke-width", "3");	
                     coord.x = d.x;
                     coord.y = d.y;
 console.log('3. d.x: ' + d.x + ', d.y: ' + d.y);	
@@ -228,17 +247,22 @@ console.log('4. coord.x: ' + coord.x + ', coord.y: ' + coord.y);
                     self.toggle(d);
 //                    self.updateLayout(d);
 				}
+				else {
+					layout.selectNode(d, d3.select(this));
+				}
 			})
 			.on("mouseover", function(d) {
 				if (linking) {
 					target_object = d3.select(this);
 					target_object.select("circle").style("stroke-width", "3");
+					target_object.select("rect").style("stroke-width", "3");
 				}
 			})
 			.on("mouseout", function(d) {
 				if (linking && d!=source_node) {
 					target_object = d3.select(this);
 					target_object.select("circle").style("stroke-width", "1.5");
+					target_object.select("rect").style("stroke-width", "1.5");
 				}
 			})
 			.on("mouseup", function(d) {	
@@ -294,7 +318,9 @@ console.dir(self.links);
 
 					// Unselect nodes
 					source_object.select("circle").style("stroke-width", "1.5");	
+					source_object.select("rect").style("stroke-width", "1.5");	
 					target_object.select("circle").style("stroke-width", "1.5");
+					target_object.select("rect").style("stroke-width", "1.5");
 
                     //tick();
                     //self.force.resume();
@@ -449,6 +475,37 @@ console.dir(this.nodes);
 }
 
 /**
+ * Deletes a node from the graph drawing
+ * @param {int} id The identification of the node.
+ */
+ForceDirectedLayout.prototype.deleteNode = function(id) {
+	var i;
+
+	this.graph.deleteNode(id);
+
+	for (i=this.links.length-1; i>=0; i--) {
+		if (this.links[i].source.id == id) {
+			this.links.splice(i, 1);
+		} 
+		else if (this.links[i].target.id == id) {
+			this.links.splice(i, 1);
+		} 
+	}
+	
+	for (i=0; i<this.nodes.length; i++) {
+		if (this.nodes[i].id == id) {
+			this.nodes.splice(i, 1);
+			break;
+		}
+	}	
+
+	clearCanvas();
+	createDragLine();
+	this.updateLayout();
+	updateMenu(this.graph);
+}
+
+/**
  * Given a force directed layout structure, put children to their nodes (like tree layouts).
  */
 ForceDirectedLayout.prototype.putChildren = function() {
@@ -557,3 +614,27 @@ ForceDirectedLayout.prototype.updateNodes = function() {
   force.start();
 }
 
+/**
+ * Selects or unselects a node.
+ * @param {Object} node The node.
+ * @param {Object} object The object that represents the node on the canvas.
+ */
+/*ForceDirectedLayout.prototype.selectNode = function(node, object) {
+	var sameNode = (node == selected_node);
+
+	// Unselect old node
+	if (selected_object != null) {
+		selected_object.select("circle").style("stroke-width", "1.5");	
+		selected_object.select("rect").style("stroke-width", "1.5");	
+	}
+	selected_object = null;
+	selected_node = null;
+
+	if (!sameNode) {
+		// Select new node
+		selected_node = node;
+		selected_object = object;
+		selected_object.select("circle").style("stroke-width", "3");	
+		selected_object.select("rect").style("stroke-width", "3");	
+	}
+}*/

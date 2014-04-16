@@ -254,7 +254,7 @@ console.log('node.mousedown');
 
 //                linking = true;
                 if (event.ctrlKey) {
-					self.selectNode(d, d3.select(this));
+					layout.selectNode(d, d3.select(this));
 					// Link nodes is not allowed when there are some collapsed nodes
 					if (self.isCollapsed()) return;
                     linking = true;
@@ -276,7 +276,7 @@ console.log('Linking...');
                     self.updateLayout(d);
 				}
 				else {
-					self.selectNode(d, d3.select(this));
+					layout.selectNode(d, d3.select(this));
 				}
 //console.dir(source_node);		
 			})
@@ -409,7 +409,7 @@ console_listLinks(self.links);
  * @param {Object} node The node.
  * @param {Object} object The object that represents the node on the canvas.
  */
-CustomLayout.prototype.selectNode = function(node, object) {
+/*CustomLayout.prototype.selectNode = function(node, object) {
 	var sameNode = (node == selected_node);
 
 	// Unselect old node
@@ -427,7 +427,7 @@ CustomLayout.prototype.selectNode = function(node, object) {
 		selected_object.select("circle").style("stroke-width", "3");	
 		selected_object.select("rect").style("stroke-width", "3");	
 	}
-}
+}*/
 
 /**
  * Gets the node with a specific id.
