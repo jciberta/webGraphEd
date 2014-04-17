@@ -186,6 +186,17 @@ function updateMenu(graph) {
     }
 }
 
+/**
+ * Updates edit menu depending on layout type.
+ * If layout type is force directed, center and fit options have no sense.
+ * @param {string} layoutType The type of layout.
+ */
+function updateEditMenu(layoutType) {
+	var isForceDirected = (layoutType == FORCE_DIRECTED);
+	menuCenter.setEnabled(!isForceDirected);
+	menuFit.setEnabled(!isForceDirected);
+}
+
 function updateStatusBar() { 
 	var sHTML = '';
 	pz = getPanAndZoom();

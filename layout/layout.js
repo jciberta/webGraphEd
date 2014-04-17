@@ -113,6 +113,7 @@ console.log('this.layout.links:');
 console.dir(this.layout.links);		
 	var links = this.layout.links;
 	this.layout = new ForceDirectedLayout(canvas, this.graph, nodes, links, this.type);
+	updateEditMenu(this.type);
 
 /*	// Calculate the new layout
 	this.layout.layoutForceDirected();
@@ -134,6 +135,7 @@ Layout.prototype.layoutHorizontalTree = function(canvas) {
 	var links = horizontalTree.links;
 	this.layout = new CustomLayout(canvas, this.graph, nodes, links, this.type);
 	this.center();
+	updateEditMenu(this.type);
 };
 
 /**
@@ -148,6 +150,7 @@ Layout.prototype.layoutVerticalTree = function(canvas) {
 	var links = verticalTree.links;
 	this.layout = new CustomLayout(canvas, this.graph, nodes, links, this.type);
 	this.center();
+	updateEditMenu(this.type);
 };
 
 /**
@@ -162,6 +165,7 @@ Layout.prototype.layoutRadialTree = function(canvas) {
 	var links = radialTree.links;
 	this.layout = new CustomLayout(canvas, this.graph, nodes, links, this.type);
 	this.center();
+	updateEditMenu(this.type);
 };
 
 /**
@@ -375,7 +379,7 @@ Layout.prototype.selectNode = function(node, object) {
  * @param {Object} link The link.
  */
 Layout.prototype.updateElements = function(self, node, link) {
-	node.append("circle")
+/*	node.append("circle")
 		.attr("r", function(d) { 
 			if (d.shape == undefined) d.shape = 'Circle';
 			return d.shape == 'Circle' ? ((d.visible || d.visible==undefined) ? (d.collapsed ? 8 : 5) : 0) : 0; 
@@ -438,7 +442,7 @@ Layout.prototype.updateElements = function(self, node, link) {
 				// Change text on graph drawing object
 				self.graph.changeLabel(d.id, answer);
 			}
-		});
+		});*/
 }
 
 
