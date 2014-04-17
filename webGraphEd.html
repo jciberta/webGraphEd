@@ -124,7 +124,7 @@ if (window.addEventListener){
 <div id="main"></div>
 <div id="statusBar"></div>
 <div id='fileDialog'>
-    <input type="file" id="openFile" style="visibility:hidden" onchange='readFile(this)' />
+    <input type="file" id="openFile" style="display:none" onchange='readFile(this)' />
 </div>
 
 
@@ -136,10 +136,6 @@ if (window.addEventListener){
 // ----------------------------------------------------------------------------
 //                               Initialization
 // ----------------------------------------------------------------------------
-
-createCanvas();	
-layout = new Layout();
-//console.log('layout: ' + JSON.stringify(layout));
 
 function loadGraphDrawing() {
 	// Load file into layout object
@@ -176,17 +172,29 @@ function loadGraphDrawing() {
             throw "Layout not supported!";
             break;
     }
+	
+	if (EMBEDDED && query.layout!='fd') { 
+		layout.fit(); 
+	}
     updateMenu(layout.graph);
 }
 
-// Parameters:
+// URL Parameters:
 // - layout=[t|rt|fd]
 // - url|graph,format=[gml|graphml]
+// - width|height
+// - embed=[true|false]
 var query = getURLParameters();
 var graph, format;
 var bWait = true;
 //console.log('query: ' + query);
 //console.log('query.layout: ' + query.layout);
+
+if (query.width != undefined) WIDTH = query.width;
+if (query.height != undefined) HEIGHT = query.height;
+
+createCanvas();	
+layout = new Layout();
 
 // Example 1: ?layout=t&format=gml&graph=graph%20[%0A%20%20comment%20"Binary%20tree"%0A%20%20node%20[%20id%201%20label%20"Node%201"%20]%0A%20%20node%20[%20id%202%20label%20"Node%202"%20]%0A%20%20node%20[%20id%203%20label%20"Node%203"%20]%0A%20%20node%20[%20id%204%20label%20"Node%204"%20]%0A%20%20node%20[%20id%205%20label%20"Node%205"%20]%0A%0A%20%20edge%20[%20source%201%20target%202%20]%0A%20%20edge%20[%20source%201%20target%203%20]%0A%20%20edge%20[%20source%202%20target%204%20]%0A%20%20edge%20[%20source%202%20target%205%20]%0A]
 // graph [
@@ -204,6 +212,22 @@ var bWait = true;
 // ] 
 // Example 2: ?layout=rt&url=http://xtec.cat/~jciberta/webGraphEd/binary-tree2.gml
 if (query.layout != undefined) {
+
+	if (query.embed != undefined) EMBEDDED = (query.embed.toLowerCase() == 'true');
+console.log('WIDTH: ' + WIDTH + ', HEIGHT: ' + HEIGHT + ', EMBEDDED: ' + EMBEDDED);  
+
+	if (EMBEDDED) {
+		// Embed into another web page with iframe:
+		// <iframe src="http://xtec.cat/~jciberta/webGraphEd/webGraphEd.html" width="200" height="200"></iframe>
+		var menuBarDiv = document.getElementById('menuBar');
+		var mainDiv = document.getElementById('main');
+		var statusBarDiv = document.getElementById('statusBar');
+		menuBarDiv.style.display = 'none';
+		statusBarDiv.style.display = 'none';
+//		menuBarDiv.style.visibility = 'hidden';
+//		statusBarDiv.style.visibility = 'hidden';
+		mainDiv.parentNode.insertBefore(menuBarDiv, mainDiv);
+	}
 
     // Get the graph drawing
     if (query.format != undefined && query.graph != undefined) {
