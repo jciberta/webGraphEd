@@ -45,7 +45,7 @@
 <span class='line'> 38</span>  * @this {Edge}
 <span class='line'> 39</span>  * @param {int} src The source of the edge.
 <span class='line'> 40</span>  * @param {int} dst The destinations of the edge.
-<span class='line'> 41</span>  * @param {int} label The label of the node.
+<span class='line'> 41</span>  * @param {string} label The label of the edge (never used).
 <span class='line'> 42</span>  */</span><span class="WHIT">
 <span class='line'> 43</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Edge</span><span class="PUNC">(</span><span class="NAME">src</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">dst</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">label</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 44</span> </span><span class="WHIT">    </span><span class="NAME">this.source</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">src</span><span class="PUNC">;</span><span class="WHIT">
@@ -231,10 +231,10 @@
 <span class='line'>224</span> </span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="STRN">'Edges='</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.listEdges</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>225</span> </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>226</span> 
-<span class='line'>227</span> </span><span class="NAME">GraphDrawing.prototype.markAsUnvisited</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>228</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">&lt;</span><span class="NAME">listNodes.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT">
-<span class='line'>229</span> </span><span class="WHIT">		</span><span class="NAME">listNodes</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">visited</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>230</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>227</span> </span><span class="COMM">/*GraphDrawing.prototype.markAsUnvisited = function() {
+<span class='line'>228</span> 	for (var i=0; i&lt;listNodes.length; i++)
+<span class='line'>229</span> 		listNodes[i].visited = false;
+<span class='line'>230</span> }*/</span><span class="WHIT">
 <span class='line'>231</span> 
 <span class='line'>232</span> </span><span class="COMM">/**
 <span class='line'>233</span> * Determines if a graph drawing is connected.
@@ -386,4 +386,34 @@
 <span class='line'>379</span> </span><span class="COMM">//	n.push([this.getPair(a[i], 'id'), this.getQuotedPair(a[i], 'label')]);</span><span class="WHIT">
 <span class='line'>380</span> </span><span class="COMM">//	this.id = id;</span><span class="WHIT">
 <span class='line'>381</span> </span><span class="COMM">//    this.label = label; </span><span class="WHIT">
-<span class='line'>382</span> </span><span class="PUNC">}</span></pre></body></html>
+<span class='line'>382</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>383</span> 
+<span class='line'>384</span> </span><span class="COMM">/**
+<span class='line'>385</span>  * Deletes a node from the graph drawing
+<span class='line'>386</span>  * @param {int} id The identification of the node.
+<span class='line'>387</span>  */</span><span class="WHIT">
+<span class='line'>388</span> </span><span class="NAME">GraphDrawing.prototype.deleteNode</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>389</span> </span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="STRN">'id='</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>390</span> 
+<span class='line'>391</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>392</span> </span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="STRN">'Nodes: '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.listNodes</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>393</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">&lt;</span><span class="NAME">this.listNodes.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>394</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.listNodes</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>395</span> </span><span class="WHIT">			</span><span class="NAME">this.listNodes.splice</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>396</span> </span><span class="WHIT">			</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>397</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>398</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>399</span> </span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="STRN">'Nodes: '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.listNodes</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>400</span> 
+<span class='line'>401</span> </span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="STRN">'Edges: '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.listEdges</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>402</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">=</span><span class="NAME">this.listEdges.length</span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">>=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">--</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>403</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.listEdges</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>404</span> </span><span class="WHIT">			</span><span class="NAME">this.listEdges.splice</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>405</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> 
+<span class='line'>406</span> 		</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.listEdges</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>407</span> </span><span class="WHIT">			</span><span class="NAME">this.listEdges.splice</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>408</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> 
+<span class='line'>409</span> 	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>410</span> </span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="STRN">'Edges: '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.listEdges</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>411</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>412</span> </span></pre></body></html>
