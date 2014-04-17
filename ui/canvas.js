@@ -229,97 +229,84 @@ function zoomOut() {
  * @param {Object} link Every link in the layout.
  */
 function updateGenericLayout(self, node, link) {
+	node.append("circle")
+		.attr("r", function(d) { 
+			if (d.shape == undefined) d.shape = 'Circle';
+			return d.shape == 'Circle' ? ((d.visible || d.visible==undefined) ? (d.collapsed ? 8 : 5) : 0) : 0; 
+		})
+		.attr("id", function(d) { return 'circle' + d.id; })
+		.style("fill", function(d) {
+			return d.color==undefined ? "White" : d.color;
+		})
+		.on("dblclick", function(d) { 
+			var e = d3.event;
+			// Stop propagation on the source event to prevent multiple actions
+			// https://github.com/mbostock/d3/wiki/Drag-Behavior#on
+//			d3.event.sourceEvent.stopPropagation();
+			e.stopPropagation();
+//			event.stopPropagation();
 
+//			var e = d3.event.sourceEvent;
+			if (e.ctrlKey || e.altKey || e.shiftKey) return;
+			chooseNodeProperties(d);
+		});	
 
-
-
-/*	var node = vis.selectAll(".node")
-		.data(this.nodes)
-		.enter().append("g")
-			.attr("class", "node")
-			.attr("id", function(d) { return d.id; })
-			.attr("transform", function(d) { 
-				return "translate(" + [ d.x, d.y ] + ")";
-			})
-//			.call(this.drag)
-			.on("mousedown", function(d) {
-				source_node = d;
-				source_object = d3.select(this);
-
-                if (event.ctrlKey) {
-					// Link nodes is not allowed when there are some collapsed nodes
-					if (self.isCollapsed()) return;
-                    linking = true;
-					d3.select(this).select("circle").style("stroke-width", "3");	
-                    coord.x = d.x;
-                    coord.y = d.y;
-                }
-				else if (event.shiftKey) {
-					// Collapse only allowed in trees
-					if (!isTree) return;
-                    self.toggle(d);
-                    self.updateLayout(d);
-				}
-			})
-			.on("mouseover", function(d) {
-				if (linking) {
-					target_object = d3.select(this);
-					target_object.select("circle").style("stroke-width", "3");
-				}
-			})
-			.on("mouseout", function(d) {
-				if (linking && d!=source_node) {
-					target_object = d3.select(this);
-					target_object.select("circle").style("stroke-width", "1.5");
-				}
-			})
-			.on("mouseup", function(d) {	
-				target_node = d;
-				target_object = d3.select(this);
-
-				if (event.ctrlKey && (source_node != target_node)) {
-					// Add an edge
-					self.graph.listEdges.push([source_node.id, target_node.id]);
-                    // Add link
-                    self.links.push({source: source_node, target: target_node});
-					// Add child
-					if (!source_node.children) source_node.children = [];
-					source_node.children.push(target_node);
-
-					self.updateLayout();
-					updateMenu(self.graph);
-                    
-					// Let's put the link (path) in the first place, if not it overwrites the node
-					var v = document.getElementById('vis');
-					var element = v.lastChild;
-					v.insertBefore(element, v.firstChild);
-					
-					// Let's put the last link node in the first place
-					var n = self.links.pop();
-					self.links.unshift(n);
-
-					// Unselect nodes
-					source_object.select("circle").style("stroke-width", "1.5");	
-					target_object.select("circle").style("stroke-width", "1.5");
-				}
-			})
-
-
-
-*/
+	// SQUARE
+	node.append("rect")
+		.attr("x", function(d) { return (d.collapsed ? -8 : -5); })
+		.attr("y", function(d) { return (d.collapsed ? -8 : -5); })
+		.attr("width", function(d) { 
+			if (d.shape == 'Square')
+				return (d.visible || d.visible==undefined) ? (d.collapsed ? 16 : 10) : 0
+			else
+				return 0;
+		})
+		.attr("height", function(d) { 
+			if (d.shape == 'Square')
+				return (d.visible || d.visible==undefined) ? (d.collapsed ? 16 : 10) : 0
+			else
+				return 0;
+		})
+		.attr("id", function(d) { return 'rect' + d.id; })
+		.style("fill", function(d) {
+			return d.color==undefined ? "White" : d.color;
+		})
+		.attr("stroke", "#000")
+		.attr("stroke-width", 1)
+		.on("dblclick", function(d) { 
+			var e = d3.event;
+			e.stopPropagation();
+			if (e.ctrlKey || e.altKey || e.shiftKey) return;
+			chooseNodeProperties(d);
+		});	
+		
+	// TEXT
+	node.append("text")
+		.attr("dy", ".31em")
+		.attr("transform", function(d) { 
+			return "translate(8)";	})
+		.text(function(d, i) { return d.name; })
+		.style("fill-opacity", function(d) {
+			return (d.visible || d.visible==undefined) ? 1 : 1e-6; 
+		})
+		.on("dblclick", function(d) { 
+			d3.event.sourceEvent.stopPropagation();
+			var answer = prompt("Please enter the new name", d.name); // d.name could be also d3.select(this).text()
+			if (answer != null) {
+				// Change text in "nodes" structure
+				d.name = answer;
+				// Change text on layout
+				d3.select(this).text(answer);				
+				// Change text on graph drawing object
+				self.graph.changeLabel(d.id, answer);
+			}
+		});
 
 
 
 
 
-
-
-
-
-
-
-
-	// CIRCLE
+/*	// CIRCLE
 	node.append("circle")
 		.attr("r", function(d) { 
 			if (d.shape == undefined) d.shape = 'Circle';
@@ -369,6 +356,6 @@ function updateGenericLayout(self, node, link) {
 				// Change text on graph drawing object
 				self.graph.changeLabel(d.id, answer);
 			}
-		});
+		});*/
 }
 

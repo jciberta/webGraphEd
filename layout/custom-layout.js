@@ -7,6 +7,8 @@
  * @param {GraphDrawing} graph Graph drawing object
  */
 CustomLayout = function(canvas, graph, nodes, links, type) {
+console.log('**layout');
+console.dir(layout);
 	this.canvas = canvas;
 	this.graph = graph;
 	
@@ -65,7 +67,6 @@ console.log('Type: ' + this.type);
 		.attr("y2", 0);	
 	
 	function mousedown() {
-	
 //console.log('source_node: ' + source_node);	
 //console.log('linking: ' + linking);	
 		if (source_node!=null || linking) {
@@ -118,8 +119,7 @@ console.log('canvas.doubleclick');
 	
 	function keydown() {
 		if (selected_node == null) return;
-		// Delete nodes is not allowed when there are some collapsed nodes
-		if (self.isCollapsed()) return;
+		if (self.isCollapsed()) return; // Delete nodes is not allowed when there are some collapsed nodes
 
 		switch (d3.event.keyCode) {
 			case 8: // Backspace
@@ -136,13 +136,21 @@ console.log('canvas.doubleclick');
 		.on("dragstart", function(d) {
 //console.log('dragstart');	
 			if (d3.event.ctrlKey) return;
-				d3.event.sourceEvent.stopPropagation();
-				d3.select(this).classed("dragging", true);
+			
+			// Stop propagation on the source event to prevent multiple actions
+			// https://github.com/mbostock/d3/wiki/Drag-Behavior#on
+			d3.event.sourceEvent.stopPropagation();
+			d3.select(this).classed("dragging", true);
 		})
 		.on("drag", function(d, i) {
-console.log('drag');	
+			var e = d3.event.sourceEvent;
+//console.log('drag');	
 //console.log('event.ctrlKey: ' + event.ctrlKey);	
-            if (event.ctrlKey) return;
+//console.log('d3.event.ctrlKey: ' + d3.event.ctrlKey);	
+//console.log('e.ctrlKey: ' + e.ctrlKey);
+			// BUG: d3.event.ctrlKey DOES NOT WORK! When event.ctrlKe is true or false, d3.event.ctrlKey undefined.
+			// But d3.event.sourceEvent WORKS!
+            if (e.ctrlKey) return; 
 //console.log('onDrag:');
 //console.dir(d);
 				d.x += d3.event.dx
@@ -162,8 +170,9 @@ console.log('drag');
 		})
 		.on("dragend", function(d) {
 console.log('dragend');	
+			var e = d3.event.sourceEvent;
 //console.log('d3.event.ctrlKey: ' + d3.event.ctrlKey);	
-            if (event.ctrlKey) return;
+            if (e.ctrlKey) return;
 			d3.select(this).classed("dragging", false);
 			//d3.select(this).select("circle").style("stroke-width", "1.5");
 		});		
@@ -250,13 +259,13 @@ CustomLayout.prototype.updateLayout = function(source) {
 //			.call(this.drag)
 			.on("mousedown", function(d) {
 console.log('node.mousedown');	
-//console.log('d3.event.ctrlKey: ' + d3.event.ctrlKey);	
+console.log('d3.event.ctrlKey: ' + d3.event.ctrlKey);	
 				source_node = d;
 				source_object = d3.select(this);
 
 
 //                linking = true;
-                if (event.ctrlKey) {
+                if (d3.event.ctrlKey) {
 					layout.selectNode(d, d3.select(this));
 					// Link nodes is not allowed when there are some collapsed nodes
 					if (self.isCollapsed()) return;
@@ -308,7 +317,7 @@ console.log('Linking...');
 				target_object = d3.select(this);
 //console.log('target_node: ' + target_node);	
 //console.dir(target_node); 
-				if (event.ctrlKey && (source_node != target_node)) {
+				if (d3.event.ctrlKey && (source_node != target_node)) {
 					// Add an edge
 					self.graph.listEdges.push([source_node.id, target_node.id]);
 //console.dir(self); 
@@ -351,6 +360,9 @@ console_listLinks(self.links);
 	node.call(this.drag);
 	
 	updateGenericLayout(this, node, link);
+//console.dir(layout);
+//	layout.updateElements(this, node, link);
+
 	
 /*	// CIRCLE
 	node.append("circle")
@@ -489,7 +501,6 @@ CustomLayout.prototype.deleteNode = function(id) {
 	clearCanvas();
 	createDragLine();
 	this.updateLayout();
-	//this.updateCollapsedLayout();	
 	updateMenu(this.graph);
 }
 
@@ -506,7 +517,7 @@ CustomLayout.prototype.addLink = function(source_node, target_node) {
 	this.graph.listEdges.push([source_node.id, target_node.id]);
 	// Add a link (to the Layout structure)
 	this.links.push({source: source_node, target: target_node});
-console_listLinks(this.links);					
+//console_listLinks(this.links);					
 	// Add child
 	if (!source_node.children) source_node.children = [];
 	source_node.children.push(target_node);
@@ -522,7 +533,7 @@ console_listLinks(this.links);
 	// Let's put the last link node in the first place
 	var n = this.links.pop();
 	this.links.unshift(n);
-console_listLinks(this.links);					
+//console_listLinks(this.links);					
 
 	// Unselect nodes
 	source_object.select("circle").style("stroke-width", "1.5");	

@@ -178,8 +178,9 @@ ForceDirectedLayout.prototype.updateLayout = function() {
 
 	function dragmove(d, i) {
 //console.dir(event);	
-console.dir(d3.event);	
-		if (event.ctrlKey) return; // BUG: d3.event.ctrlKey DOES NOT WORK!
+//console.dir(d3.event);	
+		var e = d3.event.sourceEvent;
+		if (e.ctrlKey) return;
 		d.px += d3.event.dx;
 		d.py += d3.event.dy;
 		d.x += d3.event.dx;
@@ -223,8 +224,8 @@ console.dir(d3.event);
 			.attr("id", function(d) { return d.id; })
 			.call(this.drag)
 			.on("mousedown", function(d) {
-console.log('1. node.mousedown. d3.event.ctrlKey: ' + d3.event.ctrlKey);	
-console.log('2. coord.x: ' + coord.x + ', coord.y: ' + coord.y + ', mousex: ' + d3.mouse(this)[0] + ', mousey: ' + d3.mouse(this)[1] + ', pz: ' + JSON.stringify(pz));	
+//console.log('1. node.mousedown. d3.event.ctrlKey: ' + d3.event.ctrlKey);	
+//console.log('2. coord.x: ' + coord.x + ', coord.y: ' + coord.y + ', mousex: ' + d3.mouse(this)[0] + ', mousey: ' + d3.mouse(this)[1] + ', pz: ' + JSON.stringify(pz));	
 //console.log('x2: ' + (d3.mouse(this)[0] / pz.scale) - pz.translate.x / pz.scale + ', y2: ' + (d3.mouse(this)[1] / pz.scale) - pz.translate.y / pz.scale);	
 
 				source_node = d;
@@ -239,10 +240,10 @@ console.log('2. coord.x: ' + coord.x + ', coord.y: ' + coord.y + ', mousex: ' + 
 					d3.select(this).select("rect").style("stroke-width", "3");	
                     coord.x = d.x;
                     coord.y = d.y;
-console.log('3. d.x: ' + d.x + ', d.y: ' + d.y);	
+//console.log('3. d.x: ' + d.x + ', d.y: ' + d.y);	
 //		coord.x = d3.mouse(this)[0] / pz.scale;
 //		coord.y = d3.mouse(this)[1] / pz.scale;
-console.log('4. coord.x: ' + coord.x + ', coord.y: ' + coord.y);                    
+//console.log('4. coord.x: ' + coord.x + ', coord.y: ' + coord.y);                    
                 }
 				else if (d3.event.shiftKey) {
 					// Collapse only allowed in trees
@@ -300,7 +301,6 @@ console.dir(self.links);
 console.log('self.force.links():');					
 console.dir(self.force.links());  
 
-
 					// Add child
 					if (!source_node.children) source_node.children = [];
 					source_node.children.push(target_node);
@@ -341,9 +341,10 @@ console.dir(self.links);
 //		.exit().remove();	
 			
 			
-	//updateGenericLayout(this, this.node, this.link);
+	updateGenericLayout(this, this.node, this.link);
+//	layout.updateElements(this, this.node, this.link);
 	
-	// CIRCLE
+/*	// CIRCLE
 	this.node.append("circle")
 		.attr("r", function(d) { 
 			if (d.shape == undefined) d.shape = 'Circle';
@@ -407,7 +408,7 @@ console.dir(self.links);
 				// Change text on graph drawing object
 				self.graph.changeLabel(d.id, answer);
 			}
-		});
+		});*/
 		
 //	node.call(this.drag);
 

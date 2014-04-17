@@ -127,11 +127,11 @@ console.dir(this.layout.links);
  * @param {string} canvas Canvas where layout is depicted.
  */
 Layout.prototype.layoutHorizontalTree = function(canvas) {
+	this.type = HORIZONTAL_TREE;
 	// Calculate the new layout
 	var horizontalTree = new HorizontalTreeLayout(canvas, this.graph);
 	var nodes = horizontalTree.nodes;
 	var links = horizontalTree.links;
-	this.type = 'Horizontal tree';
 	this.layout = new CustomLayout(canvas, this.graph, nodes, links, this.type);
 	this.center();
 };
@@ -141,11 +141,11 @@ Layout.prototype.layoutHorizontalTree = function(canvas) {
  * @param {string} canvas Canvas where layout is depicted.
  */
 Layout.prototype.layoutVerticalTree = function(canvas) {
+	this.type = VERTICAL_TREE;
 	// Calculate the new layout
 	var verticalTree = new VerticalTreeLayout(canvas, this.graph);
 	var nodes = verticalTree.nodes;
 	var links = verticalTree.links;
-	this.type = 'Vertical tree';
 	this.layout = new CustomLayout(canvas, this.graph, nodes, links, this.type);
 	this.center();
 };
@@ -367,5 +367,79 @@ Layout.prototype.selectNode = function(node, object) {
 		selected_object.select("rect").style("stroke-width", "3");	
 	}
 }
+
+/**
+ * Update elements on the layout.
+ * @param {Object} self The layout itself.
+ * @param {Object} node The node.
+ * @param {Object} link The link.
+ */
+Layout.prototype.updateElements = function(self, node, link) {
+	node.append("circle")
+		.attr("r", function(d) { 
+			if (d.shape == undefined) d.shape = 'Circle';
+			return d.shape == 'Circle' ? ((d.visible || d.visible==undefined) ? (d.collapsed ? 8 : 5) : 0) : 0; 
+		})
+		.attr("id", function(d) { return 'circle' + d.id; })
+		.style("fill", function(d) {
+			return d.color==undefined ? "White" : d.color;
+		})
+		.on("dblclick", function(d) { 
+			event.stopPropagation();
+			if (event.ctrlKey || event.altKey || event.shiftKey) return;
+			chooseNodeProperties(d);
+		});	
+
+	// SQUARE
+	node.append("rect")
+		.attr("x", function(d) { return (d.collapsed ? -8 : -5); })
+		.attr("y", function(d) { return (d.collapsed ? -8 : -5); })
+		.attr("width", function(d) { 
+			if (d.shape == 'Square')
+				return (d.visible || d.visible==undefined) ? (d.collapsed ? 16 : 10) : 0
+			else
+				return 0;
+		})
+		.attr("height", function(d) { 
+			if (d.shape == 'Square')
+				return (d.visible || d.visible==undefined) ? (d.collapsed ? 16 : 10) : 0
+			else
+				return 0;
+		})
+		.attr("id", function(d) { return 'rect' + d.id; })
+		.style("fill", function(d) {
+			return d.color==undefined ? "White" : d.color;
+		})
+		.attr("stroke", "#000")
+		.attr("stroke-width", 1)
+		.on("dblclick", function(d) { 
+			event.stopPropagation();
+			if (event.ctrlKey || event.altKey || event.shiftKey) return;
+			chooseNodeProperties(d);
+		});	
+		
+	// TEXT
+	node.append("text")
+		.attr("dy", ".31em")
+		.attr("transform", function(d) { 
+			return "translate(8)";	})
+		.text(function(d, i) { return d.name; })
+		.style("fill-opacity", function(d) {
+			return (d.visible || d.visible==undefined) ? 1 : 1e-6; 
+		})
+		.on("dblclick", function(d) { 
+			event.stopPropagation();
+			var answer = prompt("Please enter the new name", d.name); // d.name could be also d3.select(this).text()
+			if (answer != null) {
+				// Change text in "nodes" structure
+				d.name = answer;
+				// Change text on layout
+				d3.select(this).text(answer);				
+				// Change text on graph drawing object
+				self.graph.changeLabel(d.id, answer);
+			}
+		});
+}
+
 
 

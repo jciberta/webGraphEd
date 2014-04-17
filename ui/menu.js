@@ -351,11 +351,11 @@ console.log('Add node');
     
 // Layout menu
 var menuLayout = new goog.ui.Menu();
-var menuTree = new goog.ui.MenuItem('Horizontal Tree');
+var menuTree = new goog.ui.MenuItem(HORIZONTAL_TREE);
 menuTree.setEnabled(false);	
 menuTree.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuLayout.addItem(menuTree); 
-var menuVerticalTree = new goog.ui.MenuItem('Vertical tree');
+var menuVerticalTree = new goog.ui.MenuItem(VERTICAL_TREE);
 menuVerticalTree.setEnabled(false);	
 menuVerticalTree.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuLayout.addItem(menuVerticalTree); 
@@ -372,14 +372,14 @@ var btnLayout = new goog.ui.MenuButton('Layout', menuLayout);
 btnLayout.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menubar.addChild(btnLayout, true);
 goog.events.listen(btnLayout, goog.ui.Component.EventType.ACTION, function(e) {
-	if (e.target && e.target.getCaption() == 'Horizontal Tree') {
+	if (e.target && e.target.getCaption() == HORIZONTAL_TREE) {
 		timerStart = Date.now();
 		clearCanvas();
 		layout.layoutHorizontalTree(container);
 		statusBarMessage = 'Layout done in ' + (Date.now()-timerStart)/1000 + ' s.';
 		updateStatusBar();
 	}
-	else if (e.target && e.target.getCaption() == 'Vertical tree') {
+	else if (e.target && e.target.getCaption() == VERTICAL_TREE) {
 		timerStart = Date.now();
 		clearCanvas();
 		layout.layoutVerticalTree(container);
