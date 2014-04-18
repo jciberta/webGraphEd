@@ -78,20 +78,16 @@ console.log('Type: ' + this.type);
 	}
 
 	function mousemove() {
-//console.log('canvas.mousemove');	
-//console.log('d3.event.ctrlKey: ' + d3.event.ctrlKey);	
 		if (linking) {
-console.log('Linking and mousemove');	
-		// Update drag line
-//			pz = getPanAndZoom();
+			var x2 = d3.mouse(this)[0] / pz.scale - WIDTH / 2 - pz.translate.x / pz.scale;
+			var y2 = d3.mouse(this)[1] / pz.scale - HEIGHT / 2 - pz.translate.y / pz.scale;
+			// Update drag line
 			drag_line
 				.attr("class", "drag_line")
 				.attr("x1", coord.x)
 				.attr("y1", coord.y)
-//				.attr("x2", parseInt(d3.mouse(this)[0] - WIDTH / 2))
-//				.attr("y2",  parseInt(d3.mouse(this)[1] - HEIGHT / 2));
-				.attr("x2", parseInt((d3.mouse(this)[0] / pz.scale - WIDTH / 2) - pz.translate.x / pz.scale))
-				.attr("y2", parseInt((d3.mouse(this)[1] / pz.scale - HEIGHT / 2) - pz.translate.y / pz.scale));
+				.attr("x2", x2)
+				.attr("y2", y2);
         }
 	}
 
@@ -110,7 +106,7 @@ console.log('canvas.mouseup');
 
 	function doubleclick() {
 //console.log('2');
-console.log('canvas.doubleclick');	
+console.log('CL.canvas.doubleclick');	
 			coord.x = parseInt((d3.mouse(this)[0] / pz.scale - WIDTH / 2) - pz.translate.x / pz.scale);
 			coord.y = parseInt((d3.mouse(this)[1] / pz.scale - HEIGHT / 2) - pz.translate.y / pz.scale);
 //console.log('doubleclick: ' + coord.x + ', ' + coord.y);

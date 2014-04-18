@@ -301,61 +301,7 @@ function updateGenericLayout(self, node, link) {
 				self.graph.changeLabel(d.id, answer);
 			}
 		});
-
-
-
-
-
-/*	// CIRCLE
-	node.append("circle")
-		.attr("r", function(d) { 
-			if (d.shape == undefined) d.shape = 'Circle';
-			return d.shape == 'Circle' ? 5 : 0; 
-		})
-		.attr("id", function(d) { return 'circle' + d.id; })
-		.style("fill", function(d) {
-			return d.color==undefined ? "White" : d.color;
-		})
-		.on("dblclick", function(d) { 
-			event.stopPropagation();
-			if (event.ctrlKey || event.altKey || event.shiftKey) return;
-			chooseNodeProperties(d);
-		});	
-
-	// SQUARE
-	node.append("rect")
-		.attr("x", -5).attr("y", -5)
-		.attr("width", function(d) { return d.shape == 'Square' ? 10 : 0; })
-		.attr("height", function(d) { return d.shape == 'Square' ? 10 : 0; })
-		.attr("id", function(d) { return 'rect' + d.id; })
-		.style("fill", function(d) {
-			return d.color==undefined ? "White" : d.color;
-		})
-		.attr("stroke", "#000")
-		.attr("stroke-width", 1)
-		.on("dblclick", function(d) { 
-			event.stopPropagation();
-			if (event.ctrlKey || event.altKey || event.shiftKey) return;
-			chooseNodeProperties(d);
-		});	
-		
-	// TEXT
-	node.append("text")
-		.attr("dy", ".31em")
-		.attr("transform", function(d) { 
-			return "translate(8)";	})
-		.text(function(d, i) { return d.name; })
-		.on("dblclick", function(d) { 
-			event.stopPropagation();
-			var answer = prompt("Please enter the new name", d.name); // d.name could be also d3.select(this).text()
-			if (answer != null) {
-				// Change text in "nodes" structure
-				d.name = answer;
-				// Change text on layout
-				d3.select(this).text(answer);				
-				// Change text on graph drawing object
-				self.graph.changeLabel(d.id, answer);
-			}
-		});*/
 }
+
+
 

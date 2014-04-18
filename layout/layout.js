@@ -34,7 +34,7 @@ Layout.prototype.update = function() {
 //console.dir(links);
     clearCanvas();	
 	if (this.type == 'Force directed')
-		this.layout = new ForceDirectedLayout2(canvas, this.graph, nodes, links)
+		this.layout = new ForceDirectedLayout(canvas, this.graph, nodes, links)
 	else
 		this.layout = new CustomLayout(canvas, this.graph, nodes, links);
 //	this.center();	
@@ -112,6 +112,7 @@ console.dir(this.layout.nodes);
 console.log('this.layout.links:');
 console.dir(this.layout.links);		
 	var links = this.layout.links;
+//	delete this.layout;
 	this.layout = new ForceDirectedLayout(canvas, this.graph, nodes, links, this.type);
 	updateEditMenu(this.type);
 
@@ -133,6 +134,7 @@ Layout.prototype.layoutHorizontalTree = function(canvas) {
 	var horizontalTree = new HorizontalTreeLayout(canvas, this.graph);
 	var nodes = horizontalTree.nodes;
 	var links = horizontalTree.links;
+//	delete this.layout;
 	this.layout = new CustomLayout(canvas, this.graph, nodes, links, this.type);
 	this.center();
 	updateEditMenu(this.type);
@@ -148,6 +150,7 @@ Layout.prototype.layoutVerticalTree = function(canvas) {
 	var verticalTree = new VerticalTreeLayout(canvas, this.graph);
 	var nodes = verticalTree.nodes;
 	var links = verticalTree.links;
+//	delete this.layout;
 	this.layout = new CustomLayout(canvas, this.graph, nodes, links, this.type);
 	this.center();
 	updateEditMenu(this.type);
@@ -163,6 +166,7 @@ Layout.prototype.layoutRadialTree = function(canvas) {
 	var radialTree = new RadialTreeLayout(canvas, this.graph);
 	var nodes = radialTree.nodes;
 	var links = radialTree.links;
+//	delete this.layout;
 	this.layout = new CustomLayout(canvas, this.graph, nodes, links, this.type);
 	this.center();
 	updateEditMenu(this.type);
@@ -174,6 +178,7 @@ Layout.prototype.layoutRadialTree = function(canvas) {
  * @param {int} y The y coordinate.
  */
 Layout.prototype.addNode = function(x, y) {
+//console.log('this.layout.addNode(x, y)');
 	this.layout.addNode(x, y);
 };
 

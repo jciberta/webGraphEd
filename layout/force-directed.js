@@ -5,22 +5,15 @@
  * @param {string} canvas Canvas where the graph drawing will be lay out.
  * @param {GraphDrawing} graph Graph drawing object
  */
-ForceDirectedLayout = function(canvas, graph, nodes, links, type) {
-	this.canvas = canvas;
+ForceDirectedLayout = function(canvas2, graph, nodes, links, type) {
+console.log('ForceDirectedLayout.create');	
+	this.canvas = canvas2;
 	this.graph = graph;
 	this.type = FORCE_DIRECTED;
 
 	this.nodes = [];
 	this.links = [];
 	
-	container.attr('transform', 'translate(0,0)scale(1)');
-/*source_node = null, source_object = null;
-target_node = null, target_object = null;
-linking = false;
-coord = {x: 0, y: 0};
-pz = {translate: {x: 0, y: 0}, scale: 1}; // Pan & Zoom
-drag_line = null;*/
-
 	for (i=0; i<graph.listNodes.length; i++) { 
 		node = {
 			id: graph.listNodes[i][0],
@@ -45,10 +38,16 @@ drag_line = null;*/
 
     var self = this;
     
+	// WARNING: When we assign on_mousemove to mousemove, we are registering multiple listeners for the same event type
+	// https://github.com/mbostock/d3/wiki/Selections#on
+	destroyCanvas();
+	createCanvas();
+	container.attr('transform', 'translate(0,0)scale(1)');
+	
 	canvas.on('dblclick', doubleclick)
-			.on("mousedown", mousedown)
-			.on("mousemove", mousemove)
-			.on("mouseup", mouseup);	
+		.on("mousedown", mousedown)
+		.on("mousemove", mousemove)
+		.on("mouseup", mouseup);				
 	
 	// Add keyboard callback
 	d3.select(window)
@@ -76,16 +75,16 @@ drag_line = null;*/
 
 	function mousemove() {
 		if (linking) {
-console.log('canvas.mousemove, coord.x: ' + coord.x + ', coord.y: ' + coord.y + ', mousex: ' + d3.mouse(this)[0] + ', mousey: ' + d3.mouse(this)[1] + ', pz: ' + JSON.stringify(pz));	
-console.log('x2: ' + (d3.mouse(this)[0] / pz.scale) - pz.translate.x / pz.scale + ', y2: ' + (d3.mouse(this)[1] / pz.scale) - pz.translate.y / pz.scale);	
+			var x2 = d3.mouse(this)[0] / pz.scale - pz.translate.x / pz.scale;
+			var y2 = d3.mouse(this)[1] / pz.scale - pz.translate.y / pz.scale;
 			// Update drag line
 			drag_line
 				.attr("class", "drag_line")
 				.attr("x1", coord.x)
 				.attr("y1", coord.y)
-				.attr("x2", (d3.mouse(this)[0] / pz.scale) - pz.translate.x / pz.scale)
-				.attr("y2", (d3.mouse(this)[1] / pz.scale) - pz.translate.y / pz.scale);
-        }
+				.attr("x2", x2)
+				.attr("y2", y2);
+		}
 	}
 
 	function mouseup() {
@@ -97,6 +96,7 @@ console.log('x2: ' + (d3.mouse(this)[0] / pz.scale) - pz.translate.x / pz.scale 
 	}	
 
 	function doubleclick() {
+console.log('FD.doubleclick');	
 		coord.x = parseInt(d3.mouse(this)[0] / pz.scale) ;
 		coord.y = parseInt(d3.mouse(this)[1] / pz.scale) ;
 //		coord.x = parseInt((d3.mouse(this)[0] / pz.scale) - pz.translate.x / pz.scale);
