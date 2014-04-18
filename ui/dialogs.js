@@ -110,7 +110,10 @@ function chooseNodeProperties(d) {
 //				layout.update();
 			}
 			else {}
-		}
+		},
+		overlayspeed: 'fast',
+		promptspeed: 'fast',
+		show: 'show'
 	});
 }
 
