@@ -290,7 +290,8 @@ function updateGenericLayout(self, node, link) {
 			return (d.visible || d.visible==undefined) ? 1 : 1e-6; 
 		})
 		.on("dblclick", function(d) { 
-			d3.event.sourceEvent.stopPropagation();
+			var e = d3.event;
+			e.stopPropagation();
 			var answer = prompt("Please enter the new name", d.name); // d.name could be also d3.select(this).text()
 			if (answer != null) {
 				// Change text in "nodes" structure
