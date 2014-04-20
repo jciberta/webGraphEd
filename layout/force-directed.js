@@ -138,8 +138,17 @@ ForceDirectedLayout.prototype.createForce = function() {
 	this.force = d3.layout.force().size([WIDTH, HEIGHT])
 		.nodes(this.nodes)
 		.links(this.links)
-		.gravity(1).linkDistance(50).charge(-3000).linkStrength(function(x) {
+		.gravity(1).linkDistance(50)
+		.charge(-3000)
+		.linkStrength(function(x) {
 			return x.weight * 10
+		})
+		.on('end', function() {
+			// Message when the force is balanced 
+			// (the "end" event is dispatched when the simulations internal alpha cooling parameter reaches zero)
+			// https://github.com/mbostock/d3/wiki/Force-Layout#on
+			statusBarMessage = 'Force directed layout stopped in ' + (Date.now()-timerStart)/1000 + ' s.';
+			updateStatusBar();
 		});
 	//this.force.start();	
 }

@@ -14,8 +14,10 @@ dialogProperties.setButtonSet(goog.ui.Dialog.ButtonSet.OK);
 
 
 function readFile(that) {
-//console.log('that: ' + that);
-//console.log('that.files[0]: ' + that.files[0]);
+console.log('that: ' + that);
+console.dir(that);
+console.log('that.files[0]: ' + that.files[0]);
+console.dir(that.files[0]);
 //	var output = null;
 //  textFileName = that.files[0];
 	if (that.files && that.files[0]) {
@@ -274,6 +276,7 @@ goog.events.listen(btnFile, goog.ui.Component.EventType.ACTION, function(e) {
 		}
 	else if (e.target && e.target.getCaption() == 'Open') {
 		$('#openFile').click();
+		newLayout();
 	}
 	else if (e.target && e.target.getCaption() == 'Export to GML') {
 		exportToGML();
