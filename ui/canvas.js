@@ -229,6 +229,7 @@ function zoomOut() {
  * @param {Object} link Every link in the layout.
  */
 function updateGenericLayout(self, node, link) {
+	// CIRCLE
 	node.append("circle")
 		.attr("r", function(d) { 
 			if (d.shape == undefined) d.shape = 'Circle';

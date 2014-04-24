@@ -6,6 +6,7 @@
  * @param {string} content The Content of the file.
  */
 function GMLFile(content) {
+	this.className = 'GMLFile';
     if (content===undefined) { // parameter was omitted in call
         this.content = '';
     }
@@ -114,13 +115,26 @@ GMLFile.prototype.getEdges = function() {
 GMLFile.prototype.save = function(graph, filename) {
     var i, sFile = '';
     var ENTER = '\n'
-
+console.dir(graph);
     sFile += 'graph [' + ENTER;
     for (i=0;i<graph.listNodes.length;i++) {  
-        sFile += '  node [ id ' + graph.listNodes[i][0]; 
+        sFile += '  node [' + ENTER;
+        sFile += '    id ' + graph.listNodes[i][0] + ENTER;
 		if (graph.listNodes[i][1] != '')
-			sFile += ' label ' + graph.listNodes[i][1]; 
-        sFile += ' ]' + ENTER;
+			sFile += '    label "' + graph.listNodes[i][1] + '"' + ENTER;
+		sFile += '    graphics [' + ENTER;
+		sFile += '      w 10.000' + ENTER;
+		sFile += '      h 10.000' + ENTER;
+		if (graph.listNodes[i].length > 2 && graph.listNodes[i][2] == 'Square') 
+			sFile += '      type "rectangle"' + ENTER;
+		else 
+			sFile += '      type "oval"' + ENTER;
+		if (graph.listNodes[i].length > 3)
+			sFile += '      fill "' + graph.listNodes[i][3] + '"' + ENTER;
+		else
+			sFile += '      fill "White"' + ENTER;
+		sFile += '    ]' + ENTER;
+		sFile += ' ]' + ENTER;
     }
     for (i=0;i<graph.listEdges.length;i++) {  
         sFile += '  edge [ source ' + graph.listEdges[i][0] + ' target ' + graph.listEdges[i][1] + ' ]' + ENTER;
