@@ -1,4 +1,4 @@
-graph [
+graph [ 
   comment "Binary tree"
   node [ id 1 label "Node 1" ]
   node [ id 2 label "Node 2" ]
