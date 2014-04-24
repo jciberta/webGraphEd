@@ -6,9 +6,9 @@
  * @param {GraphDrawing} graph - Graph drawing object
  */
 HorizontalTreeLayout = function(canvas, graph) {
-console.log('HorizontalTreeLayout');
+//console.log('HorizontalTreeLayout');
     var jsonList = graph.getTreeD3JSON();
-console.log('jsonList: ' + JSON.stringify(jsonList));
+//console.log('jsonList: ' + JSON.stringify(jsonList));
 
 	var tree = d3.layout.tree()
 		.size([HEIGHT, WIDTH]);
@@ -37,10 +37,10 @@ console.log('jsonList: ' + JSON.stringify(jsonList));
 		
 		
 		
-console.log('nodes:');
-console.dir(this.nodes);
-console.log('links:');
-console.dir(this.links);
+//console.log('nodes:');
+//console.dir(this.nodes);
+//console.log('links:');
+//console.dir(this.links);
 		
 		
 }
@@ -135,7 +135,7 @@ HorizontalTreeLayout2 = function(canvas, graph) {
 	var drag = d3.behavior.drag()
 		.on("dragstart", dragstarted)
 		.on("drag", function(d, i) {
-console.log('d3.event.dx: ' + d3.event.dx);
+//console.log('d3.event.dx: ' + d3.event.dx);
 			d.x += d3.event.dy
 			d.y += d3.event.dx
 //			var color = d3.selectAll('circle').style("fill", "yellow");
@@ -212,8 +212,8 @@ console.log('selection: ' + selection);
     root = jsonList;
     root.x0 = HEIGHT / 2;
     root.y0 = 0;
-console.log('root: ' + JSON.stringify(root));
-console.log('root: ' + root.id);
+//console.log('root: ' + JSON.stringify(root));
+//console.log('root: ' + root.id);
   
     function update(source) {
         var duration = d3.event && d3.event.altKey ? 5000 : 500;

@@ -2,14 +2,14 @@
 
 <HEAD>
 	<TITLE>QUnit test</TITLE>
+
 	<link rel="stylesheet" href="external/qunit/qunit-1.12.0.css" />
 	<script type="text/javascript" src="external/qunit/qunit-1.12.0.js"></script>
-  <script type="text/javascript" src="lib/string_utils.js"></script>
-  <script type="text/javascript" src="lib/classes.js"></script>
-  <script type="text/javascript" src="lib/binary_heap.js"></script>
-  <script type="text/javascript" src="lib/file_utils.js"></script>
-  <script type="text/javascript" src="core/graph_drawing.js"></script>
-  <!--script type="text/javascript" src="jquery/jquery-1.11.0.min.js"></script-->
+	<script type="text/javascript" src="lib/string_utils.js"></script>
+	<script type="text/javascript" src="lib/classes.js"></script>
+	<script type="text/javascript" src="lib/binary_heap.js"></script>
+	<script type="text/javascript" src="lib/file_utils.js"></script>
+	<script type="text/javascript" src="core/graph_drawing.js"></script>
 
 	<script>
   // String utils
@@ -166,6 +166,8 @@
 		equal(getFileNameFromURL('file:///home/DADES/GRAF/webGraphEd/webGraphEd.html'), 'webGraphEd.html');
 		equal(getFileExtension('file:///home/DADES/GRAF/webGraphEd/webGraphEd.html'), 'html');
 		equal(getPathFromURL('file:///home/DADES/GRAF/webGraphEd/webGraphEd.html'), '/home/DADES/GRAF/webGraphEd');
+		equal(getBaseFromURL('file:///home/DADES/GRAF/webGraphEd/webGraphEd.html'), 'file:///home/DADES/GRAF/webGraphEd');
+		equal(getBaseFromURL('http://localhost/webGraphEd/webGraphEd.html?benchmark=true'), 'http://localhost/webGraphEd');
 	});
   
   

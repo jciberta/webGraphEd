@@ -7,8 +7,8 @@
  * @param {GraphDrawing} graph Graph drawing object
  */
 CustomLayout = function(canvas, graph, nodes, links, type) {
-console.log('**layout');
-console.dir(layout);
+//console.log('**layout');
+//console.dir(layout);
 	this.canvas = canvas;
 	this.graph = graph;
 	
@@ -22,7 +22,7 @@ console.dir(layout);
 		this.links = links;
 		this.type = type;
 	}
-console.log('Type: ' + this.type);	
+//console.log('Type: ' + this.type);	
 	
 	var newId = 1;
     linking = false;
@@ -92,7 +92,7 @@ console.log('Type: ' + this.type);
 	}
 
 	function mouseup() {
-console.log('canvas.mouseup');	
+//console.log('canvas.mouseup');	
 //console.log('linking: ' + linking);	
 //console.log('d3.event.ctrlKey: ' + d3.event.ctrlKey);	
 
@@ -165,7 +165,7 @@ console.log('CL.canvas.doubleclick');
 					.attr('d', computeTransitionPath);
 		})
 		.on("dragend", function(d) {
-console.log('dragend');	
+//console.log('dragend');	
 			var e = d3.event.sourceEvent;
 //console.log('d3.event.ctrlKey: ' + d3.event.ctrlKey);	
             if (e.ctrlKey) return;
@@ -254,8 +254,8 @@ CustomLayout.prototype.updateLayout = function(source) {
 			})
 //			.call(this.drag)
 			.on("mousedown", function(d) {
-console.log('node.mousedown');	
-console.log('d3.event.ctrlKey: ' + d3.event.ctrlKey);	
+//console.log('node.mousedown');	
+//console.log('d3.event.ctrlKey: ' + d3.event.ctrlKey);	
 				source_node = d;
 				source_object = d3.select(this);
 
@@ -268,7 +268,7 @@ console.log('d3.event.ctrlKey: ' + d3.event.ctrlKey);
                     linking = true;
 					d3.select(this).select("circle").style("stroke-width", "3");	
 					d3.select(this).select("rect").style("stroke-width", "3");	
-console.log('Linking...');	
+//console.log('Linking...');	
                     coord.x = d.x;
                     coord.y = d.y;
 //                    coord.x = d3.mouse(this)[0] - WIDTH / 2;
@@ -320,7 +320,7 @@ console.log('Linking...');
                     // Add link
 //                    self.links.unshift({source: source_node, target: target_node});
                     self.links.push({source: source_node, target: target_node});
-console_listLinks(self.links);					
+//console_listLinks(self.links);					
 					
 //console.log('addLink.source_node: ' + source_node);	
 //console.dir(source_node);
@@ -342,8 +342,8 @@ console_listLinks(self.links);
 					// Let's put the last link node in the first place
 					var n = self.links.pop();
 					self.links.unshift(n);
-console.log('Lets put the last link node in the first place');	
-console_listLinks(self.links);					
+//console.log('Lets put the last link node in the first place');	
+//console_listLinks(self.links);					
 
 					// Unselect nodes
 					source_object.select("circle").style("stroke-width", "1.5");	

@@ -106,11 +106,11 @@ Layout.prototype.layoutForceDirected = function(canvas) {
 	this.type = FORCE_DIRECTED;
 //		clearCanvas();
 
-console.log('this.layout.nodes:');
-console.dir(this.layout.nodes);		
+//console.log('this.layout.nodes:');
+//console.dir(this.layout.nodes);		
 	var nodes = this.layout.nodes;
-console.log('this.layout.links:');
-console.dir(this.layout.links);		
+//console.log('this.layout.links:');
+//console.dir(this.layout.links);		
 	var links = this.layout.links;
 //	delete this.layout;
 	this.layout = new ForceDirectedLayout(canvas, this.graph, nodes, links, this.type);
@@ -236,11 +236,11 @@ Layout.prototype.center = function() {
 	this.setOrigin();
 //console.log('** Layout.prototype.center **');	
 	var box = this.getLayoutMargins();
-console.log('Box:' + JSON.stringify(this.getLayoutMargins()));	
-console_listNodes(this.layout.nodes);
+//console.log('Box:' + JSON.stringify(this.getLayoutMargins()));	
+//console_listNodes(this.layout.nodes);
 	var deltaX = (box.xMax - box.xMin) / 2 + box.xMin; // - (WIDTH / 2);
 	var deltaY = (box.yMax - box.yMin) / 2 + box.yMin; //- (HEIGHT / 2); 
-console.log('deltaX=' + deltaX + ', deltaY=' + deltaY);	
+//console.log('deltaX=' + deltaX + ', deltaY=' + deltaY);	
 
 	for (i=0; i<this.layout.nodes.length; i++) {
 		n = this.layout.nodes[i];
@@ -260,8 +260,8 @@ console.log('deltaX=' + deltaX + ', deltaY=' + deltaY);
 		d3.event.translate[0] = 0;
 		d3.event.translate[1] = 0;
 	}*/
-console.log('Box:' + JSON.stringify(this.getLayoutMargins()));	
-console_listNodes(this.layout.nodes);
+//console.log('Box:' + JSON.stringify(this.getLayoutMargins()));	
+//console_listNodes(this.layout.nodes);
 	this.layout = new CustomLayout(canvas, this.graph, nodes, links);
 }
 
@@ -271,7 +271,7 @@ console_listNodes(this.layout.nodes);
 Layout.prototype.fit = function() {
 	var k = 4; // k times the margin for fitting
 	var box = this.getLayoutMargins();
-console.log('Box:' + JSON.stringify(this.getLayoutMargins()));	
+//console.log('Box:' + JSON.stringify(this.getLayoutMargins()));	
 	
 	var deltaX = box.xMax - box.xMin - (k*margin.left + k*margin.right);
 	var deltaY = box.yMax - box.yMin - (k*margin.top + k*margin.bottom); 
@@ -296,8 +296,8 @@ console.log('Box:' + JSON.stringify(this.getLayoutMargins()));
 //console.dir(nodes);	
 //console.dir(links);	
 
-console.log('Box:' + JSON.stringify(this.getLayoutMargins()));	
-console_listNodes(this.layout.nodes);
+//console.log('Box:' + JSON.stringify(this.getLayoutMargins()));	
+//console_listNodes(this.layout.nodes);
 
 	this.layout = new CustomLayout(canvas, this.graph, nodes, links);
 	this.setOriginWithNoZoom();

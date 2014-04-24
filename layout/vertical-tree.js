@@ -6,9 +6,9 @@
  * @param {GraphDrawing} graph - Graph drawing object
  */
 VerticalTreeLayout = function(canvas, graph) {
-console.log('VerticalTreeLayout');
+//console.log('VerticalTreeLayout');
     var jsonList = graph.getTreeD3JSON();
-console.log('jsonList: ' + JSON.stringify(jsonList));
+//console.log('jsonList: ' + JSON.stringify(jsonList));
 
 	var tree = d3.layout.tree()
 		.size([HEIGHT, WIDTH]);
@@ -43,7 +43,7 @@ VerticalTreeLayout2 = function(canvas, graph) {
 	var m = [20, 120, 20, 120], i = 0;
 	var startState, endState;    
 
-console.log('Collapse');					
+//console.log('Collapse');					
 //this.toggle(); 	
 	
 	var jsonList = graph.getTreeD3JSON();
@@ -94,7 +94,7 @@ console.log('Collapse');
 	var drag = d3.behavior.drag()
 		.on("dragstart", dragstarted)
 		.on("drag", function(d, i) {
-console.log('d3.event.dx: ' + d3.event.dx);
+//console.log('d3.event.dx: ' + d3.event.dx);
 			d.x += d3.event.dx
 			d.y += d3.event.dy
 //			var color = d3.selectAll('circle').style("fill", "yellow");
@@ -127,12 +127,12 @@ console.log('d3.event.dx: ' + d3.event.dx);
     root = jsonList;
     root.x0 = HEIGHT / 2;
     root.y0 = 0;
-console.log('root: ' + JSON.stringify(root));
-console.log('root: ' + root.id);
+//console.log('root: ' + JSON.stringify(root));
+//console.log('root: ' + root.id);
   
     function update(source) {
-console.log('source: ' + source);
-console.log('source: ' + JSON.stringify(source));
+//console.log('source: ' + source);
+//console.log('source: ' + JSON.stringify(source));
 	
         var duration = d3.event && d3.event.altKey ? 5000 : 500;
 
@@ -159,7 +159,7 @@ console.log('source: ' + JSON.stringify(source));
 			.on("click", function(d, i) {
 				if (d3.event.shiftKey) {
 					// Collapse
-console.log('Collapse');					
+//console.log('Collapse');					
 					this.toggle(d); 
 					update(d); 
 				}

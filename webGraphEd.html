@@ -128,7 +128,8 @@ if (window.addEventListener){
 <div id='fileDialog'>
     <input type="file" id="openFile" style="display:none" onchange='readFile(this)' />
 </div>
-<div id="buffer"></div>
+<div id="buffer" style="display:none"></div>
+<div id="log" style="display:none"></div>
 
 
 <script type="text/javascript" src="ui/canvas.js"></script>
@@ -204,7 +205,7 @@ if (query.benchmark != undefined) BENCHMARK = (query.benchmark.toLowerCase() == 
 if (BENCHMARK) {
 	var benchmark = new Benchmark(['binary-tree50.gml', 'binary-tree500.gml', 'binary-tree1000.gml', 'binary-tree2000.gml', 'binary-tree5000.gml']);
 	benchmark.start();
-	throw 'Benchmark completed.'
+	throw 'Benchmark completed.' // Stop the application
 }
 
 // Example 1: ?layout=t&format=gml&graph=graph%20[%0A%20%20comment%20"Binary%20tree"%0A%20%20node%20[%20id%201%20label%20"Node%201"%20]%0A%20%20node%20[%20id%202%20label%20"Node%202"%20]%0A%20%20node%20[%20id%203%20label%20"Node%203"%20]%0A%20%20node%20[%20id%204%20label%20"Node%204"%20]%0A%20%20node%20[%20id%205%20label%20"Node%205"%20]%0A%0A%20%20edge%20[%20source%201%20target%202%20]%0A%20%20edge%20[%20source%201%20target%203%20]%0A%20%20edge%20[%20source%202%20target%204%20]%0A%20%20edge%20[%20source%202%20target%205%20]%0A]
