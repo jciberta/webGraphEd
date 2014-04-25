@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml>
+  <key id="label" for="node" attr.name="label" attr.type="string"/>
+  <key id="shape" for="node" attr.name="shape" attr.type="string">
+    <default>Circle</default>
+  </key>
+  <key id="color" for="node" attr.name="color" attr.type="string">
+    <default>White</default>
+  </key>
+  <graph>
+    <node id="1">
+      <data key="label">ORG RECT</data>
+      <data key="shape">Square</data>
+      <data key="color">Orange</data>
+    </node>
+    <node id="2">
+      <data key="label">RED RECT</data>
+      <data key="shape">Square</data>
+      <data key="color">Red</data>
+    </node>
+    <node id="3">
+      <data key="label">Node 3</data>
+      <data key="shape">Circle</data>
+      <data key="color">Yellow</data>
+    </node>
+    <node id="4">
+      <data key="label">Node 4</data>
+      <data key="shape">Circle</data>
+      <data key="color">White</data>
+    </node>
+    <node id="5">
+      <data key="label">Node 5</data>
+    </node>
+    <edge source="1" target="2"/>
+    <edge source="1" target="3"/>
+    <edge source="2" target="4"/>
+    <edge source="2" target="5"/>
+  </graph>
+</graphml>

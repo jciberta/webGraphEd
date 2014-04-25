@@ -59,9 +59,24 @@ GraphMLFile.prototype.save = function(graph, filename) {
 
     sFile += '<?xml version="1.0" encoding="UTF-8"?>' + ENTER;
     sFile += '<graphml>' + ENTER;
+    sFile += '  <key id="label" for="node" attr.name="label" attr.type="string"/>' + ENTER;
+    sFile += '  <key id="shape" for="node" attr.name="shape" attr.type="string">' + ENTER;
+    sFile += '    <default>Circle</default>' + ENTER;
+    sFile += '  </key>' + ENTER;
+    sFile += '  <key id="color" for="node" attr.name="color" attr.type="string">' + ENTER;
+    sFile += '    <default>White</default>' + ENTER;
+    sFile += '  </key>' + ENTER;
+	
     sFile += '  <graph>' + ENTER;
     for (i=0;i<graph.listNodes.length;i++) {  
-        sFile += '    <node id="' + graph.listNodes[i][0] + '"/>' + ENTER;
+        sFile += '    <node id="' + graph.listNodes[i][0] + '">' + ENTER;
+		if (graph.listNodes[i].length > 1 && graph.listNodes[i][1] != '') 
+			sFile += '      <data key="label">' + graph.listNodes[i][1] + '</data>' + ENTER;
+		if (graph.listNodes[i].length > 2) 
+			sFile += '      <data key="shape">' + graph.listNodes[i][2] + '</data>' + ENTER;
+		if (graph.listNodes[i].length > 3) 
+			sFile += '      <data key="color">' + graph.listNodes[i][3] + '</data>' + ENTER;
+        sFile += '    </node>' + ENTER;
     }
     for (i=0;i<graph.listEdges.length;i++) {  
         sFile += '    <edge source="' + graph.listEdges[i][0] + '" target="' + graph.listEdges[i][1] + '"/>' + ENTER;
