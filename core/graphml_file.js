@@ -13,7 +13,7 @@ function GraphMLFile(content) {
     {
         this.content = content;
         var parser = new DOMParser();
-        this.XML = parser.parseFromString(content,"text/xml");
+        this.XML = parser.parseFromString(content, "text/xml");
     }
 }
 
@@ -22,12 +22,38 @@ function GraphMLFile(content) {
  * @return {Node[]} True if the graph drawing is a tree.
  */
 GraphMLFile.prototype.getNodes = function() {
-	var i, id, n=[];
-	var nodes = this.XML.getElementsByTagName("node");
+	var i, j, n = [];
+	var nodes, data, key;
+	var id, label = '', shape = 'Circle', color = 'White';
+	var child;
 
-	for (i=0;i<nodes.length;i++) {
-		id = nodes[i].getAttribute("id");
-		n.push([id, '']);
+	// Example:
+	//  <node id="1">
+	//      <data key="label">ORG RECT</data>
+	//      <data key="shape">Square</data>
+	//      <data key="color">Orange</data>
+	//  </node>
+	
+	nodes = this.XML.getElementsByTagName('node');
+	for (i=0; i<nodes.length; i++) {
+		id = nodes[i].getAttribute('id');
+		data = nodes[i].getElementsByTagName('data');
+		for (j=0; j<data.length; j++) {
+			key = data[j].getAttribute('key');
+			switch (key) {
+				case 'label': 
+					label = data[j].textContent;
+					break;
+				case 'shape': 
+					shape = data[j].textContent;
+					break;
+				case 'color': 
+					color = data[j].textContent;
+					break;
+			}
+		}
+//console.log('n: ' + id + ', ' + label + ', ' + shape + ', ' + color);		
+		n.push([id, label, shape, color]);
 	}
 	return n;
 }

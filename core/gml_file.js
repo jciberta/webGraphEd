@@ -140,7 +140,7 @@ GMLFile.prototype.getEdges = function() {
 GMLFile.prototype.save = function(graph, filename) {
     var i, sFile = '';
     var ENTER = '\n'
-console.dir(graph);
+
     sFile += 'graph [' + ENTER;
     for (i=0;i<graph.listNodes.length;i++) {  
         sFile += '  node [' + ENTER;

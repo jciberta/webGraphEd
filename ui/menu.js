@@ -205,7 +205,7 @@ function updateStatusBar() {
 //console.log('pz: ' + JSON.stringify(pz));
 	
 	sHTML += '<TABLE><TR>';
-	sHTML += '<TD style="width:200px"><B>Filename</B>: ' + textFileName + '</TD>';
+	sHTML += '<TD style="width:300px"><B>Filename</B>: ' + textFileName + '</TD>';
 	if (pz == null) {
 //	if (d3.event == null) {
 		sHTML += '<TD style="width:100px"><B>Zoom</B>: </TD>';
