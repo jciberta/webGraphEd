@@ -15,11 +15,21 @@ function GMLFile(content) {
     }
 }
 
-GMLFile.prototype.getProperties = function(element) {
+/**
+ * Get the properties of an element from a given text or from the whole file 
+ * (if not specified), that means, the properties inside the brackets. 
+ * @param {string} element The element whose properties must be collected.
+ * @return {Array} Array of properties.
+ */
+GMLFile.prototype.getProperties = function(element, text) {
   var i, a=[], s, openBracket=0;
 
-  s = this.content;
-  i = s.trim().indexOf(element);
+	if (text == undefined)
+		s = this.content;
+	else
+		s = text;
+
+		i = s.trim().indexOf(element);
   while (i>=0) {
     // String without element
     s = s.substring(i+element.length, s.length).trim();
@@ -81,14 +91,29 @@ GMLFile.prototype.getQuotedPair = function(str, item) {
 
 /**
  * Get a list of nodes from a GraphML file.
- * @return {Node[]} True if the graph drawing is a tree.
+ * @return {Array} True if the graph drawing is a tree.
  */
 GMLFile.prototype.getNodes = function() {
-    var a, i, n=[];
+    var a, p, i, n=[], node;
+	var shape, color;
 
     a = this.getProperties('node');
     for (i=0; i<a.length; i++) {
-        n.push([this.getPair(a[i], 'id'), this.getQuotedPair(a[i], 'label')]);
+		node = [];
+		node.push(this.getPair(a[i], 'id'));
+		node.push(this.getQuotedPair(a[i], 'label'));
+		p = this.getProperties('graphics', a[i]);
+		if (p.length > 0) {
+			shape = this.getQuotedPair(p[0], 'type');
+			if (shape == 'rectangle') shape = 'Square';
+			else shape = 'Circle';
+			node.push(shape);
+			color = this.getQuotedPair(p[0], 'fill');
+			if (shape == '') shape = 'White';
+			node.push(color);
+		}
+//console.log('node: ' + node)
+		n.push(node);
     }
     return n;
 }
@@ -134,7 +159,7 @@ console.dir(graph);
 		else
 			sFile += '      fill "White"' + ENTER;
 		sFile += '    ]' + ENTER;
-		sFile += ' ]' + ENTER;
+		sFile += '  ]' + ENTER;
     }
     for (i=0;i<graph.listEdges.length;i++) {  
         sFile += '  edge [ source ' + graph.listEdges[i][0] + ' target ' + graph.listEdges[i][1] + ' ]' + ENTER;

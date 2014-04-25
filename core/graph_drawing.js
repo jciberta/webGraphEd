@@ -185,10 +185,14 @@ GraphDrawing.prototype.getRoot = function() {
   return root;
 }
 
-GraphDrawing.prototype.importGML = function(element) {
+/**
+* Imports a file in a GML format.
+* @param {String} newFile The file to import.
+*/
+GraphDrawing.prototype.importGML = function(newFile) {
   var gml, graph, i, n, e;
 
-  gml = new GMLFile(element);
+  gml = new GMLFile(newFile);
 //console.log('element=' + element);
 //console.log('gml=' + gml);
 //console.log('gml.getProperties=' + gml.getProperties());
@@ -198,18 +202,22 @@ GraphDrawing.prototype.importGML = function(element) {
 
   // Get nodes
   this.listNodes = gml.getNodes();
-//console.log('Nodes=' + this.listNodes);
+console.log('Nodes=' + this.listNodes);
 
   // Get edges
   this.listEdges = gml.getEdges();
-//console.log('Edges=' + this.listEdges);
+console.log('Edges=' + this.listEdges);
 
 }
 
-GraphDrawing.prototype.importGraphML = function(element) {
+/**
+* Imports a file in a GraphML format.
+* @param {String} newFile The file to import.
+*/
+GraphDrawing.prototype.importGraphML = function(newFile) {
   var graphml, graph, i, n, e;
 
-  graphml = new GraphMLFile(element);
+  graphml = new GraphMLFile(newFile);
 //    graph = gml.getProperties('graph');
 //console.log('importGML graph: ' + graph);
 //console.log('element=' + element);
