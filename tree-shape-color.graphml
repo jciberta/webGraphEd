@@ -7,6 +7,13 @@
   <key id="color" for="node" attr.name="color" attr.type="string">
     <default>White</default>
   </key>
+  <key id="label" for="edge" attr.name="label" attr.type="string"/>
+  <key id="width" for="edge" attr.name="width" attr.type="int">
+    <default>2</default>
+  </key>
+  <key id="color" for="edge" attr.name="color" attr.type="string">
+    <default>Gray</default>
+  </key>
   <graph>
     <node id="1">
       <data key="label">ORG RECT</data>
@@ -30,10 +37,51 @@
     </node>
     <node id="5">
       <data key="label">Node 5</data>
+      <data key="shape">Circle</data>
+      <data key="color">White</data>
     </node>
-    <edge source="1" target="2"/>
-    <edge source="1" target="3"/>
-    <edge source="2" target="4"/>
-    <edge source="2" target="5"/>
+    <node id="6">
+      <data key="label">Node 6</data>
+      <data key="shape">Square</data>
+      <data key="color">Yellow</data>
+    </node>
+    <node id="7">
+      <data key="label">Node 7</data>
+      <data key="shape">Circle</data>
+      <data key="color">White</data>
+    </node>
+    <node id="8">
+      <data key="label">Node 8</data>
+      <data key="shape">Circle</data>
+      <data key="color">White</data>
+    </node>
+    <edge source="1" target="2">
+      <data key="width">4</data>
+      <data key="color">Blue</data>
+    </edge>
+    <edge source="1" target="3">
+      <data key="width">4</data>
+      <data key="color">Gray</data>
+    </edge>
+    <edge source="2" target="4">
+      <data key="width">2</data>
+      <data key="color">Lime</data>
+    </edge>
+    <edge source="2" target="5">
+      <data key="width">2</data>
+      <data key="color">Orange</data>
+    </edge>
+    <edge source="3" target="6">
+      <data key="width">4</data>
+      <data key="color">Yellow</data>
+    </edge>
+    <edge source="3" target="7">
+      <data key="width">2</data>
+      <data key="color">Yellow</data>
+    </edge>
+    <edge source="1" target="8">
+      <data key="width">2</data>
+      <data key="color">Gray</data>
+    </edge>
   </graph>
 </graphml>

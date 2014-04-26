@@ -24,8 +24,7 @@ function GraphMLFile(content) {
 GraphMLFile.prototype.getNodes = function() {
 	var i, j, n = [];
 	var nodes, data, key;
-	var id, label = '', shape = 'Circle', color = 'White';
-	var child;
+	var id, label = '', shape = DEFAULT_SHAPE, color = DEFAULT_COLOR_NODE;
 
 	// Example:
 	//  <node id="1">
@@ -63,13 +62,36 @@ GraphMLFile.prototype.getNodes = function() {
  * @return {Edge[]} True if the graph drawing is a tree.
  */
 GraphMLFile.prototype.getEdges = function() {
-	var i, s, t, n=[];
-	var nodes = this.XML.getElementsByTagName("edge");
+	var i, s, t, n = [];
+	var id, label = '', width = DEFAULT_WIDTH, color = DEFAULT_COLOR_LINK;
 
-	for (i=0;i<nodes.length;i++) {
-		s = nodes[i].getAttribute("source");
-		t = nodes[i].getAttribute("target");
-		n.push([s, t, '']);
+	// Example:
+    //  <edge source="2" target="4">
+    //  	<data key="width">2</data>
+    //  	<data key="color">Lime</data>
+    //  </edge>
+	
+	var links = this.XML.getElementsByTagName("edge");
+	for (i=0;i<links.length;i++) {
+		s = links[i].getAttribute("source");
+		t = links[i].getAttribute("target");
+		data = links[i].getElementsByTagName('data');
+		for (j=0; j<data.length; j++) {
+			key = data[j].getAttribute('key');
+			switch (key) {
+				case 'label': 
+					label = data[j].textContent;
+					break;
+				case 'width': 
+					width = data[j].textContent;
+					break;
+				case 'color': 
+					color = data[j].textContent;
+					break;
+			}
+		}		
+//console.log('l: ' + s + ', ' + t + ', ' + label + ', ' + width + ', ' + color);		
+		n.push([s, t, label, width, color]);
 	}
 	return n;
 }
@@ -87,10 +109,17 @@ GraphMLFile.prototype.save = function(graph, filename) {
     sFile += '<graphml>' + ENTER;
     sFile += '  <key id="label" for="node" attr.name="label" attr.type="string"/>' + ENTER;
     sFile += '  <key id="shape" for="node" attr.name="shape" attr.type="string">' + ENTER;
-    sFile += '    <default>Circle</default>' + ENTER;
+    sFile += '    <default>' + DEFAULT_SHAPE + '</default>' + ENTER;
     sFile += '  </key>' + ENTER;
     sFile += '  <key id="color" for="node" attr.name="color" attr.type="string">' + ENTER;
-    sFile += '    <default>White</default>' + ENTER;
+    sFile += '    <default>' + DEFAULT_COLOR_NODE + '</default>' + ENTER;
+    sFile += '  </key>' + ENTER;
+    sFile += '  <key id="label" for="edge" attr.name="label" attr.type="string"/>' + ENTER;
+    sFile += '  <key id="width" for="edge" attr.name="width" attr.type="int">' + ENTER;
+    sFile += '    <default>' + DEFAULT_WIDTH + '</default>' + ENTER;
+    sFile += '  </key>' + ENTER;
+    sFile += '  <key id="color" for="edge" attr.name="color" attr.type="string">' + ENTER;
+    sFile += '    <default>' + DEFAULT_COLOR_LINK + '</default>' + ENTER;
     sFile += '  </key>' + ENTER;
 	
     sFile += '  <graph>' + ENTER;
@@ -105,7 +134,14 @@ GraphMLFile.prototype.save = function(graph, filename) {
         sFile += '    </node>' + ENTER;
     }
     for (i=0;i<graph.listEdges.length;i++) {  
-        sFile += '    <edge source="' + graph.listEdges[i][0] + '" target="' + graph.listEdges[i][1] + '"/>' + ENTER;
+        sFile += '    <edge source="' + graph.listEdges[i][0] + '" target="' + graph.listEdges[i][1] + '">' + ENTER;
+		if (graph.listEdges[i].length > 2 && graph.listEdges[i][2] != '') 
+			sFile += '      <data key="label">' + graph.listEdges[i][2] + '</data>' + ENTER;
+		if (graph.listEdges[i].length > 3) 
+			sFile += '      <data key="width">' + graph.listEdges[i][3] + '</data>' + ENTER;
+		if (graph.listEdges[i].length > 4) 
+			sFile += '      <data key="color">' + graph.listEdges[i][4] + '</data>' + ENTER;
+        sFile += '    </edge>' + ENTER;
     }
     sFile += '  </graph>' + ENTER;
     sFile += '</graphml>' + ENTER;
