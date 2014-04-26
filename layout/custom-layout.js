@@ -7,6 +7,8 @@
  * @param {GraphDrawing} graph Graph drawing object
  */
 CustomLayout = function(canvas, graph, nodes, links, type) {
+	this.className = 'CustomLayout';
+
 //console.log('**layout');
 //console.dir(layout);
 	this.canvas = canvas;
@@ -114,15 +116,20 @@ console.log('CL.canvas.doubleclick');
 	}	
 	
 	function keydown() {
-		if (selected_node == null) return;
+		if (selected_node == null && selected_link == null) return;
 		if (self.isCollapsed()) return; // Delete nodes is not allowed when there are some collapsed nodes
 
 		switch (d3.event.keyCode) {
 			case 8: // Backspace
 			case 46: // Delete
-				var answer = confirm('You are going to delete the node and its links. \nAre you sure?');
+				var text = selected_link == null ? 'You are going to delete the node and its links. \nAre you sure?' : 'You are going to delete the link. \nAre you sure?';
+				var answer = confirm(text);
 				if (answer == true) {
-					self.deleteNode(selected_node.id);
+					if (selected_link == null)
+						self.deleteNode(selected_node.id);
+					else 
+//						self.deleteLink(selected_link.source.id, selected_link.target.id);
+						layout.deleteLink(selected_link.source.id, selected_link.target.id);
 				}
 				break;
 		}
@@ -236,7 +243,11 @@ CustomLayout.prototype.updateLayout = function(source) {
 			.attr("id", function(d) { return 'path' + d.source.id + '_' + d.target.id; })
 			.style("stroke", function(d) { return d.color == undefined ? DEFAULT_COLOR_LINK : d.color; })
 			.style("stroke-width", function(d) { return d.width == undefined ? 2 : d.width; })
+			.style('cursor', 'pointer')
 			.attr("d", lineData)
+			.on("mousedown", function(d) {
+				layout.selectLink(d, d3.select(this));
+			})
 			.on("dblclick", function(d) { 
 				event.stopPropagation();
 				chooseLinkProperties(d);

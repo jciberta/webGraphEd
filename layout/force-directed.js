@@ -6,11 +6,15 @@
  * @param {GraphDrawing} graph Graph drawing object
  */
 ForceDirectedLayout = function(canvas2, graph, nodes, links, type) {
+	this.className = 'ForceDirectedLayout';
+	
 console.log('ForceDirectedLayout.create');	
 	this.canvas = canvas2;
 	this.graph = graph;
 	this.type = FORCE_DIRECTED;
 
+	resetVariables();
+	
 	this.nodes = [];
 	this.links = [];
 	
@@ -107,16 +111,21 @@ console.log('FD.doubleclick');
 	}	
 	
 	function keydown() {
-		if (selected_node == null) return;
+		if (selected_node == null && selected_link == null) return;
 		// Delete nodes is not allowed when there are some collapsed nodes
 		if (self.isCollapsed()) return;
 
 		switch (d3.event.keyCode) {
 			case 8: // Backspace
 			case 46: // Delete
-				var answer = confirm('You are going to delete the node and its links. \nAre you sure?');
+				var text = selected_link == null ? 'You are going to delete the node and its links. \nAre you sure?' : 'You are going to delete the link. \nAre you sure?';
+				var answer = confirm(text);
 				if (answer == true) {
-					self.deleteNode(selected_node.id);
+					if (selected_link == null)
+						self.deleteNode(selected_node.id);
+					else 
+//						self.deleteLink(selected_link.source.id, selected_link.target.id);
+						layout.deleteLink(selected_link.source.id, selected_link.target.id);
 				}
 				break;
 		}
@@ -225,10 +234,14 @@ ForceDirectedLayout.prototype.updateLayout = function() {
 //				return hideLink ? 1e-6 : 1.5; 
 				return hideLink ? 1e-6 : (d.width == undefined ? 2 : d.width); 
 			})
+			.style('cursor', 'pointer')
 			.attr("x1", function(d) { return d.source.x; })
 			.attr("y1", function(d) { return d.source.y; })
 			.attr("x2", function(d) { return d.target.x; })
 			.attr("y2", function(d) { return d.target.y; })
+			.on("mousedown", function(d) {
+				layout.selectLink(d, d3.select(this));
+			})
 			.on("dblclick", function(d) { 
 				event.stopPropagation();
 				chooseLinkProperties(d);
@@ -498,7 +511,7 @@ console.dir(this.nodes);
 }
 
 /**
- * Deletes a node from the graph drawing
+ * Deletes a node from the layout
  * @param {int} id The identification of the node.
  */
 ForceDirectedLayout.prototype.deleteNode = function(id) {
@@ -527,6 +540,28 @@ ForceDirectedLayout.prototype.deleteNode = function(id) {
 	this.updateLayout();
 	updateMenu(this.graph);
 }
+
+/**
+ * Deletes a link from the layout
+ * @param {int} source The source of the link.
+ * @param {int} target The target of the link.
+ */
+/*ForceDirectedLayout.prototype.deleteLink = function(source, target) {
+	var i;
+
+	this.graph.deleteLink(source, target);
+	for (i=0; i<this.links.length; i++) {
+		if (this.links[i].source.id == source && this.links[i].target.id == target) {		
+			this.links.splice(i, 1);
+			break;
+		}
+	}	
+
+	clearCanvas();
+	createDragLine();
+	this.updateLayout();
+	updateMenu(this.graph);
+}*/
 
 /**
  * Given a force directed layout structure, put children to their nodes (like tree layouts).

@@ -18,7 +18,9 @@
  * @param {string} color The color of the node.
  */
 function Node(id, label, shape, color) {
-    this.id = id;
+    this.className = 'Node';
+
+	this.id = id;
 	(label == undefined) ? this.label = '' : this.label = label; 
 	(shape == undefined) ? this.shape = 'Circle' : this.shape = label; 
 	(color == undefined) ? this.color = 'White' : this.color = label; 
@@ -41,6 +43,8 @@ Node.prototype.getLabel = function() {
  * @param {string} label The label of the edge (never used).
  */
 function Edge(src, dst, label) {
+    this.className = 'Edge';
+
     this.source = src;
     this.target = dst;
     this.label = label;
@@ -58,35 +62,47 @@ function Edge(src, dst, label) {
  * @param {Array} le List of edges.
  */
 function GraphDrawing(ln, le) {
-  if (ln===undefined) { // parameter was omitted in call
-    this.listNodes = [];
-    this.listEdges = [];
-  }
-  else {
-    this.listNodes = ln;
-    this.listEdges = le;
-  }
+    this.className = 'GraphDrawing';
 
-  this.isDirected = false;
-  this.isPlanar = false;
+	if (ln===undefined) { // parameter was omitted in call
+		this.listNodes = [];
+		this.listEdges = [];
+	}
+	else {
+		this.listNodes = ln;
+		this.listEdges = le;
+	}
+
+//	this.isDirected = false;
+//	this.isPlanar = false;
 }
 
+/**
+ * Gets the adjacent nodes of a specified node.
+ * @param {int} id The id of the node.
+ * @return {Array} The adjacent nodes.
+ */
 GraphDrawing.prototype.getAdjacents = function(n) {
-  var r=[], i;
+	var r=[], i;
 
-  for (i=0; i<this.listEdges.length; i++) {
-    if (this.listEdges[i][0]==n) {
-      if (r.indexOf(this.listEdges[i][1]!=-1))
-        r.push(this.listEdges[i][1]);
-    }
-    else if (this.listEdges[i][1]==n) {
-      if (r.indexOf(this.listEdges[i][0]!=-1))
-        r.push(this.listEdges[i][0]);
-    }
-  }
-  return r;
+	for (i=0; i<this.listEdges.length; i++) {
+		if (this.listEdges[i][0]==n) {
+			if (r.indexOf(this.listEdges[i][1]!=-1))
+			r.push(this.listEdges[i][1]);
+		}
+		else if (this.listEdges[i][1]==n) {
+			if (r.indexOf(this.listEdges[i][0]!=-1))
+			r.push(this.listEdges[i][0]);
+		}
+	}
+	return r;
 }
 
+/**
+ * Gets the directed adjacent nodes of a specified node.
+ * @param {int} id The id of the node.
+ * @return {Array} The directed adjacent nodes.
+ */
 GraphDrawing.prototype.getDirectedAdjacents = function(n) {
     var r=[], i;
 
@@ -99,6 +115,10 @@ GraphDrawing.prototype.getDirectedAdjacents = function(n) {
     return r;
 }
 
+/**
+ * Gets the adjacency list of the graph drawing.
+ * @return {Array} The adjacency list.
+ */
 GraphDrawing.prototype.getAdjacencyList = function() {
     var r={}, n, i;
 
@@ -113,6 +133,10 @@ GraphDrawing.prototype.getAdjacencyList = function() {
     return r;
 }
 
+/**
+ * Gets the tree of the graph drawing as a JSON object.
+ * @return {Object} The tree in JSON notation.
+ */
 GraphDrawing.prototype.getTreeD3JSON = function() {
 //console.log('this: ' + this);
     var t = new Tree(this);
@@ -420,4 +444,21 @@ console.log('Edges: ' + this.listEdges);
 		} 
 	}
 console.log('Edges: ' + this.listEdges);
+}
+
+/**
+ * Deletes a link from the graph drawing
+ * @param {int} source The source of the link.
+ * @param {int} target The target of the link.
+ */
+GraphDrawing.prototype.deleteLink = function(source, target) {
+	var i;
+console.log('Links: ' + this.listEdges);
+	for (i=0; i<this.listEdges.length; i++) {
+		if (this.listEdges[i][0] == source && this.listEdges[i][1] == target) {
+			this.listEdges.splice(i, 1);
+			break;
+		}
+	}
+console.log('Links: ' + this.listEdges);
 }
