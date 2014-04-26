@@ -44,8 +44,8 @@ function onColorEvent(e) {
 
 function chooseNodeProperties(d) {
 	// Default values
-	if (d.shape == undefined) d.shape = 'Circle';
-	if (d.color == undefined) d.color = 'White';
+	if (d.shape == undefined) d.shape = DEFAULT_SHAPE;
+	if (d.color == undefined) d.color = DEFAULT_COLOR_NODE;
 
 	function listShapes(d) {
 		var aShapes = ['Circle', 'Square'];
@@ -104,6 +104,83 @@ function chooseNodeProperties(d) {
 							n[3] = obj; 
 							d.color = obj; 
 							layout.changeNodeColor(d); 
+							break;
+					}
+				});	
+//				layout.update();
+			}
+			else {}
+		},
+		overlayspeed: 'fast',
+		promptspeed: 'fast',
+		show: 'show'
+	});
+}
+
+/**
+ * Open a dialog for choosing link properties.
+ * @param {Object} d The link object.
+ */
+function chooseLinkProperties(d) {
+	// Default values
+	if (d.width == undefined) d.width = DEFAULT_WIDTH;
+	if (d.color == undefined) d.color = DEFAULT_COLOR_LINK;
+
+	function listWidths(d) {
+		var aWidths = ['2', '4'];
+		var i, s = '';
+		
+		for (i=0; i<aWidths.length; i++) {
+			if (i % 5 == 0) s += '<tr>'; 
+			s += '<td><input type="radio" name="width" value="' + aWidths[i] + '" ' + (d.width==aWidths[i] ? 'checked="checked"' : '') + '>' + aWidths[i] + '</td>';
+			if ((i+1) % 5 == 0) s += '</tr>'; 
+		}
+		return s;
+	}
+	
+	function listColors(d) {
+		var aColors = ['Red', 'White', 'Cyan', 'Silver', 'Blue', 'Gray', 'DarkBlue', 'Black', 'LightBlue', 'Orange', 'Purple', 'Brown', 'Yellow', 'Maroon', 'Lime', 'Green', 'Magenta', 'Olive'];
+		var i, s = '';
+		
+		for (i=0; i<aColors.length; i++) {
+			if (i % 5 == 0) s += '<tr>'; 
+			s += '<td><input type="radio" name="color" value="' + aColors[i] + '" ' + (d.color==aColors[i] ? 'checked="checked"' : '') + '>' + aColors[i] + '</td>';
+			if ((i+1) % 5 == 0) s += '</tr>'; 
+		}
+		return s;
+	}
+	
+	var txt = '<h1>Link Properties</h1>'+
+		'Select width:<br>' +
+		'<table>' + listWidths(d) + '</table>' +
+		'<br>Select color:<br>' +
+		'<table>' + listColors(d) + '</table>';
+
+	$.prompt(txt, { 
+		buttons: {Change:true, Cancel:false},
+		submit: function(e, v, m, f) {
+			// This is simple pre submit validation, the submit function
+			// return true to proceed to the callback, or false to take 
+			// no further action, the prompt will stay open.
+			var flag = true;
+			// ...
+			return flag;
+		},
+		close: function(e, v, m, f) {
+			if (v) {
+				var l;
+				$.each(f, function(i, obj) {
+					l = layout.graph.getLink(d.source.id, d.target.id);
+					switch (i) {
+						case 'width': 
+							l[3] = obj; 
+							d.width = obj; 
+							layout.changeLinkWidth(d); 
+							break;
+						case 'color': 
+							l[4] = obj; 
+							d.color = obj; 
+							layout.changeLinkColor(d); 
 							break;
 					}
 				});	

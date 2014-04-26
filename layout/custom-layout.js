@@ -189,7 +189,7 @@ console.log('CL.canvas.doubleclick');
  */
 CustomLayout.prototype.updateLayout = function(source) {
 //console.log('** CustomLayout.prototype.updateLayout **');
-	var i, n;
+	var i, l, n;
 	var vis = d3.select("#vis");
 	var self = this;
 
@@ -210,11 +210,17 @@ CustomLayout.prototype.updateLayout = function(source) {
 	// Apply properties to the nodes (shape, color)
 	for (i=0; i<this.nodes.length; i++) {
 		n = this.graph.getNode(this.nodes[i].id);
-//console.log('this.node[i].id: ' + this.nodes[i].id + ', n:');		
-//console.dir(n);
         if (n == null) break;
 		if (n.length > 2) this.nodes[i].shape = n[2];
 		if (n.length > 3) this.nodes[i].color = n[3];
+	}
+
+	// Apply properties to the link (shape, color)
+	for (i=0; i<this.links.length; i++) {
+		l = this.graph.getLink(this.links[i].source.id, this.links[i].target.id);
+        if (l == null) break;
+		if (l.length > 3) this.links[i].width = l[3];
+		if (l.length > 4) this.links[i].color = l[4];
 	}
 	
 	
@@ -227,12 +233,17 @@ CustomLayout.prototype.updateLayout = function(source) {
         .data(this.links)
         .enter().append("path")
             .attr("class", "link")
-			.attr("id", function(d) { 
-//				console.dir(d); 
-				return d; 
-			})
-	if (this.type != 'Force directed') 
-		link.attr("d", lineData);
+			.attr("id", function(d) { return 'path' + d.source.id + '_' + d.target.id; })
+			.style("stroke", function(d) { return d.color == undefined ? DEFAULT_COLOR_LINK : d.color; })
+			.style("stroke-width", function(d) { return d.width == undefined ? 2 : d.width; })
+			.attr("d", lineData)
+			.on("dblclick", function(d) { 
+				event.stopPropagation();
+				chooseLinkProperties(d);
+			});	
+	
+	//if (this.type != 'Force directed') 
+	//	link.attr("d", lineData);
 		
 //console.log('- link: ' + link);	
 //console.dir(link); 

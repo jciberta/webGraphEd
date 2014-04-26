@@ -63,7 +63,7 @@ function createCanvas() {
     canvas = svg;
 	
 	
-console.log('Creating VIS');
+//console.log('Creating VIS');
 	vis = container
         .append("svg:g")
 			.attr("id", "vis")

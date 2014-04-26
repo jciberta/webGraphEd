@@ -30,9 +30,11 @@ console.log('ForceDirectedLayout.create');
 		s = graph.listEdges[i][0];
 		d = graph.listEdges[i][1];
 		this.links.push({
-			source : this.getNode(s),
-			target : this.getNode(d),
-			weight : 1
+			source: this.getNode(s),
+			target: this.getNode(d),
+			width: graph.listEdges[i][3],
+			color: graph.listEdges[i][4],
+			weight: 1
 		});
 	}	
 
@@ -211,18 +213,26 @@ ForceDirectedLayout.prototype.updateLayout = function() {
 		.data(this.links)
 //	this.link = this.link
 //		.data(this.force.links())
-		.enter().append("svg:line").attr("class", "link").style("stroke", "#CCC")
-		.style("stroke-width", function(d) { 
-			var hideLink;
-			if (d.source.visible == undefined) d.source.visible = true;
-			if (d.target.visible == undefined) d.target.visible = true;
-			hideLink = (!d.source.visible || !d.target.visible);
-			return hideLink ? 1e-6 : 1.5; 
-		})
-		.attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
+		.enter().append("svg:line")
+			.attr("class", "link")
+			.attr("id", function(d) { return 'path' + d.source.id + '_' + d.target.id; })
+			.style("stroke", function(d) { return d.color == undefined ? DEFAULT_COLOR_LINK : d.color; })
+			.style("stroke-width", function(d) { 
+				var hideLink;
+				if (d.source.visible == undefined) d.source.visible = true;
+				if (d.target.visible == undefined) d.target.visible = true;
+				hideLink = (!d.source.visible || !d.target.visible);
+//				return hideLink ? 1e-6 : 1.5; 
+				return hideLink ? 1e-6 : (d.width == undefined ? 2 : d.width); 
+			})
+			.attr("x1", function(d) { return d.source.x; })
+			.attr("y1", function(d) { return d.source.y; })
+			.attr("x2", function(d) { return d.target.x; })
+			.attr("y2", function(d) { return d.target.y; })
+			.on("dblclick", function(d) { 
+				event.stopPropagation();
+				chooseLinkProperties(d);
+			});	
 		
 	this.node = vis.selectAll("g.node")
 		.data(this.nodes)

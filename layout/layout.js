@@ -353,6 +353,27 @@ Layout.prototype.changeNodeShape = function(d) {
 }
 
 /**
+ * Changes the color of a link.
+ * @param {Object} d The link.
+ */
+Layout.prototype.changeLinkColor = function(d) {
+	d3.select("#path" + d.source.id + '_' + d.target.id)
+		.style('stroke', d.color);
+}
+
+/**
+ * Changes the width of a link.
+ * @param {Object} d The link.
+ */
+Layout.prototype.changeLinkWidth = function(d) {
+	d3.select("#path" + d.source.id + '_' + d.target.id)		
+		.style("stroke-width", function(d) { return d.width == undefined ? 2 : d.width; })
+/*	d3.select("#rect" + d.id)
+		.attr("width", function(d) { return d.shape == 'Square' ? 10 : 0; })
+		.attr("height", function(d) { return d.shape == 'Square' ? 10 : 0; })*/
+}
+
+/**
  * Selects or unselects a node.
  * @param {Object} node The node.
  * @param {Object} object The object that represents the node on the canvas.

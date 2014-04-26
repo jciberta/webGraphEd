@@ -46,6 +46,7 @@ function Edge(src, dst, label) {
     this.label = label;
 
     this.getSource = function() { return this.source; };
+    this.getTarget = function() { return this.target; };
 }
 
 /**
@@ -155,6 +156,24 @@ GraphDrawing.prototype.setNode = function(id, array) {
 }
 
 /**
+ * Gets the link with a specific id.
+ * @param {int} source The source node id of the link.
+ * @param {int} target The target node id of the link.
+ * @return {Edge} The link or null.
+ */
+GraphDrawing.prototype.getLink = function(source, target) {
+//console.log('source: ' + source + ', target:' + target);
+    var i;
+    for (i=0; i<this.listEdges.length; i++) { 
+        if (this.listEdges[i][0]==source && this.listEdges[i][1]==target) {
+//console.log('this.listEdges[i]: ' + this.listEdges[i]);
+			return this.listEdges[i];
+		}
+    } 
+    return null;   
+}
+
+/**
  * Gets the root node when the graph drawing represents a tree, otherwise it throw an exception.
  * @return {Node} The root node.
  */
@@ -190,24 +209,17 @@ GraphDrawing.prototype.getRoot = function() {
 * @param {String} newFile The file to import.
 */
 GraphDrawing.prototype.importGML = function(newFile) {
-  var gml, graph, i, n, e;
+	var gml, graph, i, n, e;
 
-  gml = new GMLFile(newFile);
-//console.log('element=' + element);
-//console.log('gml=' + gml);
-//console.log('gml.getProperties=' + gml.getProperties());
+	gml = new GMLFile(newFile);
 
+	// Get nodes
+	this.listNodes = gml.getNodes();
+//console.log('Nodes=' + this.listNodes);
 
-//console.log('typeof=' + typeof(gml));
-
-  // Get nodes
-  this.listNodes = gml.getNodes();
-console.log('Nodes=' + this.listNodes);
-
-  // Get edges
-  this.listEdges = gml.getEdges();
-console.log('Edges=' + this.listEdges);
-
+	// Get edges
+	this.listEdges = gml.getEdges();
+//console.log('Edges=' + this.listEdges);
 }
 
 /**
@@ -215,26 +227,18 @@ console.log('Edges=' + this.listEdges);
 * @param {String} newFile The file to import.
 */
 GraphDrawing.prototype.importGraphML = function(newFile) {
-  var graphml, graph, i, n, e;
+	var graphml, graph, i, n, e;
 
-  graphml = new GraphMLFile(newFile);
-//    graph = gml.getProperties('graph');
-//console.log('importGML graph: ' + graph);
-//console.log('element=' + element);
-  
-  // Get nodes
-  this.listNodes = graphml.getNodes();
-console.log('Nodes=' + this.listNodes);
+	graphml = new GraphMLFile(newFile);
 
-  // Get edges
-  this.listEdges = graphml.getEdges();
-console.log('Edges=' + this.listEdges);
+	// Get nodes
+	this.listNodes = graphml.getNodes();
+//console.log('Nodes=' + this.listNodes);
+
+	// Get edges
+	this.listEdges = graphml.getEdges();
+//console.log('Edges=' + this.listEdges);
 }
-
-/*GraphDrawing.prototype.markAsUnvisited = function() {
-	for (var i=0; i<listNodes.length; i++)
-		listNodes[i].visited = false;
-}*/
 
 /**
 * Determines if a graph drawing is connected.
