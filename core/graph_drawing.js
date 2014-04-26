@@ -114,6 +114,7 @@ GraphDrawing.prototype.getAdjacencyList = function() {
 }
 
 GraphDrawing.prototype.getTreeD3JSON = function() {
+//console.log('this: ' + this);
     var t = new Tree(this);
 //console.log('Tree.toD3Json: ' + t.toD3JSONString());
 

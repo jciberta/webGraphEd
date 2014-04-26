@@ -22,49 +22,49 @@ function GMLFile(content) {
  * @return {Array} Array of properties.
  */
 GMLFile.prototype.getProperties = function(element, text) {
-  var i, a=[], s, openBracket=0;
+	var i, a=[], s, openBracket=0;
 
 	if (text == undefined)
 		s = this.content;
 	else
 		s = text;
 
+	i = s.trim().indexOf(element);
+	while (i>=0) {
+		// String without element
+		s = s.substring(i+element.length, s.length).trim();
+
+		// The next must be [
+		i = s.indexOf('[');
+		if (i==0) {
+		openBracket++;
+		s = s.substring(i.length, s.length).trim();
+		for (i=0; i<s.length; i++) {
+			if (s[i]=='[') {
+				openBracket++
+			}
+			else if (s[i]==']') {
+				openBracket--;
+				if (openBracket==1) {
+					// This is the last ]
+					rest = s.substring(i+1, s.length).trim();
+					s = s.substring(1, i).trim();
+					break; 
+				}
+			}
+		}
+		s = s.substring(0, i).trim();
+		a.push(s);
+		openBracket=0;
+		}
+		else {
+			s = '';
+		}
+		s = rest;
 		i = s.trim().indexOf(element);
-  while (i>=0) {
-    // String without element
-    s = s.substring(i+element.length, s.length).trim();
-    
-    // The next must be [
-    i = s.indexOf('[');
-    if (i==0) {
-      openBracket++;
-      s = s.substring(i.length, s.length).trim();
-      for (i=0; i<s.length; i++) {
-        if (s[i]=='[') {
-          openBracket++
-        }
-        else if (s[i]==']') {
-          openBracket--;
-          if (openBracket==1) {
-            // This is the last ]
-            rest = s.substring(i+1, s.length).trim();
-            s = s.substring(1, i).trim();
-            break; 
-          }
-        }
-      }
-      s = s.substring(0, i).trim();
-      a.push(s);
-      openBracket=0;
-    }
-    else {
-      s = '';
-    }
-    s = rest;
-    i = s.trim().indexOf(element);
-    rest = '';
-  }
-  return a;
+		rest = '';
+	}
+	return a;
 }
 
 GMLFile.prototype.getPair = function(str, item) {
@@ -109,7 +109,7 @@ GMLFile.prototype.getNodes = function() {
 			else shape = 'Circle';
 			node.push(shape);
 			color = this.getQuotedPair(p[0], 'fill');
-			if (shape == '') shape = 'White';
+			if (color == '') color = DEFAULT_COLOR_NODE;
 			node.push(color);
 		}
 //console.log('node: ' + node)
@@ -123,11 +123,26 @@ GMLFile.prototype.getNodes = function() {
  * @return {Edge[]} True if the graph drawing is a tree.
  */
 GMLFile.prototype.getEdges = function() {
-    var a, i, n=[];
+    var a, i, n=[], link;
+	var width, color;
 
     a = this.getProperties('edge');
     for (i=0; i<a.length; i++) {
-        n.push([this.getPair(a[i], 'source'), this.getPair(a[i], 'target'), this.getQuotedPair(a[i], 'label')]);
+		link = [];
+		link.push(this.getPair(a[i], 'source'));
+		link.push(this.getPair(a[i], 'target'));
+		link.push(this.getQuotedPair(a[i], 'label'));
+		p = this.getProperties('graphics', a[i]);
+		if (p.length > 0) {
+			width = this.getPair(p[0], 'width');
+			if (width == '') width = DEFAULT_WIDTH;
+			link.push(width);
+			color = this.getQuotedPair(p[0], 'fill');
+			if (color == '') color = DEFAULT_COLOR_LINK;
+			link.push(color);
+		}
+//console.log('link: ' + link)
+		n.push(link);
     }
     return n;
 }
@@ -157,13 +172,27 @@ GMLFile.prototype.save = function(graph, filename) {
 		if (graph.listNodes[i].length > 3)
 			sFile += '      fill "' + graph.listNodes[i][3] + '"' + ENTER;
 		else
-			sFile += '      fill "White"' + ENTER;
+			sFile += '      fill "' + DEFAULT_COLOR_NODE + '"' + ENTER;
 		sFile += '    ]' + ENTER;
 		sFile += '  ]' + ENTER;
     }
     for (i=0;i<graph.listEdges.length;i++) {  
-        sFile += '  edge [ source ' + graph.listEdges[i][0] + ' target ' + graph.listEdges[i][1] + ' ]' + ENTER;
-    }
+        sFile += '  edge [' + ENTER;
+        sFile += '    source ' + graph.listEdges[i][0] + ENTER;    
+        sFile += '    target ' + graph.listEdges[i][1] + ENTER;    
+		sFile += '    graphics [' + ENTER;
+		sFile += '      type "line"' + ENTER;
+		if (graph.listEdges[i].length > 3)
+			sFile += '      width ' + graph.listEdges[i][3] + ENTER;
+		else
+			sFile += '      width ' + DEFAULT_WIDTH + ENTER;
+		if (graph.listEdges[i].length > 4)
+			sFile += '      fill "' + graph.listEdges[i][4] + '"' + ENTER;
+		else
+			sFile += '      fill "' + DEFAULT_COLOR_LINK + '"' + ENTER;
+		sFile += '    ]' + ENTER;
+		sFile += '  ]' + ENTER;
+	}
     sFile += ']' + ENTER;
 
     var blob = new Blob([sFile], {type: "text/plain;charset=utf-8"});
