@@ -16,7 +16,7 @@ Layout = function() {
 }
 
 /**
- * Clear the layout.
+ * Clears the layout.
  */
 Layout.prototype.clear = function() {
 	delete this.graph;
@@ -388,6 +388,7 @@ Layout.prototype.unselectElement = function() {
 	selected_object = null;
 	selected_node = null;
 	selected_link = null;
+	menuElementProperties.setEnabled(false);
 }
 
 /**
@@ -399,20 +400,13 @@ Layout.prototype.selectNode = function(node, object) {
 	var sameNode = (node == selected_node);
 
 	this.unselectElement();
-/*	// Unselect old node
-	if (selected_object != null) {
-		selected_object.select("circle").style("stroke-width", "1.5");	
-		selected_object.select("rect").style("stroke-width", "1.5");	
-	}
-	selected_object = null;
-	selected_node = null;*/
-
 	if (!sameNode) {
 		// Select new node
 		selected_node = node;
 		selected_object = object;
 		selected_object.select("circle").style("stroke-width", "3");	
-		selected_object.select("rect").style("stroke-width", "3");	
+		selected_object.select("rect").style("stroke-width", "3");
+		menuElementProperties.setEnabled(true);
 	}
 }
 
@@ -425,22 +419,12 @@ Layout.prototype.selectLink = function(link, object) {
 	var sameLink = (link == selected_link);
 
 	this.unselectElement();
-/*	// Unselect old link/node
-	if (selected_object != null) {
-		selected_object.select("circle").style("stroke-width", "1.5");	
-		selected_object.select("rect").style("stroke-width", "1.5");	
-		selected_object.style('stroke-dasharray', 'none');	
-	}
-	selected_object = null;
-	selected_link = null;*/
-
 	if (!sameLink) {
 		// Select new link
 		selected_link = link;
 		selected_object = object;
 		selected_object.style("stroke-dasharray", "10, 2");	
-//		selected_object.select("path").style("stroke-dasharray", "5, 5");	
-//		selected_object.select("line").style("stroke-dasharray", "5, 5");	
+		menuElementProperties.setEnabled(true);
 	}
 }
 

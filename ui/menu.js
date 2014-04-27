@@ -1,17 +1,3 @@
-/*
-var dialogAbout = new goog.ui.Dialog();
-dialogAbout.setContent('<h1>webGraphEd</h1>' +
-	'Graph drawing editor for the web.<br><br> ' +
-	'License: ');
-dialogAbout.setTitle('About webGraphEd');
-dialogAbout.setButtonSet(goog.ui.Dialog.ButtonSet.OK);
-
-
-var dialogProperties = new goog.ui.Dialog();
-dialogProperties.setTitle('Properties');
-dialogProperties.setButtonSet(goog.ui.Dialog.ButtonSet.OK);
-*/
-
 
 function readFile(that) {
 console.log('that: ' + that);
@@ -27,12 +13,12 @@ console.dir(that.files[0]);
 		reader.onload = function (e) {  
 			textFile = e.target.result;
 			textFileName = that.files[0].name;
-console.log('textFileName: ' + textFileName);
+//console.log('textFileName: ' + textFileName);
 
 			importFile(textFileName);
 			updateMenu(layout.graph);
 //			clearCanvas();
-console.log('textFileName: ' + textFileName);
+//console.log('textFileName: ' + textFileName);
 			document.title = 'webGraphEd - ' + textFileName;
 			statusBarMessage = 'File loaded in ' + (Date.now()-timerStart)/1000 + ' s.';
 			updateStatusBar();
@@ -43,11 +29,16 @@ console.log('textFileName: ' + textFileName);
 } 
 
 
+/**
+ * Shows the About dialog.
+ */
 function showAbout() {
 	dialogAbout.setVisible(true);
 }
 
-
+/**
+ * Shows the Graph drawing properties dialog.
+ */
 function showProperties() {
 	dialogProperties.setContent("<h1>Graph drawing properties</h1>" +
 		"Connected graph: " + (layout.graph.isConnected() ? "yes" : "no") + '<br>' +
@@ -57,6 +48,9 @@ function showProperties() {
 	dialogProperties.setVisible(true);
 }
 
+/**
+ * Shows the Debug dialog.
+ */
 function showDebug() {
 console.log('showDebug:');
 	var i, s = '';
@@ -106,35 +100,30 @@ console.log(s);
 	dialogNodeProperties.setContent(s);
 //	dialogNodeProperties.setVisible(true);
 	
-/*
-window.open("http://www.w3schools.com","_blank","toolbar=yes, scrollbars=yes, resizable=yes, top=500, left=500, width=400, height=400");
-window.open('http://www.quackit.com/common/link_builder.cfm','popUpWindow','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');	
-*/
 
 window.open("nodeProperties.html","_blank","toolbar=yes, scrollbars=yes, resizable=yes, top=500, left=500, width=400, height=400");
 
-/*
-var popupWindow = null;
-function centeredPopup(url,winName,w,h,scroll){
-LeftPosition = (screen.width) ? (screen.width-w)/2 : 0;
-TopPosition = (screen.height) ? (screen.height-h)/2 : 0;
-settings =
-'height='+h+',width='+w+',top='+TopPosition+',left='+LeftPosition+',scrollbars='+scroll+',resizable'
-popupWindow = window.open(url,winName,settings)
-}
-centeredPopup(this.href,'myWindow','500','300','yes');*/
 
 }
 
 
+/**
+ * Exports to GML.
+ */
 function exportToGML() {
 	layout.exportGML();
 }
 
+/**
+ * Exports to GraphML.
+ */
 function exportToGraphML() {
 	layout.exportGraphML();
 }
 
+/**
+ * Creates a new layout.
+ */
 function newLayout() {
 	clearCanvas();
 	layout.clear();
@@ -199,6 +188,9 @@ function updateEditMenu(layoutType) {
 	menuFit.setEnabled(!isForceDirected);
 }
 
+/**
+ * Updates the status bar.
+ */
 function updateStatusBar() { 
 	var sHTML = '';
 	pz = getPanAndZoom();
@@ -318,9 +310,12 @@ menuEdit.addItem(new goog.ui.MenuSeparator());
 var menuAddNode = new goog.ui.MenuItem('Add node');
 menuAddNode.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
 menuEdit.addItem(menuAddNode); 
+var menuElementProperties = new goog.ui.MenuItem('Properties');
+menuElementProperties.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuElementProperties.setEnabled(false);
+menuEdit.addItem(menuElementProperties); 
 var menuUncollapseAll = new goog.ui.MenuItem('Uncollapse all');
 menuUncollapseAll.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
-menuUncollapseAll.setEnabled(false);
 menuUncollapseAll.setEnabled(false);
 menuEdit.addItem(menuUncollapseAll); 
 
@@ -355,6 +350,13 @@ goog.events.listen(btnEdit, goog.ui.Component.EventType.ACTION, function(e) {
 console.log('Add node');
 		layout.addNode((-WIDTH/4+30), (-HEIGHT/4+30));
 //		layout.addNode(0, 0);
+	}
+	else if (e.target && e.target.getCaption() == 'Properties') {
+		if (selected_node == null && selected_link == null) return;
+		if (selected_link == null)
+			chooseNodeProperties(selected_node)
+		else
+			chooseLinkProperties(selected_link);
 	}
 	else if (e.target && e.target.getCaption() == 'Uncollapse all') {
         layout.uncollapseAll();

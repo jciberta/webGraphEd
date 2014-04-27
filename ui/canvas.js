@@ -249,6 +249,7 @@ function updateGenericLayout(self, node, link) {
 
 //			var e = d3.event.sourceEvent;
 			if (e.ctrlKey || e.altKey || e.shiftKey) return;
+//console.dir(d);
 			chooseNodeProperties(d);
 		});	
 
