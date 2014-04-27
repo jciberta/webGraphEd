@@ -23,7 +23,7 @@ dialogNodeProperties.setButtonSet(goog.ui.Dialog.ButtonSet.OK);
 
 
 // Color Palette 
-function createColorPaletteDemo(colors, width, caption) {
+/*function createColorPaletteDemo(colors, width, caption) {
 	goog.dom.getElement('cp').appendChild(goog.dom.createDom('p', null, caption));
 	var cp = new goog.ui.ColorPalette(colors);
 	cp.setSize(width); // If we only set the columns, the rows are calculated.
@@ -31,15 +31,15 @@ function createColorPaletteDemo(colors, width, caption) {
 	goog.events.listen(cp, goog.ui.Component.EventType.ACTION, onColorEvent);
 	goog.events.listen(cp, EVENTS, logEvent);
 	return cp;
-}
+}*/
 
-function onColorEvent(e) {
+/*function onColorEvent(e) {
 	var palette = e.target;
 	var color = palette.getSelectedColor();
 //	goog.style.setStyle(goog.dom.getElement('cp_value'), 'background-color', color);
 //	goog.dom.getElement('cp_value').title = color;
 //	goog.dom.getElement('cp_text').innerHTML = goog.color.parse(color).hex;
-}
+}*/
 
 
 function chooseNodeProperties(d) {
@@ -194,7 +194,7 @@ function chooseLinkProperties(d) {
 	});
 }
 
-
+/*
 function openprompt() {
 
 	var temp = {
@@ -288,4 +288,4 @@ function openprompt() {
 			defaultButton: 'btn-primary'
 		}
 	});
-}
+}*/

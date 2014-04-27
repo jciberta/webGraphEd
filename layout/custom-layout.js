@@ -610,7 +610,6 @@ CustomLayout.prototype.addLink = function(source_node, target_node) {
  * @param {Object} d The node to toggle.
  */
 CustomLayout.prototype.toggle = function(d) {
-
 	// Leaves are not allowed to collapse
 	if (!d.children) return;
 
@@ -619,7 +618,6 @@ CustomLayout.prototype.toggle = function(d) {
 //console.dir(node);
 		if (node.children) {
 			var i;
-			
 			for (i = 0; i<node.children.length; i++) {
 				if (node.children[i].collapsed == undefined) node.children[i].collapsed = false;
 				if (!node.children[i].collapsed)
@@ -674,22 +672,13 @@ console.log('Update the layout (collapse)	');
 			return (d.visible || d.visible==undefined) ? 1 : 1e-6; 
 		});
 	
-//console_listLinks(this.links);	
-	
 	var l = vis.selectAll("path");
-//console.log('link:');	
-//console.dir(l);	
 	l.style("stroke-width", function(d) { 
 		var hideLink;
 		if (d.source.visible == undefined) d.source.visible = true;
 		if (d.target.visible == undefined) d.target.visible = true;
-//console.dir(d);	
-//console.log('d.source.id:' + d.source.id + ', d.target.id:' + d.target.id);	
-//console.log('d.source.visible:' + d.source.visible);	
-//console.log('d.target.visible:' + d.target.visible);	
 		hideLink = (!d.source.visible || !d.target.visible);
-//console.log('hideLink:' + hideLink);	
-		return hideLink ? 1e-6 : 1.5; 
+		return hideLink ? 1e-6 : (d.width == undefined ? 2 : d.width); 
 	});
 	
 	menuUncollapseAll.setEnabled(this.isCollapsed());
@@ -700,7 +689,6 @@ console.log('Update the layout (collapse)	');
  * @return {Boolean} True if there is any node collapsed, otherwise, false.
  */
 CustomLayout.prototype.isCollapsed = function() {
-//console.dir(this);
 	var i;
 	for (i=0; i<this.nodes.length; i++) {
 		if (this.nodes[i].collapsed != undefined && this.nodes[i].collapsed)

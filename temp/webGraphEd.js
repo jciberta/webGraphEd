@@ -310,7 +310,7 @@ DEFAULT_COLOR_LINK = 'Gray';
 DEFAULT_WIDTH = 2;
 
 // Debug mode
-var DEBUG = true;
+var DEBUG = false;
 
 
 function checkBrowserCompatibility() {
@@ -2231,7 +2231,7 @@ Layout = function() {
 }
 
 /**
- * Clear the layout.
+ * Clears the layout.
  */
 Layout.prototype.clear = function() {
 	delete this.graph;
@@ -2603,6 +2603,7 @@ Layout.prototype.unselectElement = function() {
 	selected_object = null;
 	selected_node = null;
 	selected_link = null;
+	menuElementProperties.setEnabled(false);
 }
 
 /**
@@ -2614,20 +2615,13 @@ Layout.prototype.selectNode = function(node, object) {
 	var sameNode = (node == selected_node);
 
 	this.unselectElement();
-/*	// Unselect old node
-	if (selected_object != null) {
-		selected_object.select("circle").style("stroke-width", "1.5");	
-		selected_object.select("rect").style("stroke-width", "1.5");	
-	}
-	selected_object = null;
-	selected_node = null;*/
-
 	if (!sameNode) {
 		// Select new node
 		selected_node = node;
 		selected_object = object;
 		selected_object.select("circle").style("stroke-width", "3");	
-		selected_object.select("rect").style("stroke-width", "3");	
+		selected_object.select("rect").style("stroke-width", "3");
+		menuElementProperties.setEnabled(true);
 	}
 }
 
@@ -2640,22 +2634,12 @@ Layout.prototype.selectLink = function(link, object) {
 	var sameLink = (link == selected_link);
 
 	this.unselectElement();
-/*	// Unselect old link/node
-	if (selected_object != null) {
-		selected_object.select("circle").style("stroke-width", "1.5");	
-		selected_object.select("rect").style("stroke-width", "1.5");	
-		selected_object.style('stroke-dasharray', 'none');	
-	}
-	selected_object = null;
-	selected_link = null;*/
-
 	if (!sameLink) {
 		// Select new link
 		selected_link = link;
 		selected_object = object;
 		selected_object.style("stroke-dasharray", "10, 2");	
-//		selected_object.select("path").style("stroke-dasharray", "5, 5");	
-//		selected_object.select("line").style("stroke-dasharray", "5, 5");	
+		menuElementProperties.setEnabled(true);
 	}
 }
 
@@ -2999,7 +2983,13 @@ CustomLayout.prototype.updateLayout = function(source) {
             .attr("class", "link")
 			.attr("id", function(d) { return 'path' + d.source.id + '_' + d.target.id; })
 			.style("stroke", function(d) { return d.color == undefined ? DEFAULT_COLOR_LINK : d.color; })
-			.style("stroke-width", function(d) { return d.width == undefined ? 2 : d.width; })
+			.style("stroke-width", function(d) { 
+				var hideLink;
+				if (d.source.visible == undefined) d.source.visible = true;
+				if (d.target.visible == undefined) d.target.visible = true;
+				hideLink = (!d.source.visible || !d.target.visible);
+				return hideLink ? 1e-6 : (d.width == undefined ? 2 : d.width); 
+			})
 			.style('cursor', 'pointer')
 			.attr("d", lineData)
 			.on("mousedown", function(d) {
@@ -3037,7 +3027,6 @@ CustomLayout.prototype.updateLayout = function(source) {
 //console.log('d3.event.ctrlKey: ' + d3.event.ctrlKey);	
 				source_node = d;
 				source_object = d3.select(this);
-
 
 //                linking = true;
                 if (d3.event.ctrlKey) {
@@ -3362,7 +3351,6 @@ CustomLayout.prototype.addLink = function(source_node, target_node) {
  * @param {Object} d The node to toggle.
  */
 CustomLayout.prototype.toggle = function(d) {
-
 	// Leaves are not allowed to collapse
 	if (!d.children) return;
 
@@ -3371,7 +3359,6 @@ CustomLayout.prototype.toggle = function(d) {
 //console.dir(node);
 		if (node.children) {
 			var i;
-			
 			for (i = 0; i<node.children.length; i++) {
 				if (node.children[i].collapsed == undefined) node.children[i].collapsed = false;
 				if (!node.children[i].collapsed)
@@ -3426,22 +3413,13 @@ console.log('Update the layout (collapse)	');
 			return (d.visible || d.visible==undefined) ? 1 : 1e-6; 
 		});
 	
-//console_listLinks(this.links);	
-	
 	var l = vis.selectAll("path");
-//console.log('link:');	
-//console.dir(l);	
 	l.style("stroke-width", function(d) { 
 		var hideLink;
 		if (d.source.visible == undefined) d.source.visible = true;
 		if (d.target.visible == undefined) d.target.visible = true;
-//console.dir(d);	
-//console.log('d.source.id:' + d.source.id + ', d.target.id:' + d.target.id);	
-//console.log('d.source.visible:' + d.source.visible);	
-//console.log('d.target.visible:' + d.target.visible);	
 		hideLink = (!d.source.visible || !d.target.visible);
-//console.log('hideLink:' + hideLink);	
-		return hideLink ? 1e-6 : 1.5; 
+		return hideLink ? 1e-6 : (d.width == undefined ? 2 : d.width); 
 	});
 	
 	menuUncollapseAll.setEnabled(this.isCollapsed());
@@ -3452,7 +3430,6 @@ console.log('Update the layout (collapse)	');
  * @return {Boolean} True if there is any node collapsed, otherwise, false.
  */
 CustomLayout.prototype.isCollapsed = function() {
-//console.dir(this);
 	var i;
 	for (i=0; i<this.nodes.length; i++) {
 		if (this.nodes[i].collapsed != undefined && this.nodes[i].collapsed)
@@ -4085,30 +4062,6 @@ console.dir(d);
  * Updates the layout when collapsing/uncollapsing.
  */
 ForceDirectedLayout.prototype.updateCollapsedLayout = function(d) {
-/*console.log('Update the layout (collapse). Nodes:');	
-console.dir(this.nodes);
-	// Update the layout (collapse)	
-	var vis = d3.select("#vis");
-	var node = vis.selectAll("g");
-	var c = vis.selectAll("circle")
-console.dir(c);
-	c.style("r", function(d) {
-console.dir(d);
-//		return 10;
-		return (d.visible || d.visible==undefined) ? (d.collapsed ? 8 : 5) : 1e-6; 
-	})
-	var t = vis.selectAll("text")
-		t.style("fill-opacity", function(d) {
-			return (d.visible || d.visible==undefined) ? 1 : 1e-6; 
-		});
-	var l = vis.selectAll("path");
-	l.style("stroke-width", function(d) { 
-		var hideLink;
-		if (d.source.visible == undefined) d.source.visible = true;
-		if (d.target.visible == undefined) d.target.visible = true;
-		hideLink = (!d.source.visible || !d.target.visible);
-		return hideLink ? 1e-6 : 1.5; 
-	});*/
 	this.updateLayout(d);
 	menuUncollapseAll.setEnabled(this.isCollapsed());
 }
@@ -5242,3 +5195,1247 @@ CONTINUE:{key:goog.ui.Dialog.DefaultButtonKeys.CONTINUE,caption:goog.ui.Dialog.D
 goog.ui.Dialog.ButtonSet.createYesNo=function(){return(new goog.ui.Dialog.ButtonSet).addButton(goog.ui.Dialog.ButtonSet.DefaultButtons.YES,!0).addButton(goog.ui.Dialog.ButtonSet.DefaultButtons.NO,!1,!0)};goog.ui.Dialog.ButtonSet.createYesNoCancel=function(){return(new goog.ui.Dialog.ButtonSet).addButton(goog.ui.Dialog.ButtonSet.DefaultButtons.YES).addButton(goog.ui.Dialog.ButtonSet.DefaultButtons.NO,!0).addButton(goog.ui.Dialog.ButtonSet.DefaultButtons.CANCEL,!1,!0)};
 goog.ui.Dialog.ButtonSet.createContinueSaveCancel=function(){return(new goog.ui.Dialog.ButtonSet).addButton(goog.ui.Dialog.ButtonSet.DefaultButtons.CONTINUE).addButton(goog.ui.Dialog.ButtonSet.DefaultButtons.SAVE).addButton(goog.ui.Dialog.ButtonSet.DefaultButtons.CANCEL,!0,!0)};
 (function(){"undefined"!=typeof document&&(goog.ui.Dialog.ButtonSet.OK=goog.ui.Dialog.ButtonSet.createOk(),goog.ui.Dialog.ButtonSet.OK_CANCEL=goog.ui.Dialog.ButtonSet.createOkCancel(),goog.ui.Dialog.ButtonSet.YES_NO=goog.ui.Dialog.ButtonSet.createYesNo(),goog.ui.Dialog.ButtonSet.YES_NO_CANCEL=goog.ui.Dialog.ButtonSet.createYesNoCancel(),goog.ui.Dialog.ButtonSet.CONTINUE_SAVE_CANCEL=goog.ui.Dialog.ButtonSet.createContinueSaveCancel())})();
+
+
+
+function createCanvas() {
+    /*canvas = d3.select("body")
+        .append("svg:svg")
+            .attr("id", "canvas")
+            .attr("width", WIDTH + margin.left + margin.right)
+            .attr("height", HEIGHT + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.right + ")")
+                .call(zoom);
+    
+    rect = canvas.append("rect")
+        .attr("width", WIDTH)
+        .attr("height", HEIGHT)
+        .attr("stroke-width", 1)
+        .style("fill", "none")
+        .style("pointer-events", "all");
+        
+    container = canvas.append("g")
+        .attr("id", "container");
+
+    frame = d3.select("canvas")
+        .append("svg:rect")
+            .attr("id", "frame")
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 1)
+            .attr("fill", "none");	*/
+            
+	svg = d3.select("#main")
+//    svg = d3.select("body")
+        .append("svg:svg")
+            .attr("width", WIDTH)
+            .attr("height", HEIGHT)
+            .attr("id", "canvas")
+            .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.right + ")")
+                .call(zoom)
+				.on("dblclick.zoom", null);
+        
+    rect = svg.append("rect")
+        .attr("width", WIDTH)
+        .attr("height", HEIGHT)
+        .attr("stroke-width", 1)
+        .style("fill", "none")
+        .style("pointer-events", "all");
+        
+    container = svg.append("g")
+        .attr("id", "container");
+
+    frame = d3.select("svg")
+        .append("svg:rect")
+            .attr("id", "frame")
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 1)
+            .attr("fill", "none");   
+
+    canvas = svg;
+	
+	
+//console.log('Creating VIS');
+	vis = container
+        .append("svg:g")
+			.attr("id", "vis")
+			.attr("transform", "translate(" + WIDTH / 2 + "," + HEIGHT / 2 + ")");
+//			.on("mousedown", mousedown)
+//			.on("mousemove", mousemove)
+//			.on("mouseup", mouseup)
+}
+
+function destroyCanvas() {
+	var element = document.getElementById("canvas");
+	element.parentNode.removeChild(element);
+}
+
+function clearCanvas() {
+//	var element = document.getElementById('vis');
+//    element.parent.removeChildren();
+
+	// Just remove the children of the group element "vis"
+	var element = document.getElementById('vis');
+//console.log('element:');	
+//console.dir(element);	
+	while (element.firstChild) {
+//console.log('element.firstChild:');	
+//console.dir(element.firstChild);	
+		element.removeChild(element.firstChild);
+	}
+}
+
+function clearCanvas2() {
+	// Remove the SVG element (canvas)
+	destroyCanvas();
+
+	// Insert the SVG element (canvas)
+	createCanvas();
+	coord = {x: 0, y: 0};
+}
+
+function createDragLine() {
+	var vis = d3.select("#vis");
+
+	// Line displayed when dragging new nodes
+	drag_line = vis.append("line")
+		.attr("class", "drag_line_hidden")
+		.attr("x1", 0)
+		.attr("y1", 0)
+		.attr("x2", 0)
+		.attr("y2", 0);		
+}
+
+
+// ----------------------------------------------------------------------------
+//                               Pan & Zoom
+// ----------------------------------------------------------------------------
+var zoom = d3.behavior.zoom()
+    .scaleExtent([1, 10])
+    .on("zoom", zoomed);
+	
+/*var drag = d3.behavior.drag()
+    .on("dragstart", dragstarted)
+	.on("drag", function(d,i) {
+		d.x += d3.event.dx
+		d.y += d3.event.dy
+		d3.select(this).attr("transform", function(d,i){
+			return "translate(" + [ d.x,d.y ] + ")"
+		})
+	})
+	.on("dragend", dragended);*/
+
+function zoomed() {
+    if (d3.event.ctrlKey) { return; }
+//console.log('PAN_AND_ZOOM: ' + PAN_AND_ZOOM);
+//console.log('zoomed. translate: ' + d3.event.translate + " scale: " + d3.event.scale);
+//	if (PAN_AND_ZOOM) {
+		container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+		updateStatusBar();
+		//document.getElementById('statusBar').innerHTML = 'Zoom: ' + Math.floor(d3.event.scale*100) + '%';
+//	}
+}
+
+/*function dragstarted(d) {
+    if (d3.event.ctrlKey) { return; }
+	if (PAN_AND_ZOOM) {
+		d3.event.sourceEvent.stopPropagation();
+		d3.select(this).classed("dragging", true);
+	}
+}*/
+
+/*function dragended(d) {
+    if (d3.event.ctrlKey) { return; }
+	if (PAN_AND_ZOOM) {
+		d3.select(this).classed("dragging", false);
+	}
+}*/
+
+/**
+ * Gets the current values of pan and zoom.
+ */
+function getPanAndZoom() {
+	var m=0, n=0, s=1;
+
+    if (zoom != null) {
+//console.log('zoom.translate: ' + zoom.translate());
+        m = zoom.translate()[0];
+        n = zoom.translate()[1];
+        s = zoom.scale();
+    }
+    return {translate: {x: m, y: n}, scale: s};
+
+
+/*console.log('zoom.translate(): ' + zoom.translate());
+
+	var m=0, n=0, s=1;
+	var a = container.attr("transform");
+//console.log("a: " + a);	
+
+	if (a==null) return {translate: {x: 0, y: 0}, scale: 1}
+	
+	var a = a.split("scale");
+
+	// Pan
+	a[0] = a[0].replace('translate(', '').replace(')', '');
+	a[0] = a[0].split(',');
+	m = a[0][0];
+	n = a[0][1];
+//console.log("m: " + m);
+//console.log("n: " + n);
+	
+	// Zoom
+	a[1] = a[1].replace('(', '').replace(')', '');
+	s = a[1];
+//console.log("zoom: " + s);
+	
+	return {translate: {x: m, y: n}, scale: s}*/
+}
+
+/**
+ * Zooms in the layout.
+ */
+function zoomIn() {
+	var pz = getPanAndZoom();
+	pz.scale += 0.5;
+	if (pz.scale > 10) pz.scale = 10;
+	zoom.scale(pz.scale);
+	container.attr("transform", "translate(" + [pz.translate.x, pz.translate.y] + ")scale(" + pz.scale + ")");
+	layout.center();
+	updateStatusBar(); 
+}
+
+function zoomOut() {
+	var pz = getPanAndZoom();
+	pz.scale -= 0.5;
+	if (pz.scale < 1) pz.scale = 1;
+	zoom.scale(pz.scale);
+	container.attr("transform", "translate(" + [pz.translate.x, pz.translate.y] + ")scale(" + pz.scale + ")");
+	layout.center();
+	updateStatusBar();
+}
+
+/**
+ * Updates the layout, perfoming the generic update.
+ * @param {Object} node Every node in the layout.
+ * @param {Object} link Every link in the layout.
+ */
+function updateGenericLayout(self, node, link) {
+	// CIRCLE
+	node.append("circle")
+		.attr("r", function(d) { 
+			if (d.shape == undefined) d.shape = 'Circle';
+			return d.shape == 'Circle' ? ((d.visible || d.visible==undefined) ? (d.collapsed ? 8 : 5) : 0) : 0; 
+		})
+		.attr("id", function(d) { return 'circle' + d.id; })
+		.style("fill", function(d) {
+			return d.color==undefined ? "White" : d.color;
+		})
+		.on("dblclick", function(d) { 
+			var e = d3.event;
+			// Stop propagation on the source event to prevent multiple actions
+			// https://github.com/mbostock/d3/wiki/Drag-Behavior#on
+//			d3.event.sourceEvent.stopPropagation();
+			e.stopPropagation();
+//			event.stopPropagation();
+
+//			var e = d3.event.sourceEvent;
+			if (e.ctrlKey || e.altKey || e.shiftKey) return;
+//console.dir(d);
+			chooseNodeProperties(d);
+		});	
+
+	// SQUARE
+	node.append("rect")
+		.attr("x", function(d) { return (d.collapsed ? -8 : -5); })
+		.attr("y", function(d) { return (d.collapsed ? -8 : -5); })
+		.attr("width", function(d) { 
+			if (d.shape == 'Square')
+				return (d.visible || d.visible==undefined) ? (d.collapsed ? 16 : 10) : 0
+			else
+				return 0;
+		})
+		.attr("height", function(d) { 
+			if (d.shape == 'Square')
+				return (d.visible || d.visible==undefined) ? (d.collapsed ? 16 : 10) : 0
+			else
+				return 0;
+		})
+		.attr("id", function(d) { return 'rect' + d.id; })
+		.style("fill", function(d) {
+			return d.color==undefined ? "White" : d.color;
+		})
+		.attr("stroke", "#000")
+		.attr("stroke-width", 1)
+		.on("dblclick", function(d) { 
+			var e = d3.event;
+			e.stopPropagation();
+			if (e.ctrlKey || e.altKey || e.shiftKey) return;
+			chooseNodeProperties(d);
+		});	
+		
+	// TEXT
+	node.append("text")
+		.attr("dy", ".31em")
+		.attr("transform", function(d) { 
+			return "translate(8)";	})
+		.text(function(d, i) { return d.name; })
+		.style("fill-opacity", function(d) {
+			return (d.visible || d.visible==undefined) ? 1 : 1e-6; 
+		})
+		.on("dblclick", function(d) { 
+			var e = d3.event;
+			e.stopPropagation();
+			var answer = prompt("Please enter the new name", d.name); // d.name could be also d3.select(this).text()
+			if (answer != null) {
+				// Change text in "nodes" structure
+				d.name = answer;
+				// Change text on layout
+				d3.select(this).text(answer);				
+				// Change text on graph drawing object
+				self.graph.changeLabel(d.id, answer);
+			}
+		});
+}
+
+
+
+
+var dialogAbout = new goog.ui.Dialog();
+dialogAbout.setTitle('About webGraphEd');
+dialogAbout.setContent('<h1>webGraphEd</h1>' +
+	'Graph drawing editor for the web.<br><br> ' +
+	'License: ');
+dialogAbout.setButtonSet(goog.ui.Dialog.ButtonSet.OK);
+
+
+var dialogProperties = new goog.ui.Dialog();
+dialogProperties.setTitle('Properties');
+dialogProperties.setButtonSet(goog.ui.Dialog.ButtonSet.OK);
+
+
+var dialogDebug = new goog.ui.Dialog();
+dialogDebug.setTitle('Debug information');
+dialogDebug.setButtonSet(goog.ui.Dialog.ButtonSet.OK);
+
+
+var dialogNodeProperties = new goog.ui.Dialog();
+dialogNodeProperties.setTitle('Node properties');
+dialogNodeProperties.setButtonSet(goog.ui.Dialog.ButtonSet.OK);
+
+
+// Color Palette 
+/*function createColorPaletteDemo(colors, width, caption) {
+	goog.dom.getElement('cp').appendChild(goog.dom.createDom('p', null, caption));
+	var cp = new goog.ui.ColorPalette(colors);
+	cp.setSize(width); // If we only set the columns, the rows are calculated.
+	cp.render(goog.dom.getElement('cp'));
+	goog.events.listen(cp, goog.ui.Component.EventType.ACTION, onColorEvent);
+	goog.events.listen(cp, EVENTS, logEvent);
+	return cp;
+}*/
+
+/*function onColorEvent(e) {
+	var palette = e.target;
+	var color = palette.getSelectedColor();
+//	goog.style.setStyle(goog.dom.getElement('cp_value'), 'background-color', color);
+//	goog.dom.getElement('cp_value').title = color;
+//	goog.dom.getElement('cp_text').innerHTML = goog.color.parse(color).hex;
+}*/
+
+
+function chooseNodeProperties(d) {
+	// Default values
+	if (d.shape == undefined) d.shape = DEFAULT_SHAPE;
+	if (d.color == undefined) d.color = DEFAULT_COLOR_NODE;
+
+	function listShapes(d) {
+		var aShapes = ['Circle', 'Square'];
+		var i, s = '';
+		
+		for (i=0; i<aShapes.length; i++) {
+			if (i % 5 == 0) s += '<tr>'; 
+			s += '<td><input type="radio" name="shape" value="' + aShapes[i] + '" ' + (d.shape==aShapes[i] ? 'checked="checked"' : '') + '>' + aShapes[i] + '</td>';
+			if ((i+1) % 5 == 0) s += '</tr>'; 
+		}
+//console.log('s: ' + s);		
+		return s;
+	}
+	
+	function listColors(d) {
+		var aColors = ['Red', 'White', 'Cyan', 'Silver', 'Blue', 'Gray', 'DarkBlue', 'Black', 'LightBlue', 'Orange', 'Purple', 'Brown', 'Yellow', 'Maroon', 'Lime', 'Green', 'Magenta', 'Olive'];
+		var i, s = '';
+		
+		for (i=0; i<aColors.length; i++) {
+			if (i % 5 == 0) s += '<tr>'; 
+			s += '<td><input type="radio" name="color" value="' + aColors[i] + '" ' + (d.color==aColors[i] ? 'checked="checked"' : '') + '>' + aColors[i] + '</td>';
+			if ((i+1) % 5 == 0) s += '</tr>'; 
+		}
+//console.log('s: ' + s);		
+		return s;
+	}
+	
+	var txt = '<h1>Node Properties</h1>'+
+		'Select shape:<br>' +
+		'<table>' + listShapes(d) + '</table>' +
+		'<br>Select color:<br>' +
+		'<table>' + listColors(d) + '</table>';
+
+	$.prompt(txt, { 
+		buttons: {Change:true, Cancel:false},
+		submit: function(e, v, m, f) {
+			// This is simple pre submit validation, the submit function
+			// return true to proceed to the callback, or false to take 
+			// no further action, the prompt will stay open.
+			var flag = true;
+			// ...
+			return flag;
+		},
+		close: function(e, v, m, f) {
+			if (v) {
+				var n;
+				$.each(f, function(i, obj) {
+					n = layout.graph.getNode(d.id);
+					switch (i) {
+						case 'shape': 
+							n[2] = obj; 
+							d.shape = obj; 
+							layout.changeNodeShape(d); 
+							break;
+						case 'color': 
+							n[3] = obj; 
+							d.color = obj; 
+							layout.changeNodeColor(d); 
+							break;
+					}
+				});	
+//				layout.update();
+			}
+			else {}
+		},
+		overlayspeed: 'fast',
+		promptspeed: 'fast',
+		show: 'show'
+	});
+}
+
+/**
+ * Open a dialog for choosing link properties.
+ * @param {Object} d The link object.
+ */
+function chooseLinkProperties(d) {
+	// Default values
+	if (d.width == undefined) d.width = DEFAULT_WIDTH;
+	if (d.color == undefined) d.color = DEFAULT_COLOR_LINK;
+
+	function listWidths(d) {
+		var aWidths = ['2', '4'];
+		var i, s = '';
+		
+		for (i=0; i<aWidths.length; i++) {
+			if (i % 5 == 0) s += '<tr>'; 
+			s += '<td><input type="radio" name="width" value="' + aWidths[i] + '" ' + (d.width==aWidths[i] ? 'checked="checked"' : '') + '>' + aWidths[i] + '</td>';
+			if ((i+1) % 5 == 0) s += '</tr>'; 
+		}
+		return s;
+	}
+	
+	function listColors(d) {
+		var aColors = ['Red', 'White', 'Cyan', 'Silver', 'Blue', 'Gray', 'DarkBlue', 'Black', 'LightBlue', 'Orange', 'Purple', 'Brown', 'Yellow', 'Maroon', 'Lime', 'Green', 'Magenta', 'Olive'];
+		var i, s = '';
+		
+		for (i=0; i<aColors.length; i++) {
+			if (i % 5 == 0) s += '<tr>'; 
+			s += '<td><input type="radio" name="color" value="' + aColors[i] + '" ' + (d.color==aColors[i] ? 'checked="checked"' : '') + '>' + aColors[i] + '</td>';
+			if ((i+1) % 5 == 0) s += '</tr>'; 
+		}
+		return s;
+	}
+	
+	var txt = '<h1>Link Properties</h1>'+
+		'Select width:<br>' +
+		'<table>' + listWidths(d) + '</table>' +
+		'<br>Select color:<br>' +
+		'<table>' + listColors(d) + '</table>';
+
+	$.prompt(txt, { 
+		buttons: {Change:true, Cancel:false},
+		submit: function(e, v, m, f) {
+			// This is simple pre submit validation, the submit function
+			// return true to proceed to the callback, or false to take 
+			// no further action, the prompt will stay open.
+			var flag = true;
+			// ...
+			return flag;
+		},
+		close: function(e, v, m, f) {
+			if (v) {
+				var l;
+				$.each(f, function(i, obj) {
+					l = layout.graph.getLink(d.source.id, d.target.id);
+					switch (i) {
+						case 'width': 
+							l[3] = obj; 
+							d.width = obj; 
+							layout.changeLinkWidth(d); 
+							break;
+						case 'color': 
+							l[4] = obj; 
+							d.color = obj; 
+							layout.changeLinkColor(d); 
+							break;
+					}
+				});	
+//				layout.update();
+			}
+			else {}
+		},
+		overlayspeed: 'fast',
+		promptspeed: 'fast',
+		show: 'show'
+	});
+}
+
+/*
+function openprompt() {
+
+	var temp = {
+		state0: {
+			title: 'Content Rating',
+			html:'<label class="radio" for="rate_content_poor"><input type="radio" name="rate_content" id="rate_content_poor" value="Poor" class="radioinput" />Poor</label>'+
+					'<label class="radio" for="rate_content_ok"><input type="radio" name="rate_content" id="rate_content_ok" value="Ok" class="radioinput" />Ok</label>'+
+					'<label class="radio" for="rate_content_good"><input type="radio" name="rate_content" id="rate_content_good" value="Good" class="radioinput" />Good</label>'+
+					'<label class="radio" for="rate_content_excellent"><input type="radio" name="rate_content" id="rate_content_excellent" value="Excellent" class="radioinput" />Excellent!</label>',
+			buttons: { Cancel: false, Next: true },
+			focus: 1,
+			submit:function(e,v,m,f){ 
+				if(!v)
+					$.prompt.close()
+				else $.prompt.goToState('state1');//go forward
+				return false; 
+			}
+		},
+		state1: {
+			title: 'Needs Improvement',
+			html:'<p>Check all which need improvement:</p>'+
+					'<label class="checkbox" for="rate_improve_colors"><input type="checkbox" name="rate_improve" id="rate_improve_colors" value="Color Scheme" class="radioinput" />Color Scheme</label>'+
+					'<label class="checkbox" for="rate_improve_graphics"><input type="checkbox" name="rate_improve" id="rate_improve_graphics" value="Graphics" class="radioinput" />Graphics</label>'+
+					'<label class="checkbox" for="rate_improve_readability"><input type="checkbox" name="rate_improve" id="rate_improve_readability" value="readability" class="radioinput" />Readability</label>'+
+					'<label class="checkbox" for="rate_improve_content"><input type="checkbox" name="rate_improve" id="rate_improve_content" value="Content" class="radioinput" />Content</label>'+
+					'<label class="checkbox" for="rate_improve_other"><input type="checkbox" name="rate_improve" id="rate_improve_other" value="Other" class="radioinput" />Other</label>'+
+					'<input type="text" name="rate_improve_other_txt" id="rate_improve_other_txt" value="" placeholder="Other Description" />',
+			buttons: { Back: -1, Cancel: 0, Next: 1 },
+			focus: 2,
+			submit:function(e,v,m,f){
+				if(v==0)
+					$.prompt.close()
+				else if(v==1)
+					$.prompt.goToState('state2');//go forward
+				else if(v=-1)
+					$.prompt.goToState('state0');//go back
+				return false; 
+			}
+		},
+		state2: {
+			title: 'How did you find this site?',
+			html:'<select name="rate_find" id="rate_find"><option value="Search">Search</option><option value="Online Publication">Online Publication</option><option value="friend">A Friend</option><option value="No Clue">No Clue</option></select>',
+			buttons: { Back: -1, Cancel: 0, Next: 1 },
+			focus: 2,
+			submit: function(e, v, m, f){
+				if (v == 0) 
+					$.prompt.close()
+				else 
+					if (v == 1) 
+						$.prompt.goToState('state3');//go forward
+					else 
+						if (v = -1) 
+							$.prompt.goToState('state1');//go back
+				return false;
+			}
+		},
+		state3: {
+			title: 'Additional Comments',
+			html:'<p>Please leave any other comments you have about this site:</p><div class="field"><textarea id="rate_comments" name="rate_comments"></textarea></div>',
+			buttons: { Back: -1, Cancel: 0, Finish: 1 },
+			focus: 2,
+			submit:function(e,v,m,f){ 
+				if(v==0) 
+					$.prompt.close()
+				else if(v==1)								
+					return true; //we're done
+				else if(v=-1)
+					$.prompt.goToState('state2');//go back
+				return false; 
+			}
+		}
+	}
+	
+	$.prompt(temp,{
+		close: function(e,v,m,f){
+			var str = "You can now process with this given information:<br />";
+			$.each(f,function(i,obj){
+				str += i + " - <em>" + obj + "</em><br />";
+			});	
+			$('#results').html(str);
+		},
+		classes: {
+			box: '',
+			fade: '',
+			prompt: '',
+			close: '',
+			title: 'lead',
+			message: '',
+			buttons: '',
+			button: 'btn',
+			defaultButton: 'btn-primary'
+		}
+	});
+}*/
+
+/*
+User interface:
+
+	<div id="menuBar"></div>
+	<div id="main"></div>
+	<div id="statusBar"></div>
+	<div id='fileDialog'>
+		<input type="file" id="openFile" style="display:none" onchange='readFile(this)' />
+	</div>
+	<div id="buffer" style="display:none"></div>
+	<div id="log" style="display:none"></div>
+	
+*/
+
+var menuBarDiv = document.createElement('div');
+menuBarDiv.id = 'menuBar';
+var mainDiv = document.createElement('div');
+mainDiv.id = 'main';
+var statusBarDiv = document.createElement('div');
+statusBarDiv.id = 'statusBar';
+var fileDialogDiv = document.createElement('div');
+fileDialogDiv.id = 'fileDialog';
+fileDialogDiv.innerHTML = '<input type="file" id="openFile" style="display:none" onchange="readFile(this)" />'
+var bufferDiv = document.createElement('div');
+bufferDiv.id = 'buffer';
+bufferDiv.style.display = 'none';
+var logDiv = document.createElement('div');
+logDiv.id = 'log';
+logDiv.style.display = 'none';
+
+document.body.appendChild(menuBarDiv);
+document.body.appendChild(mainDiv);
+document.body.appendChild(statusBarDiv);
+document.body.appendChild(fileDialogDiv);
+document.body.appendChild(bufferDiv);
+document.body.appendChild(logDiv);
+
+function readFile(that) {
+console.log('that: ' + that);
+console.dir(that);
+console.log('that.files[0]: ' + that.files[0]);
+console.dir(that.files[0]);
+//	var output = null;
+//  textFileName = that.files[0];
+	if (that.files && that.files[0]) {
+		timerStart = Date.now();
+		newLayout();
+		var reader = new FileReader();
+		reader.onload = function (e) {  
+			textFile = e.target.result;
+			textFileName = that.files[0].name;
+//console.log('textFileName: ' + textFileName);
+
+			importFile(textFileName);
+			updateMenu(layout.graph);
+//			clearCanvas();
+//console.log('textFileName: ' + textFileName);
+			document.title = 'webGraphEd - ' + textFileName;
+			statusBarMessage = 'File loaded in ' + (Date.now()-timerStart)/1000 + ' s.';
+			updateStatusBar();
+//console.log('output: ' + output);
+		};
+		reader.readAsText(that.files[0]);
+	}
+} 
+
+/**
+ * Shows the About dialog.
+ */
+function showAbout() {
+	dialogAbout.setVisible(true);
+}
+
+/**
+ * Shows the Graph drawing properties dialog.
+ */
+function showProperties() {
+	dialogProperties.setContent("<h1>Graph drawing properties</h1>" +
+		"Connected graph: " + (layout.graph.isConnected() ? "yes" : "no") + '<br>' +
+		"Cyclic graph: " + (layout.graph.isCyclic() ? "yes" : "no") + '<br>' +
+		"Tree: " + (layout.graph.isTree() ? "yes" : "no") + '<br>' +
+		"Binary tree: " + (layout.graph.isBinaryTree() ? "yes" : "no") + '<br>');
+	dialogProperties.setVisible(true);
+}
+
+/**
+ * Shows the Debug dialog.
+ */
+function showDebug() {
+console.log('showDebug:');
+	var i, s = '';
+
+	s += '<b>GraphDrawing object</b><br>';
+	s += '<ul>';
+	s += '<li> List of nodes: ' + layout.graph.listNodes + '</li><br>';
+	s += '<li> List of edges: ' + layout.graph.listEdges + '</li><br>';
+	s += '</ul>';
+	s += '<b>Layout object</b><br>';
+	s += '<pre>';
+	s += '  - layout keys: ' + Object.keys(layout) + '<br>';
+	s += '  - layout.layout keys: ' + Object.keys(layout.layout) + '<br>';
+	s += '  - Nodes keys: ' + Object.keys(layout.layout.nodes) + '<br>';
+	s += '  - Links keys: ' + Object.keys(layout.layout.links) + '<br>';
+	s += '  - isCollapsed? ' + layout.isCollapsed() + '<br>';
+	s += '</pre>';
+
+	dialogDebug.setContent(s);
+console.dir(layout.layout.nodes);
+console.dir(layout.layout.links);
+	dialogDebug.setVisible(true);
+}
+
+/*function showNodeProperties(d) {
+	var i, s = '';
+	
+	chooseNodeProperties(4);
+	//openprompt();
+	return;
+
+	s += '<b>Shape</b><br>';
+	s += '<input type="radio" name="shape" value="circle">Circle<br>';
+	s += '<input type="radio" name="shape" value="square">Square';
+	s += '</form>';
+	s += '<br>';
+	s += '<div id="cp"></div>';
+	s += '<script type="text/javascript">';
+	s += "createColorPaletteDemo(['black', 'blue', 'red', 'magenta', 'green', 'cyan', 'orange', 'yellow', ";
+	s += "'#404040', '#808080', '#b0b0b0', 'white'], 4, ";
+	s += "'This is a 4x3 color palette with named colors:');";
+	s += 'console.log("Inside showNodeProperties")';
+	s += '</script>';
+	s += '<form>';
+	s += '<b>Color</b><br>';
+console.log(s);
+	dialogNodeProperties.setContent(s);
+//	dialogNodeProperties.setVisible(true);
+	
+
+window.open("nodeProperties.html","_blank","toolbar=yes, scrollbars=yes, resizable=yes, top=500, left=500, width=400, height=400");
+
+
+}*/
+
+/**
+ * Exports to GML.
+ */
+function exportToGML() {
+	layout.exportGML();
+}
+
+/**
+ * Exports to GraphML.
+ */
+function exportToGraphML() {
+	layout.exportGraphML();
+}
+
+/**
+ * Creates a new layout.
+ */
+function newLayout() {
+	clearCanvas();
+	layout.clear();
+	updateMenu(false);
+}
+
+function importFile(filename) {
+    var ext = getFileExtension(filename).toUpperCase();
+    filename = filename.substr(0, filename.lastIndexOf('.')); // Trim the file extension
+    layout.setFileName(filename); 
+//console.log('getFileExtension: ' + ext);
+    if (ext == 'GML') {
+        layout.importGML(textFile);
+    }
+    else if (ext == 'GRAPHML') {
+        layout.importGraphML(textFile);
+    }
+    else {
+        alert("Format not supported!"); 
+        throw "Format not supported!";
+    }
+}
+
+/**
+ * Updates the menu depending on the graph drawing type.
+ * @param {GraphDrawing} graph The graph drawing.
+ */
+function updateMenu(graph) {
+    if ((graph==true) || (graph==false)) {
+//        menuFileProperties.setEnabled(graph);
+        menuTree.setEnabled(graph);	
+        menuVerticalTree.setEnabled(graph);
+        menuRadialTree.setEnabled(graph);
+        menuForceDirected.setEnabled(graph);
+        menuFileExportToGML.setEnabled(graph);
+        menuFileExportToGraphML.setEnabled(graph);
+    }
+    else {
+//        menuFileProperties.setEnabled(true);
+        isTree = graph.isTree();
+        menuTree.setEnabled(isTree);	
+        menuVerticalTree.setEnabled(isTree);	
+        menuRadialTree.setEnabled(isTree);
+        menuForceDirected.setEnabled(true);
+        menuFileExportToGML.setEnabled(true);
+        menuFileExportToGraphML.setEnabled(true);
+    }
+}
+
+/**
+ * Updates edit menu depending on layout type.
+ * If layout type is force directed, center and fit options have no sense.
+ * @param {string} layoutType The type of layout.
+ */
+function updateEditMenu(layoutType) {
+	var isForceDirected = (layoutType == FORCE_DIRECTED);
+	menuCenter.setEnabled(!isForceDirected);
+	menuFit.setEnabled(!isForceDirected);
+}
+
+/**
+ * Updates the status bar.
+ */
+function updateStatusBar() { 
+	var sHTML = '';
+	pz = getPanAndZoom();
+//console.log('pz: ' + JSON.stringify(pz));
+	
+	sHTML += '<TABLE><TR>';
+	sHTML += '<TD style="width:300px"><B>Filename</B>: ' + textFileName + '</TD>';
+	if (pz == null) {
+//	if (d3.event == null) {
+		sHTML += '<TD style="width:100px"><B>Zoom</B>: </TD>';
+		sHTML += '<TD style="width:100px"><B>Pan</B>: </TD>';
+	} else {
+		sHTML += '<TD style="width:100px"><B>Zoom</B>: ' + Math.floor(pz.scale*100) + '%</TD>';
+//		sHTML += '<TD style="width:100px"><B>Zoom</B>: ' + Math.floor(d3.event.scale*100) + '%</TD>';
+//		sHTML += '<TD style="width:200px"><B>Pan</B>: ' + d3.event.translate + '</TD>';
+		sHTML += '<TD style="width:200px"><B>Pan</B>: ' + Math.floor(pz.translate.x) + ',' + Math.floor(pz.translate.y) + '</TD>';
+//console.dir(d3.event.translate);		
+	}
+/*	if (PAN_AND_ZOOM) 
+        sHTML += '<TD style="width:200px"><B>Mode</B>: Pan & Zoom</TD>';
+    else
+        sHTML += '<TD style="width:200px"><B>Mode</B>: Edit</TD>';*/
+	sHTML += '<TD>' + statusBarMessage + '</TD>';
+	sHTML += '</TR></TABLE>';
+	document.getElementById('statusBar').innerHTML = sHTML;
+}
+
+/*function updatePanAndZoom(bValue) {
+    PAN_AND_ZOOM = bValue;
+    menuPanZoomMode.setChecked(PAN_AND_ZOOM); 
+    menuEditMode.setChecked(!PAN_AND_ZOOM);    
+    updateStatusBar();
+}*/
+
+var menubar = goog.ui.menuBar.create();
+/*    var menuNames = ['File', 'Layout', 'Help'];
+    var menuOptions = [];
+    menuOptions[0] = ['New', 'Open', null, 'Exit'];
+    menuOptions[1] = ['Tree', 'Radial tree', 'Force directed'];
+    menuOptions[2] = ['About'];
+*/
+
+// File menu
+var menuFile = new goog.ui.Menu();
+var menuFileNew = new goog.ui.MenuItem('New'); 
+menuFileNew.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuFile.addItem(menuFileNew); 
+var menuFileOpen = new goog.ui.MenuItem('Open'); 
+menuFileOpen.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuFile.addItem(menuFileOpen); 
+menuFile.addItem(new goog.ui.MenuSeparator());
+var menuFileExportToGML = new goog.ui.MenuItem('Export to GML');
+menuFileExportToGML.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuFile.addItem(menuFileExportToGML); 
+var menuFileExportToGraphML = new goog.ui.MenuItem('Export to GraphML');
+menuFileExportToGraphML.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuFile.addItem(menuFileExportToGraphML); 
+menuFile.addItem(new goog.ui.MenuSeparator());
+var menuFileProperties = new goog.ui.MenuItem('Properties');
+menuFileProperties.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuFile.addItem(menuFileProperties); 
+menuFile.addItem(new goog.ui.MenuSeparator());
+var menuFileExit = new goog.ui.MenuItem('Exit');
+menuFileExit.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuFile.addItem(menuFileExit); 
+
+var btnFile = new goog.ui.MenuButton('File', menuFile);
+btnFile.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menubar.addChild(btnFile, true);
+goog.events.listen(btnFile, goog.ui.Component.EventType.ACTION, function(e) {
+	if (e.target && e.target.getCaption() == 'New') {
+		newLayout();
+		document.title = 'webGraphEd';
+		}
+	else if (e.target && e.target.getCaption() == 'Open') {
+		$('#openFile').click();
+		newLayout();
+	}
+	else if (e.target && e.target.getCaption() == 'Export to GML') {
+		exportToGML();
+	}
+	else if (e.target && e.target.getCaption() == 'Export to GraphML') {
+		exportToGraphML();
+	}
+	else if (e.target && e.target.getCaption() == 'Properties') {
+		showProperties();
+	}
+});	
+	
+// Edit menu
+var menuEdit = new goog.ui.Menu();
+/*var menuPanZoomMode = new goog.ui.CheckBoxMenuItem('Pan & Zoom');
+menuPanZoomMode.setCheckable(true);
+menuPanZoomMode.setChecked(true);
+menuPanZoomMode.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuEdit.addItem(menuPanZoomMode); 
+var menuEditMode = new goog.ui.CheckBoxMenuItem('Edit');
+menuEditMode.setCheckable(true);
+menuEditMode.setChecked(false);
+menuEditMode.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuEdit.addItem(menuEditMode); 
+menuEdit.addItem(new goog.ui.MenuSeparator());*/
+/*var menuZoomIn = new goog.ui.MenuItem('Zoom in');
+menuZoomIn.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuEdit.addItem(menuZoomIn); 
+var menuZoomOut = new goog.ui.MenuItem('Zoom out');
+menuZoomOut.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuEdit.addItem(menuZoomOut); */
+var menuCenter = new goog.ui.MenuItem('Center');
+menuCenter.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuEdit.addItem(menuCenter); 
+var menuFit = new goog.ui.MenuItem('Fit');
+menuFit.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuEdit.addItem(menuFit); 
+menuEdit.addItem(new goog.ui.MenuSeparator());
+var menuAddNode = new goog.ui.MenuItem('Add node');
+menuAddNode.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuEdit.addItem(menuAddNode); 
+var menuElementProperties = new goog.ui.MenuItem('Properties');
+menuElementProperties.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuElementProperties.setEnabled(false);
+menuEdit.addItem(menuElementProperties); 
+var menuUncollapseAll = new goog.ui.MenuItem('Uncollapse all');
+menuUncollapseAll.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuUncollapseAll.setEnabled(false);
+menuEdit.addItem(menuUncollapseAll); 
+
+var btnEdit = new goog.ui.MenuButton('Edit', menuEdit);
+btnEdit.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menubar.addChild(btnEdit, true);
+goog.events.listen(btnEdit, goog.ui.Component.EventType.ACTION, function(e) {
+//console.log('listen');
+/*	if (e.target && e.target.getCaption() == 'Pan & Zoom') {
+        updatePanAndZoom(true);
+	}
+	else if (e.target && e.target.getCaption() == 'Edit') {
+        updatePanAndZoom(false);
+	}
+	else if (e.target && e.target.getCaption() == 'Zoom in') {
+		zoomIn();
+	}
+	else if (e.target && e.target.getCaption() == 'Zoom out') {
+		zoomOut();
+	}
+	else if (e.target && e.target.getCaption() == 'Zoom out') {
+        updatePanAndZoom(false);
+	}*/
+	if (e.target && e.target.getCaption() == 'Center') {
+        layout.center();
+	}
+	else if (e.target && e.target.getCaption() == 'Fit') {
+        layout.fit();
+	}
+	else if (e.target && e.target.getCaption() == 'Add node') {
+//console.log('layout: ' + JSON.stringify(layout));
+console.log('Add node');
+		layout.addNode((-WIDTH/4+30), (-HEIGHT/4+30));
+//		layout.addNode(0, 0);
+	}
+	else if (e.target && e.target.getCaption() == 'Properties') {
+		if (selected_node == null && selected_link == null) return;
+		if (selected_link == null)
+			chooseNodeProperties(selected_node)
+		else
+			chooseLinkProperties(selected_link);
+	}
+	else if (e.target && e.target.getCaption() == 'Uncollapse all') {
+        layout.uncollapseAll();
+	}
+});	
+
+
+    
+// Layout menu
+var menuLayout = new goog.ui.Menu();
+var menuTree = new goog.ui.MenuItem(HORIZONTAL_TREE);
+menuTree.setEnabled(false);	
+menuTree.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuLayout.addItem(menuTree); 
+var menuVerticalTree = new goog.ui.MenuItem(VERTICAL_TREE);
+menuVerticalTree.setEnabled(false);	
+menuVerticalTree.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuLayout.addItem(menuVerticalTree); 
+var menuRadialTree = new goog.ui.MenuItem(RADIAL_TREE); 
+menuRadialTree.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuLayout.addItem(menuRadialTree); 
+menuLayout.addItem(new goog.ui.MenuSeparator());
+var menuForceDirected = new goog.ui.MenuItem(FORCE_DIRECTED);
+menuForceDirected.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuLayout.addItem(menuForceDirected); 
+updateMenu(false);
+
+var btnLayout = new goog.ui.MenuButton('Layout', menuLayout);
+btnLayout.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menubar.addChild(btnLayout, true);
+goog.events.listen(btnLayout, goog.ui.Component.EventType.ACTION, function(e) {
+	if (e.target && e.target.getCaption() == HORIZONTAL_TREE) {
+		timerStart = Date.now();
+		clearCanvas();
+		layout.layoutHorizontalTree(container);
+		statusBarMessage = 'Layout done in ' + (Date.now()-timerStart)/1000 + ' s.';
+		updateStatusBar();
+	}
+	else if (e.target && e.target.getCaption() == VERTICAL_TREE) {
+		timerStart = Date.now();
+		clearCanvas();
+		layout.layoutVerticalTree(container);
+		statusBarMessage = 'Layout done in ' + (Date.now()-timerStart)/1000 + ' s.';
+		updateStatusBar();
+	}
+	else if (e.target && e.target.getCaption() == RADIAL_TREE) {
+		timerStart = Date.now();
+		clearCanvas();
+		layout.layoutRadialTree(container);
+		statusBarMessage = 'Layout done in ' + (Date.now()-timerStart)/1000 + ' s.';
+		updateStatusBar();
+	}
+		else if (e.target && e.target.getCaption() == FORCE_DIRECTED) {
+		timerStart = Date.now();
+		clearCanvas();
+		layout.layoutForceDirected(container);
+		statusBarMessage = 'Layout done in ' + (Date.now()-timerStart)/1000 + ' s.';
+		updateStatusBar();
+	}
+});	
+
+// Help menu
+var menuHelp = new goog.ui.Menu();
+if (DEBUG) {
+	var menuDebug = new goog.ui.MenuItem('Debug'); 
+	menuDebug.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+	menuHelp.addItem(menuDebug); 
+}
+var menuContents = new goog.ui.MenuItem('Contents'); 
+menuContents.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuHelp.addItem(menuContents); 
+var menuDocumentation = new goog.ui.MenuItem('Documentation'); 
+menuDocumentation.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuHelp.addItem(menuDocumentation); 
+menuHelp.addItem(new goog.ui.MenuSeparator());
+var menuAbout = new goog.ui.MenuItem('About'); 
+menuAbout.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menuHelp.addItem(menuAbout); 
+var btnAbout = new goog.ui.MenuButton('Help', menuHelp);
+btnAbout.setDispatchTransitionEvents(goog.ui.Component.State.ALL, true);
+menubar.addChild(btnAbout, true);
+goog.events.listen(btnAbout, goog.ui.Component.EventType.ACTION, function(e) {
+	if (e.target && e.target.getCaption() == 'Debug') {
+		showDebug();
+	}
+	else if (e.target && e.target.getCaption() == 'Contents') {
+		window.open("help.html");
+	}
+	else if (e.target && e.target.getCaption() == 'Documentation') {
+		window.open("doc/index.html");
+	}
+	else if (e.target && e.target.getCaption() == 'About') {
+		showAbout();
+	}
+});	
+
+updateMenu(false);
+
+menubar.render(goog.dom.getElement('menuBar'));
+
+
+
+
+// ----------------------------------------------------------------------------
+//                               Initialization
+// ----------------------------------------------------------------------------
+
+if (!checkBrowserCompatibility()) {
+	alert('Some needed APIs are not fully supported in this browser.');
+}
+
+function loadGraphDrawing() {
+	// Load file into layout object
+	switch (format) {
+		case 'GML':
+			layout.importGML(graph);
+			break;
+		case 'GRAPHML':
+			layout.importGraphML(graph);
+			break;
+		default:
+			alert("Format not supported!"); 
+			throw "Format not supported!";
+			break;
+	}
+   
+    // Layout the graph drawing
+    switch (query.layout) {
+        case 't':
+        case 'ht':
+            layout.layoutHorizontalTree(canvas);
+            break;
+        case 'vt':
+            layout.layoutVerticalTree(canvas);
+            break;
+        case 'rt':
+            layout.layoutRadialTree(container);
+            break;
+        case 'fd':
+            layout.layoutForceDirected(canvas);
+            break;
+        default:
+            alert("Layout not supported!"); 
+            throw "Layout not supported!";
+            break;
+    }
+	
+	if (EMBEDDED && query.layout!='fd') { 
+		layout.fit(); 
+	}
+    updateMenu(layout.graph);
+}
+
+// URL Parameters:
+// - benchmark=[true|false]
+// - layout=[t|rt|fd]
+// - url|graph,format=[gml|graphml]
+// - width|height
+// - embed=[true|false]
+var query = getURLParameters();
+var graph, format;
+var bWait = true;
+//console.log('query: ' + query);
+//console.log('query.layout: ' + query.layout);
+
+if (query.width != undefined) WIDTH = query.width;
+if (query.height != undefined) HEIGHT = query.height;
+
+createCanvas();	
+layout = new Layout();
+
+if (query.benchmark != undefined) BENCHMARK = (query.benchmark.toLowerCase() == 'true');
+if (BENCHMARK) {
+	var benchmark = new Benchmark(['binary-tree50.gml', 'binary-tree500.gml', 'binary-tree1000.gml', 'binary-tree2000.gml', 'binary-tree5000.gml']);
+	benchmark.start();
+	throw 'Benchmark completed.' // Stop the application
+}
+
+// Example 1: ?layout=t&format=gml&graph=graph%20[%0A%20%20comment%20"Binary%20tree"%0A%20%20node%20[%20id%201%20label%20"Node%201"%20]%0A%20%20node%20[%20id%202%20label%20"Node%202"%20]%0A%20%20node%20[%20id%203%20label%20"Node%203"%20]%0A%20%20node%20[%20id%204%20label%20"Node%204"%20]%0A%20%20node%20[%20id%205%20label%20"Node%205"%20]%0A%0A%20%20edge%20[%20source%201%20target%202%20]%0A%20%20edge%20[%20source%201%20target%203%20]%0A%20%20edge%20[%20source%202%20target%204%20]%0A%20%20edge%20[%20source%202%20target%205%20]%0A]
+// graph [
+//   comment "Binary tree"
+//   node [ id 1 label "Node 1" ]
+//   node [ id 2 label "Node 2" ]
+//   node [ id 3 label "Node 3" ]
+//   node [ id 4 label "Node 4" ]
+//   node [ id 4 label "Node 5" ]
+//
+//   edge [ source 1 target 2 ]
+//   edge [ source 1 target 3 ]
+//   edge [ source 2 target 4 ]
+//   edge [ source 2 target 5 ]
+// ] 
+// Example 2: ?layout=rt&url=http://xtec.cat/~jciberta/webGraphEd/binary-tree2.gml
+if (query.layout != undefined) {
+
+	if (query.embed != undefined) EMBEDDED = (query.embed.toLowerCase() == 'true');
+console.log('WIDTH: ' + WIDTH + ', HEIGHT: ' + HEIGHT + ', EMBEDDED: ' + EMBEDDED);  
+
+	if (EMBEDDED) {
+		// Embed into another web page with iframe:
+		// <iframe src="http://xtec.cat/~jciberta/webGraphEd/webGraphEd.html" width="200" height="200"></iframe>
+		var menuBarDiv = document.getElementById('menuBar');
+		var mainDiv = document.getElementById('main');
+		var statusBarDiv = document.getElementById('statusBar');
+		menuBarDiv.style.display = 'none';
+		statusBarDiv.style.display = 'none';
+//		menuBarDiv.style.visibility = 'hidden';
+//		statusBarDiv.style.visibility = 'hidden';
+		mainDiv.parentNode.insertBefore(menuBarDiv, mainDiv);
+	}
+
+    // Get the graph drawing
+    if (query.format != undefined && query.graph != undefined) {
+//console.log('format: ' + query.format.toUpperCase());    
+//console.log('graph: ' + decodeURIComponent(query.graph));    
+
+		graph = decodeURIComponent(query.graph);
+		format = query.format.toUpperCase();
+		loadGraphDrawing();
+		textFileName = 'noname';
+    }
+    else if (query.url != undefined) {
+		var allText, lines;
+
+		// NOTE: only work on the server side. DON'T try in local development, it doesn't work!
+		// Adapted from http://social.msdn.microsoft.com/Forums/en-US/64ea2d16-7594-400b-8b25-8b3b9a078eab/read-external-text-file-with-javascript?forum=sidebargadfetdevelopment
+		var txtFile = new XMLHttpRequest();
+		txtFile.open("GET", query.url, true);
+		txtFile.onreadystatechange = function() {
+		  if (txtFile.readyState === 4) {  // Makes sure the document is ready to parse.
+			if (txtFile.status === 200) {  // Makes sure it's found the file.
+				graph = txtFile.responseText; 
+				textFileName = getFileNameFromURL(query.url);
+				format = getFileExtension(query.url).toUpperCase();
+//console.log('graph: ' + graph);
+//console.log('format: ' + format);
+				loadGraphDrawing();
+			}
+		  }
+		}
+		txtFile.send(null);    
+   }
+	updateStatusBar();   
+}
+
+
+$(document).ready(function() {
+	console.log("Time until DOMready: ", Date.now()-timerStart + ' ms');
+});
+$(window).load(function() {
+	console.log("Time until everything loaded: ", Date.now()-timerStart + 'ms');
+});
+statusBarMessage = 'Page loaded in ' + (Date.now()-timerStart)/1000 + ' s.';
+updateStatusBar();

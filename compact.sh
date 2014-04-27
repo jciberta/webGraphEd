@@ -4,6 +4,7 @@
 # 1. Compile Closure Library
 CALCDEPS_PATH=./external/closure-library/closure/bin  
 JAR_PATH=./external/closure-compiler           
+YUI_PATH=./external           
 CLOSURE_PATH=./external/closure-library    
 $CALCDEPS_PATH/calcdeps.py \
     --path $CLOSURE_PATH \
@@ -39,6 +40,11 @@ cat \
     layout/horizontal-tree.js \
     layout/vertical-tree.js \
     temp/closure.min.js \
+    ui/canvas.js \
+    ui/dialogs.js \
+    ui/ui.js \
+    ui/menu.js \
+    ui/init.js \
     > temp/webGraphEd.js
 java -jar $JAR_PATH/compiler.jar --js=temp/webGraphEd.js --js_output_file=webGraphEd.min.js
 
@@ -56,6 +62,7 @@ cat \
     external/jQuery-Impromptu/dist/themes/base.css \
     css/webGraphEd.css \
     > temp/webGraphEd.css
-#jsmin < temp/webGraphEd.css > webGraphEd.min.css
+java -jar $YUI_PATH/yuicompressor-2.4.8.jar -o webGraphEd.min.css temp/webGraphEd.css
+
 
 

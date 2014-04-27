@@ -28,7 +28,6 @@ console.dir(that.files[0]);
 	}
 } 
 
-
 /**
  * Shows the About dialog.
  */
@@ -75,7 +74,7 @@ console.dir(layout.layout.links);
 	dialogDebug.setVisible(true);
 }
 
-function showNodeProperties(d) {
+/*function showNodeProperties(d) {
 	var i, s = '';
 	
 	chooseNodeProperties(4);
@@ -104,8 +103,7 @@ console.log(s);
 window.open("nodeProperties.html","_blank","toolbar=yes, scrollbars=yes, resizable=yes, top=500, left=500, width=400, height=400");
 
 
-}
-
+}*/
 
 /**
  * Exports to GML.
@@ -147,14 +145,10 @@ function importFile(filename) {
     }
 }
 
-
-
-
-
-// Create programmatic menu bar with menus.
-//buildMenu = function(rootNode) {
-//function buildMenu(rootNode) {
-
+/**
+ * Updates the menu depending on the graph drawing type.
+ * @param {GraphDrawing} graph The graph drawing.
+ */
 function updateMenu(graph) {
     if ((graph==true) || (graph==false)) {
 //        menuFileProperties.setEnabled(graph);
@@ -224,7 +218,6 @@ function updateStatusBar() {
     menuEditMode.setChecked(!PAN_AND_ZOOM);    
     updateStatusBar();
 }*/
-
 
 var menubar = goog.ui.menuBar.create();
 /*    var menuNames = ['File', 'Layout', 'Help'];

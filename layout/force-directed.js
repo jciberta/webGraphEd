@@ -623,30 +623,6 @@ console.dir(d);
  * Updates the layout when collapsing/uncollapsing.
  */
 ForceDirectedLayout.prototype.updateCollapsedLayout = function(d) {
-/*console.log('Update the layout (collapse). Nodes:');	
-console.dir(this.nodes);
-	// Update the layout (collapse)	
-	var vis = d3.select("#vis");
-	var node = vis.selectAll("g");
-	var c = vis.selectAll("circle")
-console.dir(c);
-	c.style("r", function(d) {
-console.dir(d);
-//		return 10;
-		return (d.visible || d.visible==undefined) ? (d.collapsed ? 8 : 5) : 1e-6; 
-	})
-	var t = vis.selectAll("text")
-		t.style("fill-opacity", function(d) {
-			return (d.visible || d.visible==undefined) ? 1 : 1e-6; 
-		});
-	var l = vis.selectAll("path");
-	l.style("stroke-width", function(d) { 
-		var hideLink;
-		if (d.source.visible == undefined) d.source.visible = true;
-		if (d.target.visible == undefined) d.target.visible = true;
-		hideLink = (!d.source.visible || !d.target.visible);
-		return hideLink ? 1e-6 : 1.5; 
-	});*/
 	this.updateLayout(d);
 	menuUncollapseAll.setEnabled(this.isCollapsed());
 }
