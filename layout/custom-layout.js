@@ -242,7 +242,13 @@ CustomLayout.prototype.updateLayout = function(source) {
             .attr("class", "link")
 			.attr("id", function(d) { return 'path' + d.source.id + '_' + d.target.id; })
 			.style("stroke", function(d) { return d.color == undefined ? DEFAULT_COLOR_LINK : d.color; })
-			.style("stroke-width", function(d) { return d.width == undefined ? 2 : d.width; })
+			.style("stroke-width", function(d) { 
+				var hideLink;
+				if (d.source.visible == undefined) d.source.visible = true;
+				if (d.target.visible == undefined) d.target.visible = true;
+				hideLink = (!d.source.visible || !d.target.visible);
+				return hideLink ? 1e-6 : (d.width == undefined ? 2 : d.width); 
+			})
 			.style('cursor', 'pointer')
 			.attr("d", lineData)
 			.on("mousedown", function(d) {
@@ -280,7 +286,6 @@ CustomLayout.prototype.updateLayout = function(source) {
 //console.log('d3.event.ctrlKey: ' + d3.event.ctrlKey);	
 				source_node = d;
 				source_object = d3.select(this);
-
 
 //                linking = true;
                 if (d3.event.ctrlKey) {
