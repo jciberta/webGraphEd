@@ -1,13 +1,4 @@
 
-body {
-	font-family: Verdana;
-}
-
-/*h1 {
-	font-size: 32px;
-	font-weight: bold;
-}*/
-
 .node circle {
 	fill: #fff;
 	stroke: steelblue;
@@ -39,7 +30,7 @@ line {
 	width: 430px;
 }
 
-a.likeAButton {
+/*a.likeAButton {
   background-color:#67a0cf;
   border:1px outset #2683cf;
   color:#fff;
@@ -64,7 +55,7 @@ a.likeAButton:active {
   padding:4px 2px 2px 4px;
   margin:1px;
   text-decoration:none;
-}
+}*/
 
 g.node circle {
     stroke  : gray;
