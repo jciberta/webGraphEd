@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml>
+  <key id="color" for="node" attr.name="color" attr.type="string">
+  <default>yellow</default>
+  </key>
+  <key id="width" for="edge" attr.name="width" attr.type="int"/>
+  <graph id="G" edgedefault="undirected">
+    <node id="0">
+      <data key="color">green</data>
+    </node>
+    <node id="1"/>
+    <node id="2">
+     <data key="color">blue</data>
+    </node>
+    <node id="3">
+     <data key="color">red</data>
+    </node>
+    <node id="4"/>
+    <node id="5">
+     <data key="color">turquoise</data>
+    </node>
+    <edge id="0" source="0" target="2">
+     <data key="width">2</data>
+    </edge>
+    <edge id="1" source="0" target="1">
+     <data key="width">4</data>
+    </edge>
+    <edge id="2" source="1" target="3">
+     <data key="width">4</data>
+    </edge>
+    <edge id="3" source="3" target="2"/>
+    <edge id="4" source="2" target="4"/>
+    <edge id="5" source="3" target="5"/>
+    <edge id="6" source="5" target="4">
+      <data key="width">2</data>
+    </edge>
+  </graph>
+</graphml>
+

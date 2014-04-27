@@ -37,6 +37,7 @@ GraphMLFile.prototype.getNodes = function() {
 	for (i=0; i<nodes.length; i++) {
 		id = nodes[i].getAttribute('id');
 		data = nodes[i].getElementsByTagName('data');
+		label = '', shape = DEFAULT_SHAPE, color = DEFAULT_COLOR_NODE;
 		for (j=0; j<data.length; j++) {
 			key = data[j].getAttribute('key');
 			switch (key) {
@@ -76,6 +77,7 @@ GraphMLFile.prototype.getEdges = function() {
 		s = links[i].getAttribute("source");
 		t = links[i].getAttribute("target");
 		data = links[i].getElementsByTagName('data');
+		label = '', width = DEFAULT_WIDTH, color = DEFAULT_COLOR_LINK;
 		for (j=0; j<data.length; j++) {
 			key = data[j].getAttribute('key');
 			switch (key) {
