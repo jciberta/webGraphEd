@@ -191,6 +191,8 @@ ul.inheritsList
 	
 	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
 	
+	<li><a href="../symbols/Benchmark.html">Benchmark</a></li>
+	
 	<li><a href="../symbols/CustomLayout.html">CustomLayout</a></li>
 	
 	<li><a href="../symbols/Edge.html">Edge</a></li>
@@ -204,8 +206,6 @@ ul.inheritsList
 	<li><a href="../symbols/GraphMLFile.html">GraphMLFile</a></li>
 	
 	<li><a href="../symbols/HorizontalTreeLayout.html">HorizontalTreeLayout</a></li>
-	
-	<li><a href="../symbols/HorizontalTreeLayout2.html">HorizontalTreeLayout2</a></li>
 	
 	<li><a href="../symbols/Layout.html">Layout</a></li>
 	
@@ -222,8 +222,6 @@ ul.inheritsList
 	<li><a href="../symbols/TreeNode.html">TreeNode</a></li>
 	
 	<li><a href="../symbols/VerticalTreeLayout.html">VerticalTreeLayout</a></li>
-	
-	<li><a href="../symbols/VerticalTreeLayout2.html">VerticalTreeLayout2</a></li>
 	
 </ul>
 <hr />
@@ -311,6 +309,24 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Layout.html#changeLinkColor">changeLinkColor</a></b>(d)
+								</div>
+								<div class="description">Changes the color of a link.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Layout.html#changeLinkWidth">changeLinkWidth</a></b>(d)
+								</div>
+								<div class="description">Changes the width of a link.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/Layout.html#changeNodeColor">changeNodeColor</a></b>(d)
 								</div>
 								<div class="description">Changes the color of a node.</div>
@@ -331,7 +347,16 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/Layout.html#clear">clear</a></b>()
 								</div>
-								<div class="description">Clear the layout.</div>
+								<div class="description">Clears the layout.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Layout.html#deleteLink">deleteLink</a></b>(source, target)
+								</div>
+								<div class="description">Deletes a link from the layout</div>
 							</td>
 						</tr>
 					
@@ -446,6 +471,15 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Layout.html#selectLink">selectLink</a></b>(node, object)
+								</div>
+								<div class="description">Selects or unselects a link.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/Layout.html#selectNode">selectNode</a></b>(node, object)
 								</div>
 								<div class="description">Selects or unselects a node.</div>
@@ -494,6 +528,15 @@ ul.inheritsList
 								<div class="fixedFont"><b><a href="../symbols/Layout.html#uncollapseAll">uncollapseAll</a></b>(d)
 								</div>
 								<div class="description">Uncollapse all nodes.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Layout.html#unselectElement">unselectElement</a></b>()
+								</div>
+								<div class="description">Unselects a node or link.</div>
 							</td>
 						</tr>
 					
@@ -630,6 +673,78 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name="changeLinkColor"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>changeLinkColor</b>(d)
+					
+					</div>
+					<div class="description">
+						Changes the color of a link.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>d</b>
+									
+								</dt>
+								<dd>The link.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="changeLinkWidth"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>changeLinkWidth</b>(d)
+					
+					</div>
+					<div class="description">
+						Changes the width of a link.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>d</b>
+									
+								</dt>
+								<dd>The link.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="changeNodeColor"> </a>
 					<div class="fixedFont">
 					
@@ -710,13 +825,55 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						Clear the layout.
+						Clears the layout.
 						
 						
 					</div>
 					
 					
 					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="deleteLink"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>deleteLink</b>(source, target)
+					
+					</div>
+					<div class="description">
+						Deletes a link from the layout
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{int}</span> <b>source</b>
+									
+								</dt>
+								<dd>The source of the link.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{int}</span> <b>target</b>
+									
+								</dt>
+								<dd>The target of the link.</dd>
+							
+							</dl>
 						
 						
 						
@@ -1136,6 +1293,48 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name="selectLink"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>selectLink</b>(node, object)
+					
+					</div>
+					<div class="description">
+						Selects or unselects a link.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>node</b>
+									
+								</dt>
+								<dd>The link.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>object</b>
+									
+								</dt>
+								<dd>The object that represents the link on the canvas.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="selectNode"> </a>
 					<div class="fixedFont">
 					
@@ -1343,6 +1542,31 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name="unselectElement"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>unselectElement</b>()
+					
+					</div>
+					<div class="description">
+						Unselects a node or link.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="update"> </a>
 					<div class="fixedFont">
 					
@@ -1428,7 +1652,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Thu Apr 17 2014 20:43:19 GMT+0200 (CEST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Apr 27 2014 20:46:30 GMT+0200 (CEST)
 		</div>
 	</body>
 </html>

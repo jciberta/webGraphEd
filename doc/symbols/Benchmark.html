@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - HorizontalTreeLayout</title>
+		<title>JsDoc Reference - Benchmark</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -232,7 +232,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class HorizontalTreeLayout
+				Class Benchmark
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -243,13 +243,13 @@ ul.inheritsList
 				
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/layout_horizontal-tree.js.html">horizontal-tree.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/lib_benchmark.js.html">benchmark.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class HorizontalTreeLayout.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class Benchmark.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -262,9 +262,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/HorizontalTreeLayout.html#constructor">HorizontalTreeLayout</a></b>(canvas, graph)
+								<b><a href="../symbols/Benchmark.html#constructor">Benchmark</a></b>(files)
 							</div>
-							<div class="description">Create a Horizontal Tree layout</div>
+							<div class="description">Create a Benchmark</div>
 						</td>
 					</tr>
 				</tbody>
@@ -275,6 +275,60 @@ ul.inheritsList
 			
 
 <!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class Benchmark.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Benchmark.html#lastFile">lastFile</a></b>()
+								</div>
+								<div class="description">Returns the last file of the benchmark.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Benchmark.html#loadFile">loadFile</a></b>(filename)
+								</div>
+								<div class="description">Loads a file.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Benchmark.html#showResults">showResults</a></b>()
+								</div>
+								<div class="description">Show results.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Benchmark.html#start">start</a></b>()
+								</div>
+								<div class="description">Starts the benchmark.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
 			
 <!-- ============================== events summary ======================== -->
 			
@@ -287,11 +341,11 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>HorizontalTreeLayout</b>(canvas, graph)
+						<b>Benchmark</b>(files)
 				</div>
 				
 				<div class="description">
-					Create a Horizontal Tree layout
+					Create a Benchmark
 					
 				</div>
 				
@@ -303,16 +357,10 @@ ul.inheritsList
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{string}</span>  <b>canvas</b>
+								<span class="light fixedFont">{Array}</span>  <b>files</b>
 								
 							</dt>
-								<dd>- Canvas where the graph drawing will be lay out.</dd>
-						
-							<dt>
-								<span class="light fixedFont">{<a href="../symbols/GraphDrawing.html">GraphDrawing</a>}</span>  <b>graph</b>
-								
-							</dt>
-								<dd>- Graph drawing object</dd>
+								<dd>The list of files to benchmark.</dd>
 						
 						</dl>
 					
@@ -331,6 +379,129 @@ ul.inheritsList
 
 <!-- ============================== method details ========================= -->		
 			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name="lastFile"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{string}</span>
+					<b>lastFile</b>()
+					
+					</div>
+					<div class="description">
+						Returns the last file of the benchmark.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{string}</span> The last file of the benchmark.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="loadFile"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>loadFile</b>(filename)
+					
+					</div>
+					<div class="description">
+						Loads a file.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html">String</a>}</span> <b>filename</b>
+									
+								</dt>
+								<dd>The name of the file.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="showResults"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>showResults</b>()
+					
+					</div>
+					<div class="description">
+						Show results.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="start"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>start</b>()
+					
+					</div>
+					<div class="description">
+						Starts the benchmark.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					
+				
+			
 			
 <!-- ============================== event details ========================= -->		
 			
@@ -342,7 +513,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Apr 27 2014 20:46:30 GMT+0200 (CEST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Apr 27 2014 20:46:29 GMT+0200 (CEST)
 		</div>
 	</body>
 </html>
