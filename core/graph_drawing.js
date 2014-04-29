@@ -1,13 +1,9 @@
-/** 
- *  @file      graph_drawing.js 
- *  @summary   Capçalera del fitxer de filtres 
- *  @desc      En aquest fitxer hi ha les capçaleres de les utilitats dels filtres de text 
- *  @author    Josep Ciberta 
- *  @version   0.1 
- *  \date      10-12-2011 
- *  @copyright GNU Public License. 
- */ 
 
+ /**
+ * @file Classes related to graph drawing.
+ * @author Josep Ciberta 
+ */
+ 
 /**
  * Creates an instance of Node.
  * @constructor

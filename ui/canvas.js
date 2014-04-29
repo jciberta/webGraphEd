@@ -1,5 +1,8 @@
 
-
+/**
+ * @fileoverview Utilities related to the canvas.
+ * @author Josep Ciberta 
+ */
 
 function createCanvas() {
     /*canvas = d3.select("body")
