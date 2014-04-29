@@ -12,49 +12,44 @@
 	<script type="text/javascript" src="core/graph_drawing.js"></script>
 
 	<script>
-  // String utils
+	// String utils
 	test("String utils", function() {
 		var text = 'IsPlanar 1 node[ id 1 label "Node 1"]node... edge 1';
+		equal(getStringBetween(text, '[', ']'), ' id 1 label "Node 1"');
+		equal(getStringBetween(text, '(', ')'), '');
+		equal(getStringBetween(text, 'node', 'node'), '[ id 1 label "Node 1"]');
+		equal(getStringBetween(text, '1', '1'), ' node[ id ');
+		equal(getStringBetween(text, '1', 'Node'), ' node[ id 1 label "');
+		equal(getStringBetween(text, 'n', 'n'), 'ar 1 ');
+		equal(getStringBetween(text, 'l', 'l'), 'anar 1 node[ id 1 ');
+		equal(getStringBetween('', '[', ']'), '');	
+		equal(nextWord(text, 1), '1');	
+		equal(nextWord(text, 7), '1');	
+		equal(nextWord(text, 8), '1');	
+		equal(nextWord(text, 9), 'node[');	
+		equal(nextWord(text, 10), 'node[');	
+		equal(nextWord(text, 45), '1');	
+		equal(nextQuotedWord(text, 1), 'Node 1');	
+		equal(nextQuotedWord(text, 40), '');	
+		equal(nextQuotedWord('w 10.000       h 10.000       type "rectangle"       fill "Orange"', 'type'), 'rectangle');	
+		equal(nextQuotedWord('w 10.000       h 10.000       type "rectangle"       fill "Orange"', 'fill'), 'Orange');	
+	});
 
-    equal(getStringBetween(text, '[', ']'), ' id 1 label "Node 1"');
-    equal(getStringBetween(text, '(', ')'), '');
-    equal(getStringBetween(text, 'node', 'node'), '[ id 1 label "Node 1"]');
-    equal(getStringBetween(text, '1', '1'), ' node[ id ');
-    equal(getStringBetween(text, '1', 'Node'), ' node[ id 1 label "');
-    equal(getStringBetween(text, 'n', 'n'), 'ar 1 ');
-    equal(getStringBetween(text, 'l', 'l'), 'anar 1 node[ id 1 ');
-//    equal(getStringBetween(text, '[', ')'), '');
-    equal(getStringBetween('', '[', ']'), '');	
-
-    equal(nextWord(text, 1), '1');	
-    equal(nextWord(text, 7), '1');	
-    equal(nextWord(text, 8), '1');	
-    equal(nextWord(text, 9), 'node[');	
-    equal(nextWord(text, 10), 'node[');	
-//    equal(nextWord(text, 40), '');	
-    equal(nextWord(text, 45), '1');	
-
-    equal(nextQuotedWord(text, 1), 'Node 1');	
-    equal(nextQuotedWord(text, 40), '');	
-    equal(nextQuotedWord('w 10.000       h 10.000       type "rectangle"       fill "Orange"', 'type'), 'rectangle');	
-    equal(nextQuotedWord('w 10.000       h 10.000       type "rectangle"       fill "Orange"', 'fill'), 'Orange');	
-  });
-
-  // Binary heap
+	// Binary heap
 	test("Binary heap", function() {
-    var s='', heap = new BinaryHeap(function(x){return x;});
-    heap.push(2);
-    heap.push(5);
-    heap.push(1);
-    heap.push(7);
-    heap.push(6);
-    heap.push(3);
-    heap.remove(2);
-    while (heap.size() > 0) {
-      s = s + heap.pop() + ', ';
-    }
-    equal(s, '1, 3, 5, 6, 7, ');
-  });
+		var s='', heap = new BinaryHeap(function(x){return x;});
+		heap.push(2);
+		heap.push(5);
+		heap.push(1);
+		heap.push(7);
+		heap.push(6);
+		heap.push(3);
+		heap.remove(2);
+		while (heap.size() > 0) {
+			s = s + heap.pop() + ', ';
+		}
+		equal(s, '1, 3, 5, 6, 7, ');
+	});
 
 	// Graph drawing
 	test("Graph drawing 0 (empty graph drawing)", function() {
@@ -66,65 +61,62 @@
 		equal(gd.isTree(), false);
 	});
 
-  // Graph drawing
+	// Graph drawing
 	test("Graph drawing 1 (connected)", function() {
-    listNodes = [[1], [2], [3]];
-    listEdges = [[2,3], [3,1], [1,2]];
-    gd = new GraphDrawing(listNodes, listEdges);
-    ok(gd.getAdjacents(1).sort().compare([2, 3]));
-    ok(gd.getAdjacents(2).sort().compare([1, 3]));
-    ok(gd.getAdjacents(3).sort().compare([1, 2]));
-    equal(gd.isConnected(), true);
-    equal(gd.isCyclic(), true);
-    equal(gd.isTree(), false);
-  });
+		listNodes = [[1], [2], [3]];
+		listEdges = [[2,3], [3,1], [1,2]];
+		gd = new GraphDrawing(listNodes, listEdges);
+		ok(gd.getAdjacents(1).sort().compare([2, 3]));
+		ok(gd.getAdjacents(2).sort().compare([1, 3]));
+		ok(gd.getAdjacents(3).sort().compare([1, 2]));
+		equal(gd.isConnected(), true);
+		equal(gd.isCyclic(), true);
+		equal(gd.isTree(), false);
+	});
 
-  // Graph drawing
+	// Graph drawing
 	test("Graph drawing 2 (connected)", function() {
-    listNodes = [[1], [2], [3], [4], [5], [6], [7], [8]];
-    listEdges = [[1,2], [1,3], [2,3], [2,5], [2,6], [2,8], [3,4], [3,5], [3,6], [5,6], [6,7], [6,8]];
-    gd = new GraphDrawing(listNodes, listEdges);
-    ok(gd.getAdjacents(1).sort().compare([2, 3]));
-    ok(gd.getAdjacents(2).sort().compare([1, 3, 5, 6, 8]));
-    ok(gd.getAdjacents(3).sort().compare([1, 2, 4, 5, 6]));
-    equal(gd.isConnected(), true);
-    equal(gd.isCyclic(), true);
-    equal(gd.isTree(), false);
-  });
+		listNodes = [[1], [2], [3], [4], [5], [6], [7], [8]];
+		listEdges = [[1,2], [1,3], [2,3], [2,5], [2,6], [2,8], [3,4], [3,5], [3,6], [5,6], [6,7], [6,8]];
+		gd = new GraphDrawing(listNodes, listEdges);
+		ok(gd.getAdjacents(1).sort().compare([2, 3]));
+		ok(gd.getAdjacents(2).sort().compare([1, 3, 5, 6, 8]));
+		ok(gd.getAdjacents(3).sort().compare([1, 2, 4, 5, 6]));
+		equal(gd.isConnected(), true);
+		equal(gd.isCyclic(), true);
+		equal(gd.isTree(), false);
+	});
 
-  // Graph drawing
+	// Graph drawing
 	test("Graph drawing 3 (not connected)", function() {
-    listNodes = [[1], [2], [3], [4], [5], [6], [7], [8]];
-    listEdges = [[1,2], [1,3], [2,3], [2,5], [3,4], [3,5], [6,7], [6,8]];
-    gd = new GraphDrawing(listNodes, listEdges);
-    ok(gd.getAdjacents(1).sort().compare([2, 3]));
-    ok(gd.getAdjacents(2).sort().compare([1, 3, 5]));
-    ok(gd.getAdjacents(3).sort().compare([1, 2, 4, 5]));
-    equal(gd.isConnected(), false);
-    equal(gd.isCyclic(), true);
-    equal(gd.isTree(), false);
-  });
+		listNodes = [[1], [2], [3], [4], [5], [6], [7], [8]];
+		listEdges = [[1,2], [1,3], [2,3], [2,5], [3,4], [3,5], [6,7], [6,8]];
+		gd = new GraphDrawing(listNodes, listEdges);
+		ok(gd.getAdjacents(1).sort().compare([2, 3]));
+		ok(gd.getAdjacents(2).sort().compare([1, 3, 5]));
+		ok(gd.getAdjacents(3).sort().compare([1, 2, 4, 5]));
+		equal(gd.isConnected(), false);
+		equal(gd.isCyclic(), true);
+		equal(gd.isTree(), false);
+	});
 
-//console.log('Graph drawing (tree)');
-
-  // Graph drawing (tree)
+	// Graph drawing (tree)
 	test("Graph drawing 4 (tree)", function() {
-    listNodes = [[1], [2], [3], [4], [5], [6], [7], [8], [9], [10]];
-    listEdges = [[1,2], [1,3], [2,4], [2,5], [8,1], [8,6], [8,7], [10,8], [10,9]];
-    gd = new GraphDrawing(listNodes, listEdges);
-//console.log(gd.getAdjacents(1).compare([2, 3, 8]));
-    ok(gd.getAdjacents(1).sort().compare([2, 3, 8]));
-    ok(gd.getDirectedAdjacents(1).sort().compare([2, 3]));
-    ok(gd.getAdjacents(2).sort().compare([1, 4, 5]));
-    ok(gd.getDirectedAdjacents(2).sort().compare([4, 5]));
-    ok(gd.getAdjacents(3).sort().compare([1]));
-    ok(gd.getDirectedAdjacents(3).sort().compare([]));
-    equal(gd.isConnected(), true);
-    equal(gd.isCyclic(), false);
-    equal(gd.isTree(), true);
-    equal(gd.isBinaryTree(), false);
-    equal(gd.getRoot(), 10);
-  });
+		listNodes = [[1], [2], [3], [4], [5], [6], [7], [8], [9], [10]];
+		listEdges = [[1,2], [1,3], [2,4], [2,5], [8,1], [8,6], [8,7], [10,8], [10,9]];
+		gd = new GraphDrawing(listNodes, listEdges);
+		ok(gd.getAdjacents(1).sort().compare([2, 3, 8]));
+		ok(gd.getDirectedAdjacents(1).sort().compare([2, 3]));
+		ok(gd.getAdjacents(2).sort().compare([1, 4, 5]));
+		ok(gd.getDirectedAdjacents(2).sort().compare([4, 5]));
+		ok(gd.getAdjacents(3).sort().compare([1]));
+		ok(gd.getDirectedAdjacents(3).sort().compare([]));
+		equal(gd.isConnected(), true);
+		equal(gd.isCyclic(), false);
+		equal(gd.isTree(), true);
+		equal(gd.isBinaryTree(), false);
+		equal(gd.getRoot(), 10);
+	});
   
 	// Graph drawing
 	test("Graph drawing 5 (special case)", function() {

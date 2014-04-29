@@ -1,10 +1,8 @@
-/** 
- *  @file      tree.js 
- *  @author    Josep Ciberta 
- *  @version   0.1 
- *  \date      10-12-2011 
- *  @copyright GNU Public License. 
- */ 
+
+ /**
+ * @file Classes related to trees.
+ * @author Josep Ciberta 
+ */
 
 /**
  * Creates a node for a tree.
@@ -89,6 +87,8 @@ TreeNode.prototype.toD3JSONString = function() {
  * @param {GraphDrawing} graph The graph drawing data to populate the tree.
  */
 Tree = function(graph) {
+	if (!graph.isTree()) throw "Not a tree."; 
+
     var root = graph.getRoot();
     //  this.listChildren = [];
     this.graph = graph;

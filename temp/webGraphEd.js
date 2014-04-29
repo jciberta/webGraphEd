@@ -1601,16 +1601,12 @@ if (typeof JSON !== 'object') {
         };
     }
 }());
-/** 
- *  @file      graph_drawing.js 
- *  @summary   Capçalera del fitxer de filtres 
- *  @desc      En aquest fitxer hi ha les capçaleres de les utilitats dels filtres de text 
- *  @author    Josep Ciberta 
- *  @version   0.1 
- *  \date      10-12-2011 
- *  @copyright GNU Public License. 
- */ 
 
+ /**
+ * @file Classes related to graph drawing.
+ * @author Josep Ciberta 
+ */
+ 
 /**
  * Creates an instance of Node.
  * @constructor
@@ -1806,30 +1802,30 @@ GraphDrawing.prototype.getLink = function(source, target) {
  * @return {Node} The root node.
  */
 GraphDrawing.prototype.getRoot = function() {
-  if (!this.isTree) throw "Not a tree."; 
-  
-  // The source must be unique, not a target from another node.
-  var root, n1, n2, i, j;
-  var bRoot = true;
-  for (i=0; i<this.listEdges.length; i++) {
-    n1 = this.listEdges[i][0];
-    bRoot = true;
-    for (j=0; j<this.listEdges.length; j++) {
-      if (i!=j) {
-        n2 = this.listEdges[j][1];
+//  if (!this.isTree) throw "Not a tree."; 
+
+	// The source must be unique, not a target from another node.
+	var root, n1, n2, i, j;
+	var bRoot = true;
+	for (i=0; i<this.listEdges.length; i++) {
+		n1 = this.listEdges[i][0];
+		bRoot = true;
+		for (j=0; j<this.listEdges.length; j++) {
+			if (i!=j) {
+				n2 = this.listEdges[j][1];
 //console.log('i: ' + i + ', j: ' + j + ' n1: ' + n1 + ', n2: ' + n2);
-        if (n1==n2) bRoot = false;
-      }
-    }
-    if (bRoot) {
+				if (n1==n2) bRoot = false;
+			}
+		}
+		if (bRoot) {
 //        root = n1;
 //console.log('n1: ' + n1);
-      root = this.getNode(n1);
-      break;
-    }
-//console.log('root: ' + root);
-  }
-  return root;
+			root = this.getNode(n1);
+			break;
+		}
+	//console.log('root: ' + root);
+	}
+	return root;
 }
 
 /**
@@ -1902,7 +1898,47 @@ GraphDrawing.prototype.isConnected = function() {
 	}
 //console.log(' - l.length: ' + (l.length));
 //console.log(' - Result: ' + (this.listNodes.length==l.length));
-	return (this.listNodes.length==l.length);
+	return (this.listNodes.length == l.length);
+}
+
+/**
+* Determines if a directed graph drawing is connected.
+* @return {boolean} True if the graph drawing is connected.
+*/
+GraphDrawing.prototype.isDirectedConnected = function() {
+	// Depth-First Search (DFS) variation (non-recursive)
+	var l = []; // List of visited
+	var i = 0, j;
+
+//console.log('GraphDrawing.isDirectedConnected:');
+//console.log(' - listNodes: ' + this.listNodes);
+//console.log(' - listNodes.length: ' + this.listNodes.length);
+	if (this.listNodes.length < 2) return false;
+
+	var root = this.getRoot();
+	
+//	l.push(parseInt(this.listNodes[0][0])); // First node
+	l.push(parseInt(root)); // First node
+	while (i < l.length) {
+//console.log(' - l (list of visited): ' + l);
+		a = this.getDirectedAdjacents(l[i]);
+//console.log(' - a (adjacents of l): ' + a);
+		for (j=0; j<a.length; j++) {
+			a[j] = parseInt(a[j]);
+			if (l.indexOf(a[j]) == -1) {
+//console.log('   - l (visited): ' + l);
+//console.dir(l);
+//console.log('   - a[j]: ' + a[j]);
+//console.dir(a[j]);
+//console.log('   - l.indexOf(a[j]): ' + l.indexOf(a[j]));
+				l.push(a[j]);
+			}
+		}
+		i++;
+	}
+//console.log(' - l.length: ' + (l.length));
+//console.log(' - Result: ' + (this.listNodes.length==l.length));
+	return (this.listNodes.length == l.length);
 }
 
 /**
@@ -1936,7 +1972,7 @@ GraphDrawing.prototype.isCyclic = function() {
  * @return {boolean} True if the graph drawing is a tree.
  */
 GraphDrawing.prototype.isTree = function() {
-    return (this.isConnected() && !this.isCyclic());
+    return (this.isDirectedConnected() && !this.isCyclic());
 }
 
 /**
@@ -2065,13 +2101,11 @@ console.log('Links: ' + this.listEdges);
 	}
 console.log('Links: ' + this.listEdges);
 }
-/** 
- *  @file      tree.js 
- *  @author    Josep Ciberta 
- *  @version   0.1 
- *  \date      10-12-2011 
- *  @copyright GNU Public License. 
- */ 
+
+ /**
+ * @file Classes related to trees.
+ * @author Josep Ciberta 
+ */
 
 /**
  * Creates a node for a tree.
@@ -2156,6 +2190,8 @@ TreeNode.prototype.toD3JSONString = function() {
  * @param {GraphDrawing} graph The graph drawing data to populate the tree.
  */
 Tree = function(graph) {
+	if (!graph.isTree()) throw "Not a tree."; 
+
     var root = graph.getRoot();
     //  this.listChildren = [];
     this.graph = graph;
@@ -4884,7 +4920,10 @@ goog.ui.Dialog.ButtonSet.createYesNo=function(){return(new goog.ui.Dialog.Button
 goog.ui.Dialog.ButtonSet.createContinueSaveCancel=function(){return(new goog.ui.Dialog.ButtonSet).addButton(goog.ui.Dialog.ButtonSet.DefaultButtons.CONTINUE).addButton(goog.ui.Dialog.ButtonSet.DefaultButtons.SAVE).addButton(goog.ui.Dialog.ButtonSet.DefaultButtons.CANCEL,!0,!0)};
 (function(){"undefined"!=typeof document&&(goog.ui.Dialog.ButtonSet.OK=goog.ui.Dialog.ButtonSet.createOk(),goog.ui.Dialog.ButtonSet.OK_CANCEL=goog.ui.Dialog.ButtonSet.createOkCancel(),goog.ui.Dialog.ButtonSet.YES_NO=goog.ui.Dialog.ButtonSet.createYesNo(),goog.ui.Dialog.ButtonSet.YES_NO_CANCEL=goog.ui.Dialog.ButtonSet.createYesNoCancel(),goog.ui.Dialog.ButtonSet.CONTINUE_SAVE_CANCEL=goog.ui.Dialog.ButtonSet.createContinueSaveCancel())})();
 
-
+/**
+ * @fileoverview Utilities related to the canvas.
+ * @author Josep Ciberta 
+ */
 
 function createCanvas() {
     /*canvas = d3.select("body")
