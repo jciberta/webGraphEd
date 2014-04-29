@@ -43,14 +43,17 @@ CustomLayout = function(canvas, graph, nodes, links, type) {
 	d3.select(window)
 		.on("keydown", keydown);
 	
-	var computeTransitionPath = function(d) {
+	//var computeTransitionPath = function(d) {
+	this.computeTransitionPath = function(d) {
 		var deltaX = d.target.x - d.source.x,
         deltaY = d.target.y - d.source.y,
         dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY),
         normX = deltaX / dist,
         normY = deltaY / dist,
-        sourcePadding = d.left ? 7 : 2,
-        targetPadding = d.right ? 7 : 2,
+//        sourcePadding = d.left ? 7 : 2,
+//        targetPadding = d.right ? 7 : 2,
+        sourcePadding = 0,
+        targetPadding = d.width==4 ? 16 : 10,
         sourceX = d.source.x + (sourcePadding * normX),
         sourceY = d.source.y + (sourcePadding * normY),
         targetX = d.target.x - (targetPadding * normX),
@@ -169,7 +172,7 @@ console.log('CL.canvas.doubleclick');
 //console.dir(d3.selectAll('path.link'));
 				d3.selectAll('path.link')
 //					.style('fill', 'blue')
-					.attr('d', computeTransitionPath);
+					.attr('d', self.computeTransitionPath);
 		})
 		.on("dragend", function(d) {
 //console.log('dragend');	
@@ -249,8 +252,11 @@ CustomLayout.prototype.updateLayout = function(source) {
 				hideLink = (!d.source.visible || !d.target.visible);
 				return hideLink ? 1e-6 : (d.width == undefined ? 2 : d.width); 
 			})
+//			.style('marker-start', 'url(#start-arrow)')
+			.style('marker-end', 'url(#end-arrow)')
 			.style('cursor', 'pointer')
-			.attr("d", lineData)
+//			.attr("d", lineData)
+			.attr('d', self.computeTransitionPath)
 			.on("mousedown", function(d) {
 				layout.selectLink(d, d3.select(this));
 			})
@@ -385,87 +391,7 @@ CustomLayout.prototype.updateLayout = function(source) {
 	updateGenericLayout(this, node, link);
 //console.dir(layout);
 //	layout.updateElements(this, node, link);
-
-	
-/*	// CIRCLE
-	node.append("circle")
-		.attr("r", function(d) { 
-			if (d.shape == undefined) d.shape = 'Circle';
-			return d.shape == 'Circle' ? 5 : 0; 
-		})
-		.attr("id", function(d) { return 'circle' + d.id; })
-		.style("fill", function(d) {
-			return d.color==undefined ? "White" : d.color;
-		})
-		.on("dblclick", function(d) { 
-			event.stopPropagation();
-			if (event.ctrlKey || event.altKey || event.shiftKey) return;
-			chooseNodeProperties(d);
-		});	
-
-	// SQUARE
-	node.append("rect")
-		.attr("x", -5).attr("y", -5)
-		.attr("width", function(d) { return d.shape == 'Square' ? 10 : 0; })
-		.attr("height", function(d) { return d.shape == 'Square' ? 10 : 0; })
-		.attr("id", function(d) { return 'rect' + d.id; })
-		.style("fill", function(d) {
-			return d.color==undefined ? "White" : d.color;
-		})
-		.attr("stroke", "#000")
-		.attr("stroke-width", 1)
-		.on("dblclick", function(d) { 
-			event.stopPropagation();
-			if (event.ctrlKey || event.altKey || event.shiftKey) return;
-			chooseNodeProperties(d);
-		});	
-
-	// TEXT
-	node.append("text")
-		.attr("dy", ".31em")
-		.attr("transform", function(d) { 
-			return "translate(8)";	})
-		.text(function(d) { return d.name; })
-		.on("dblclick", function(d) { 
-			event.stopPropagation();
-			var answer = prompt("Please enter the new name", d.name); // d.name could be also d3.select(this).text()
-			if (answer != null) {
-				// Change text in "nodes" structure
-				d.name = answer;
-				// Change text on layout
-				d3.select(this).text(answer);				
-				// Change text on graph drawing object
-				self.graph.changeLabel(d.id, answer);
-			}
-		});*/
-	
-		
 }
-
-/**
- * Selects or unselects a node.
- * @param {Object} node The node.
- * @param {Object} object The object that represents the node on the canvas.
- */
-/*CustomLayout.prototype.selectNode = function(node, object) {
-	var sameNode = (node == selected_node);
-
-	// Unselect old node
-	if (selected_object != null) {
-		selected_object.select("circle").style("stroke-width", "1.5");	
-		selected_object.select("rect").style("stroke-width", "1.5");	
-	}
-	selected_object = null;
-	selected_node = null;
-
-	if (!sameNode) {
-		// Select new node
-		selected_node = node;
-		selected_object = object;
-		selected_object.select("circle").style("stroke-width", "3");	
-		selected_object.select("rect").style("stroke-width", "3");	
-	}
-}*/
 
 /**
  * Gets the node with a specific id.
@@ -486,10 +412,9 @@ CustomLayout.prototype.getNode = function(id) {
  * @param {int} x The x coordinate.
  * @param {int} y The y coordinate.
  */
-CustomLayout.prototype.addNode = function(x, y) {
+CustomLayout.prototype.addNode = function(coordX, coordY) {
 	var newId = this.graph.getNewNodeId();
-	obj = 'n = {id: "' + newId + '", name: "Node ' + newId + '", x: ' + x + ', y: ' + y + ', size: 1, depth: 1}';
-	eval(obj);
+	var n = {id: newId, name: 'Node ' + newId, x: coordX, y: coordY, weight: 1};
 	this.nodes.push(n);
 	this.updateLayout();
 	this.graph.addNode(newId, 'Node ' + newId);
@@ -564,46 +489,6 @@ CustomLayout.prototype.addLink = function(source_node, target_node) {
 	target_object.select("circle").style("stroke-width", "1.5");	
 	target_object.select("rect").style("stroke-width", "1.5");	
 }
-
-/**
- * Loads into the [nodes, links] structure a Force-directed graph.
- */
-/*CustomLayout.prototype.layoutForceDirected = function() {
-	var forceDirected = new ForceDirectedLayout(canvas, this.graph);
-	this.nodes = forceDirected.nodes;
-	this.links = forceDirected.links;
-	this.type = 'Force directed';
-};*/
-
-/**
- * Loads into the [nodes, links] structure a Radial Tree layout.
- */
-/*CustomLayout.prototype.layoutRadialTree = function() {
-	var radialTree = new RadialTreeLayout(canvas, this.graph);
-	this.nodes = radialTree.nodes;
-	this.links = radialTree.links;
-	this.type = 'Radial tree';
-};*/
-
-/**
- * Loads into the [nodes, links] structure a Horizontal Tree layout.
- */
-/*CustomLayout.prototype.layoutHorizontalTree = function() {
-	var horizontalTree = new HorizontalTreeLayout(canvas, this.graph);
-	this.nodes = horizontalTree.nodes;
-	this.links = horizontalTree.links;
-	this.type = 'Horizontal tree';
-};*/
-
-/**
- * Loads into the [nodes, links] structure a Vertical Tree layout.
- */
-/*CustomLayout.prototype.layoutVerticalTree = function() {
-	var verticalTree = new VerticalTreeLayout(canvas, this.graph);
-	this.nodes = verticalTree.nodes;
-	this.links = verticalTree.links;
-	this.type = 'Vertical tree';
-};*/
 
 /**
  * Toggle a node between collapsed and uncollapsed.
@@ -695,4 +580,14 @@ CustomLayout.prototype.isCollapsed = function() {
 			return true;
 	}
 	return false;
+}
+
+/**
+ * Changes the width of a link.
+ * @param {Object} d The link.
+ */
+CustomLayout.prototype.changeLinkWidth = function(d) {
+	d3.select("#path" + d.source.id + '_' + d.target.id)		
+		.style("stroke-width", function(d) { return d.width == undefined ? 2 : d.width; })
+		.attr('d', this.computeTransitionPath)
 }

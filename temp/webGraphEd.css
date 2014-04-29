@@ -767,33 +767,6 @@ line {
 	width: 430px;
 }
 
-/*a.likeAButton {
-  background-color:#67a0cf;
-  border:1px outset #2683cf;
-  color:#fff;
-  padding:3px 3px 3px 3px;
-  margin:1px;
-  text-decoration:none;
-}
-
-a.likeAButton:hover {
-  background-color:#5788af;
-  border:1px outset #2683cf;
-  color:#fcffdf;
-  padding:3px 3px 3px 3px;
-  margin:1px;
-  text-decoration:none;
-}
-
-a.likeAButton:active {
-  background-color:#67b4cf;
-  border:1px inset #1d659f;
-  color:#e0ffaf;
-  padding:4px 2px 2px 4px;
-  margin:1px;
-  text-decoration:none;
-}*/
-
 g.node circle {
     stroke  : gray;
     cursor  : pointer;

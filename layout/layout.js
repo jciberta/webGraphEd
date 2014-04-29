@@ -367,8 +367,9 @@ Layout.prototype.changeLinkColor = function(d) {
  * @param {Object} d The link.
  */
 Layout.prototype.changeLinkWidth = function(d) {
-	d3.select("#path" + d.source.id + '_' + d.target.id)		
-		.style("stroke-width", function(d) { return d.width == undefined ? 2 : d.width; })
+	this.layout.changeLinkWidth(d);
+//	d3.select("#path" + d.source.id + '_' + d.target.id)		
+//		.style("stroke-width", function(d) { return d.width == undefined ? 2 : d.width; })
 }
 
 /**
