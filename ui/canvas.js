@@ -5,36 +5,7 @@
  */
 
 function createCanvas() {
-    /*canvas = d3.select("body")
-        .append("svg:svg")
-            .attr("id", "canvas")
-            .attr("width", WIDTH + margin.left + margin.right)
-            .attr("height", HEIGHT + margin.top + margin.bottom)
-            .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.right + ")")
-                .call(zoom);
-    
-    rect = canvas.append("rect")
-        .attr("width", WIDTH)
-        .attr("height", HEIGHT)
-        .attr("stroke-width", 1)
-        .style("fill", "none")
-        .style("pointer-events", "all");
-        
-    container = canvas.append("g")
-        .attr("id", "container");
-
-    frame = d3.select("canvas")
-        .append("svg:rect")
-            .attr("id", "frame")
-            .attr("width", "100%")
-            .attr("height", "100%")
-            .attr("stroke", "#000")
-            .attr("stroke-width", 1)
-            .attr("fill", "none");	*/
-            
 	svg = d3.select("#main")
-//    svg = d3.select("body")
         .append("svg:svg")
             .attr("width", WIDTH)
             .attr("height", HEIGHT)
@@ -75,30 +46,32 @@ function createCanvas() {
 //			.on("mousemove", mousemove)
 //			.on("mouseup", mouseup)
 
+    if (!isIE) {
+console.log('Define arrow markers for graph links');
+        // Define arrow markers for graph links
+        // http://tutorials.jenkov.com/svg/marker-element.html
+        svg.append('svg:defs').append('svg:marker')
+            .attr('id', 'end-arrow')
+            .attr('viewBox', '0 -5 10 10')
+            .attr('refX', 3)
+            .attr('markerWidth', 4)
+            .attr('markerHeight', 4)
+            .attr('orient', 'auto')
+            .append('svg:path')
+            .attr('d', 'M0,-5L10,0L0,5')
+            .attr('fill', '#000');
 
-	// Define arrow markers for graph links
-	// http://tutorials.jenkov.com/svg/marker-element.html
-	svg.append('svg:defs').append('svg:marker')
-		.attr('id', 'end-arrow')
-		.attr('viewBox', '0 -5 10 10')
-		.attr('refX', 3)
-		.attr('markerWidth', 4)
-		.attr('markerHeight', 4)
-		.attr('orient', 'auto')
-		.append('svg:path')
-		.attr('d', 'M0,-5L10,0L0,5')
-		.attr('fill', '#000');
-
-	svg.append('svg:defs').append('svg:marker')
-		.attr('id', 'start-arrow')
-		.attr('viewBox', '0 -5 10 10')
-		.attr('refX', 4)
-		.attr('markerWidth', 8)
-		.attr('markerHeight', 8)
-		.attr('orient', 'auto')
-		.append('svg:path')
-		.attr('d', 'M10,-5L0,0L10,5')
-		.attr('fill', '#000');
+        svg.append('svg:defs').append('svg:marker')
+            .attr('id', 'start-arrow')
+            .attr('viewBox', '0 -5 10 10')
+            .attr('refX', 4)
+            .attr('markerWidth', 8)
+            .attr('markerHeight', 8)
+            .attr('orient', 'auto')
+            .append('svg:path')
+            .attr('d', 'M10,-5L0,0L10,5')
+            .attr('fill', '#000');
+    }
 }
 
 function destroyCanvas() {

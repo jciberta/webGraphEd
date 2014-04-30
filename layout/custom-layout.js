@@ -1,5 +1,10 @@
 
 /**
+ * @fileoverview Class CustomLayout.
+ * @author Josep Ciberta 
+ */
+
+/**
  * Create an custom layout
  * @constructor
  * @this {CustomLayout}
@@ -250,10 +255,9 @@ CustomLayout.prototype.updateLayout = function(source) {
 				if (d.source.visible == undefined) d.source.visible = true;
 				if (d.target.visible == undefined) d.target.visible = true;
 				hideLink = (!d.source.visible || !d.target.visible);
-				return hideLink ? 1e-6 : (d.width == undefined ? 2 : d.width); 
+				return hideLink ? 0 : (d.width == undefined ? 2 : d.width); 
 			})
-//			.style('marker-start', 'url(#start-arrow)')
-			.style('marker-end', 'url(#end-arrow)')
+//			.style('marker-end', 'url(#end-arrow)')
 			.style('cursor', 'pointer')
 //			.attr("d", lineData)
 			.attr('d', self.computeTransitionPath)
@@ -264,6 +268,7 @@ CustomLayout.prototype.updateLayout = function(source) {
 				d3.event.stopPropagation();
 				chooseLinkProperties(d);
 			});	
+    if (!isIE) link.style('marker-end', 'url(#end-arrow)');            
 	
 	//if (this.type != 'Force directed') 
 	//	link.attr("d", lineData);

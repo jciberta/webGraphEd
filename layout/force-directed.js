@@ -1,5 +1,10 @@
 
 /**
+ * @fileoverview Class ForceDirectedLayout.
+ * @author Josep Ciberta 
+ */
+
+/**
  * Create a Force Directed layout
  * @constructor
  * @param {string} canvas Canvas where the graph drawing will be lay out.
@@ -244,7 +249,7 @@ ForceDirectedLayout.prototype.updateLayout = function() {
 				hideLink = (!d.source.visible || !d.target.visible);
 				return hideLink ? 0 : (d.width == undefined ? 2 : d.width); 
 			})
-			.style('marker-end', 'url(#end-arrow)')
+			//.style('marker-end', 'url(#end-arrow)')
 			.style('cursor', 'pointer')
 			.attr("x1", function(d) { return d.source.x; })
 			.attr("y1", function(d) { return d.source.y; })
@@ -257,6 +262,7 @@ ForceDirectedLayout.prototype.updateLayout = function() {
 				d3.event.stopPropagation();
 				chooseLinkProperties(d);
 			});	
+    if (!isIE) link.style('marker-end', 'url(#end-arrow)');            
 		
 	this.node = vis.selectAll("g.node")
 		.data(this.nodes)
@@ -368,7 +374,8 @@ ForceDirectedLayout.prototype.updateLayout = function() {
 //				return d.target.y; 
 				return self.computeTransitionPath(d).y2; 
 			})
-			.style('marker-end', 'url(#end-arrow)');
+//			.style('marker-end', 'url(#end-arrow)');
+        if (!isIE) link.style('marker-end', 'url(#end-arrow)');
 
 		node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
     };	
