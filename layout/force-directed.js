@@ -242,8 +242,7 @@ ForceDirectedLayout.prototype.updateLayout = function() {
 				if (d.source.visible == undefined) d.source.visible = true;
 				if (d.target.visible == undefined) d.target.visible = true;
 				hideLink = (!d.source.visible || !d.target.visible);
-//				return hideLink ? 1e-6 : 1.5; 
-				return hideLink ? 1e-6 : (d.width == undefined ? 2 : d.width); 
+				return hideLink ? 0 : (d.width == undefined ? 2 : d.width); 
 			})
 			.style('marker-end', 'url(#end-arrow)')
 			.style('cursor', 'pointer')
@@ -255,7 +254,7 @@ ForceDirectedLayout.prototype.updateLayout = function() {
 				layout.selectLink(d, d3.select(this));
 			})
 			.on("dblclick", function(d) { 
-				event.stopPropagation();
+				d3.event.stopPropagation();
 				chooseLinkProperties(d);
 			});	
 		

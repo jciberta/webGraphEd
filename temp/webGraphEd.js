@@ -2972,7 +2972,7 @@ CustomLayout.prototype.updateLayout = function(source) {
 				layout.selectLink(d, d3.select(this));
 			})
 			.on("dblclick", function(d) { 
-				event.stopPropagation();
+				d3.event.stopPropagation();
 				chooseLinkProperties(d);
 			});	
 	
@@ -3210,7 +3210,7 @@ CustomLayout.prototype.toggle = function(d) {
 	if (!d.children) return;
 
 	function toggle(node, v) {
-//console.log(' - Toggle ' + node.id);	
+console.log(' - Toggle ' + node.id);	
 //console.dir(node);
 		if (node.children) {
 			var i;
@@ -3225,7 +3225,7 @@ CustomLayout.prototype.toggle = function(d) {
 		node.visible = v;
 	}
 	
-//console.log('d.collapsed=' + d.collapsed);	
+console.log('d.collapsed=' + d.collapsed);	
 	if (d.collapsed == undefined) d.collapsed = false;
 	d.collapsed = !d.collapsed;
 	toggle(d, !d.collapsed);
@@ -3238,15 +3238,17 @@ CustomLayout.prototype.toggle = function(d) {
  * Updates the layout when collapsing/uncollapsing.
  */
 CustomLayout.prototype.updateCollapsedLayout = function(d) {
-console.log('Update the layout (collapse)	');	
+console.log('Update the layout (collapse)');	
 	// Update the layout (collapse)	
 	var vis = d3.select("#vis");
-	var node = vis.selectAll("g");
-	var c = vis.selectAll("circle")
+//console.dir(vis);	
+
+	var c = vis.selectAll("circle");
 	c.attr("r", function(d) {
 		return (d.visible || d.visible==undefined) ? (d.collapsed ? 8 : 5) : 1e-6; 
 	})
 
+console.log('selectAll("rect")');	
 	var r = vis.selectAll("rect")
 	r.attr("x", function(d) { return (d.collapsed ? -8 : -5); });
 	r.attr("y", function(d) { return (d.collapsed ? -8 : -5); });
@@ -3263,20 +3265,23 @@ console.log('Update the layout (collapse)	');
 			return 0;
 	});
 	
+console.log('selectAll("text")');	
 	var t = vis.selectAll("text")
 		t.style("fill-opacity", function(d) {
 			return (d.visible || d.visible==undefined) ? 1 : 1e-6; 
 		});
 	
+console.log('selectAll("path")');	
 	var l = vis.selectAll("path");
 	l.style("stroke-width", function(d) { 
 		var hideLink;
 		if (d.source.visible == undefined) d.source.visible = true;
 		if (d.target.visible == undefined) d.target.visible = true;
 		hideLink = (!d.source.visible || !d.target.visible);
-		return hideLink ? 1e-6 : (d.width == undefined ? 2 : d.width); 
+		return hideLink ? 0 : (d.width == undefined ? 2 : d.width); 
 	});
 	
+console.log('menuUncollapseAll');	
 	menuUncollapseAll.setEnabled(this.isCollapsed());
 }
 
@@ -3546,8 +3551,7 @@ ForceDirectedLayout.prototype.updateLayout = function() {
 				if (d.source.visible == undefined) d.source.visible = true;
 				if (d.target.visible == undefined) d.target.visible = true;
 				hideLink = (!d.source.visible || !d.target.visible);
-//				return hideLink ? 1e-6 : 1.5; 
-				return hideLink ? 1e-6 : (d.width == undefined ? 2 : d.width); 
+				return hideLink ? 0 : (d.width == undefined ? 2 : d.width); 
 			})
 			.style('marker-end', 'url(#end-arrow)')
 			.style('cursor', 'pointer')
@@ -3559,7 +3563,7 @@ ForceDirectedLayout.prototype.updateLayout = function() {
 				layout.selectLink(d, d3.select(this));
 			})
 			.on("dblclick", function(d) { 
-				event.stopPropagation();
+				d3.event.stopPropagation();
 				chooseLinkProperties(d);
 			});	
 		

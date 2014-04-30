@@ -6,17 +6,26 @@
   <key id="width" for="edge" attr.name="width" attr.type="int"/>
   <graph id="G" edgedefault="undirected">
     <node id="0">
+      <data key="label">Node 0</data>
       <data key="color">green</data>
     </node>
-    <node id="1"/>
+    <node id="1">
+      <data key="label">This is the node 1</data>
+    </node>
     <node id="2">
+      <data key="label">This is the node 2</data>
      <data key="color">blue</data>
     </node>
     <node id="3">
+      <data key="label">ORG RECT</data>
      <data key="color">red</data>
     </node>
-    <node id="4"/>
+    <node id="4">
+      <data key="label">Node 4</data>
+      <data key="color">green</data>
+    </node>
     <node id="5">
+      <data key="label">Turquoise</data>
      <data key="color">turquoise</data>
     </node>
     <edge id="0" source="0" target="2">
