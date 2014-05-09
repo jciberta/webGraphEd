@@ -262,7 +262,7 @@ ForceDirectedLayout.prototype.updateLayout = function() {
 				d3.event.stopPropagation();
 				chooseLinkProperties(d);
 			});	
-    if (!isIE) link.style('marker-end', 'url(#end-arrow)');            
+    if (!isIE) this.link.style('marker-end', 'url(#end-arrow)');            
 		
 	this.node = vis.selectAll("g.node")
 		.data(this.nodes)
