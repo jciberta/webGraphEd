@@ -3,7 +3,17 @@ var dialogAbout = new goog.ui.Dialog();
 dialogAbout.setTitle('About webGraphEd');
 dialogAbout.setContent('<h1>webGraphEd</h1>' +
 	'Graph drawing editor for the web.<br><br> ' +
-	'License: ');
+	'License: <a href="http://www.gnu.org/licenses/gpl-3.0.en.html">GNU GPL version 3</a><br><br>' +
+    'Used libraries:<br>' + 
+    '- D3 version 3.4.6: BSD license<br>' +
+    '- Closure: Apache 2.0 license<br>' +
+    '- QUnit version 1.12.0: MIT license<br>' +
+    '- JQuery version 2.1.0: MIT license<br>' +
+    '- JQuery Impromptu version 5.2.3: MIT license<br>' +
+    '- FileSaver: MIT/X11 license<br>' +
+    '<br>' + 
+    'A copy of these licenses can be found within the source code.' 
+    );
 dialogAbout.setButtonSet(goog.ui.Dialog.ButtonSet.OK);
 
 
