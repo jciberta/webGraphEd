@@ -34,4 +34,3 @@ Demo
 [Application](http://xtec.cat/~jciberta/webGraphEd/webGraphEd.min.html)
 [Example of embedding webGraphEd into a web page](http://jciberta.github.io/)
 
-<iframe src="http://xtec.cat/~jciberta/webGraphEd/webGraphEd.min.html" height="220" width="320"></iframe>
