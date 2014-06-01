@@ -26,5 +26,11 @@ To generate the documentation:
 License
 -------
 
-GNU GPL version 3. http://www.gnu.org/licenses/gpl-3.0.en.html
+[GNU GPL version 3](http://www.gnu.org/licenses/gpl-3.0.en.html).
+
+Demo
+----
+
+[Application](http://xtec.cat/~jciberta/webGraphEd/webGraphEd.min.html)
+[Example of embedding webGraphEd into a web page](http://jciberta.github.io/)
 
