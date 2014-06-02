@@ -32,5 +32,6 @@ Demo
 ----
 
 [Application](http://xtec.cat/~jciberta/webGraphEd/webGraphEd.min.html)
+
 [Example of embedding webGraphEd into a web page](http://jciberta.github.io/)
 
