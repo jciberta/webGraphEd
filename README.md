@@ -1,7 +1,7 @@
 webGraphEd
 ==========
 
-webGraphEd
+webGraphEd is an open source software for graph visualization and manipulation.
 
 
 Deployment
