@@ -5081,7 +5081,8 @@ var dialogAbout = new goog.ui.Dialog();
 dialogAbout.setTitle('About webGraphEd');
 dialogAbout.setContent('<h1>webGraphEd</h1>' +
 	'Graph drawing editor for the web.<br><br> ' +
-	'License: <a href="http://www.gnu.org/licenses/gpl-3.0.en.html">GNU GPL version 3</a><br><br>' +
+	'License: <a href="http://www.gnu.org/licenses/gpl-3.0.en.html">GNU GPL version 3</a><br>' +
+	'Source code: <a href="https://github.com/jciberta/webGraphEd">https://github.com/jciberta/webGraphEd</a><br><br>' +
     'Used libraries:<br>' + 
     '- D3 version 3.4.6: BSD license<br>' +
     '- Closure: Apache 2.0 license<br>' +
