@@ -3093,9 +3093,23 @@ CustomLayout.prototype.updateLayout = function(source) {
 					updateMenu(self.graph);
                     
 					// Let's put the link (path) in the first place, if not it overwrites the node
-					var v = document.getElementById('vis');
+					// That is, the line is over the circle.
+					// Do not use innerHTML because it is not supported by IE nor Safari properly.
+					var v = document.getElementById('container');
 					var element = v.lastChild;
-					v.insertBefore(element, v.firstChild);
+//console.log('element.firstChild.localName: ' + element.firstChild.localName);
+console.log('element.innerHTML: ' + element.innerHTML);
+					while (
+//						((element.childElementCount > 0) && (element.firstChild.localName.substring(0, 4) == 'line')) ||
+//						((element.childElementCount > 0) && (element.firstChild.localName.substring(0, 4) == 'path')) ||
+						(element.innerHTML.substring(0, 5) == '<line') ||
+						(element.innerHTML.substring(0, 5) == '<path')
+					) {
+						v.insertBefore(element, v.firstChild);
+						element = v.lastChild;
+console.log('element.firstChild.localName: ' + element.firstChild.localName);
+console.log('element.innerHTML: ' + element.innerHTML);
+					}
 					
 					// Let's put the last link node in the first place
 					var n = self.links.pop();
@@ -3224,7 +3238,7 @@ CustomLayout.prototype.toggle = function(d) {
 	if (!d.children) return;
 
 	function toggle(node, v) {
-console.log(' - Toggle ' + node.id);	
+//console.log(' - Toggle ' + node.id);	
 //console.dir(node);
 		if (node.children) {
 			var i;
@@ -3239,7 +3253,7 @@ console.log(' - Toggle ' + node.id);
 		node.visible = v;
 	}
 	
-console.log('d.collapsed=' + d.collapsed);	
+//console.log('d.collapsed=' + d.collapsed);	
 	if (d.collapsed == undefined) d.collapsed = false;
 	d.collapsed = !d.collapsed;
 	toggle(d, !d.collapsed);
@@ -3252,7 +3266,7 @@ console.log('d.collapsed=' + d.collapsed);
  * Updates the layout when collapsing/uncollapsing.
  */
 CustomLayout.prototype.updateCollapsedLayout = function(d) {
-console.log('Update the layout (collapse)');	
+//console.log('Update the layout (collapse)');	
 	// Update the layout (collapse)	
 	var vis = d3.select("#vis");
 //console.dir(vis);	
@@ -3262,7 +3276,7 @@ console.log('Update the layout (collapse)');
 		return (d.visible || d.visible==undefined) ? (d.collapsed ? 8 : 5) : 1e-6; 
 	})
 
-console.log('selectAll("rect")');	
+//console.log('selectAll("rect")');	
 	var r = vis.selectAll("rect")
 	r.attr("x", function(d) { return (d.collapsed ? -8 : -5); });
 	r.attr("y", function(d) { return (d.collapsed ? -8 : -5); });
@@ -3279,13 +3293,13 @@ console.log('selectAll("rect")');
 			return 0;
 	});
 	
-console.log('selectAll("text")');	
+//console.log('selectAll("text")');	
 	var t = vis.selectAll("text")
 		t.style("fill-opacity", function(d) {
 			return (d.visible || d.visible==undefined) ? 1 : 1e-6; 
 		});
 	
-console.log('selectAll("path")');	
+//console.log('selectAll("path")');	
 	var l = vis.selectAll("path");
 	l.style("stroke-width", function(d) { 
 		var hideLink;
@@ -3295,7 +3309,7 @@ console.log('selectAll("path")');
 		return hideLink ? 0 : (d.width == undefined ? 2 : d.width); 
 	});
 	
-console.log('menuUncollapseAll');	
+//console.log('menuUncollapseAll');	
 	menuUncollapseAll.setEnabled(this.isCollapsed());
 }
 
@@ -3445,7 +3459,7 @@ ForceDirectedLayout = function(canvas2, graph, nodes, links, type) {
 	}	
 
 	function doubleclick() {
-console.log('FD.doubleclick');	
+//console.log('FD.doubleclick');	
 		coord.x = parseInt(d3.mouse(this)[0] / pz.scale) ;
 		coord.y = parseInt(d3.mouse(this)[1] / pz.scale) ;
 //		coord.x = parseInt((d3.mouse(this)[0] / pz.scale) - pz.translate.x / pz.scale);
@@ -3657,9 +3671,14 @@ ForceDirectedLayout.prototype.updateLayout = function() {
                     self.updateLayout();
 					
 					// Let's put the link (path) in the first place, if not it overwrites the node
+					// That is, the line is over the circle.
+					// Do not use innerHTML because it is not supported by IE nor Safari properly.
 					var v = document.getElementById('vis');
 					var element = v.lastChild;
-					v.insertBefore(element, v.firstChild);
+					while ((element.childElementCount > 0) && (element.firstChild.localName.substring(0, 4) == 'line')) {
+						v.insertBefore(element, v.firstChild);
+						element = v.lastChild;
+					}					
 					
 					// Let's put the last link node in the first place
 					var n = self.links.pop();
@@ -5091,8 +5110,17 @@ dialogAbout.setContent('<h1>webGraphEd</h1>' +
     '- JQuery Impromptu version 5.2.3: MIT license<br>' +
     '- FileSaver: MIT/X11 license<br>' +
     '<br>' + 
-    'A copy of these licenses can be found within the source code.' 
-    );
+    'A copy of these licenses can be found within the source code.' +
+    '<br><br>' + 
+	'<center>' +
+	'<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">' +
+	'<input type="hidden" name="cmd" value="_s-xclick">' +
+	'<input type="hidden" name="hosted_button_id" value="57GZRNXAJS8F2">' +
+	'<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">' +
+	'<img alt="" border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1">' +
+	'</form>' +
+	'</center>' 
+);
 dialogAbout.setButtonSet(goog.ui.Dialog.ButtonSet.OK);
 
 

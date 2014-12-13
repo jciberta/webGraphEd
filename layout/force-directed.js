@@ -122,7 +122,7 @@ ForceDirectedLayout = function(canvas2, graph, nodes, links, type) {
 	}	
 
 	function doubleclick() {
-console.log('FD.doubleclick');	
+//console.log('FD.doubleclick');	
 		coord.x = parseInt(d3.mouse(this)[0] / pz.scale) ;
 		coord.y = parseInt(d3.mouse(this)[1] / pz.scale) ;
 //		coord.x = parseInt((d3.mouse(this)[0] / pz.scale) - pz.translate.x / pz.scale);
@@ -334,9 +334,14 @@ ForceDirectedLayout.prototype.updateLayout = function() {
                     self.updateLayout();
 					
 					// Let's put the link (path) in the first place, if not it overwrites the node
+					// That is, the line is over the circle.
+					// Do not use innerHTML because it is not supported by IE nor Safari properly.
 					var v = document.getElementById('vis');
 					var element = v.lastChild;
-					v.insertBefore(element, v.firstChild);
+					while ((element.childElementCount > 0) && (element.firstChild.localName.substring(0, 4) == 'line')) {
+						v.insertBefore(element, v.firstChild);
+						element = v.lastChild;
+					}					
 					
 					// Let's put the last link node in the first place
 					var n = self.links.pop();
