@@ -338,17 +338,16 @@ ForceDirectedLayout.prototype.updateLayout = function() {
 					// Do not use innerHTML because it is not supported by IE nor Safari properly.
 					var v = document.getElementById('vis');
 					var element = v.lastChild;
-					while ((element.childElementCount > 0) && (element.firstChild.localName.substring(0, 4) == 'line')) {
+					if (element.localName == 'path')
+						v.insertBefore(element, v.firstChild);
+/*					while ((element.childElementCount > 0) && (element.firstChild.localName.substring(0, 4) == 'line')) {
 						v.insertBefore(element, v.firstChild);
 						element = v.lastChild;
 					}					
-					
+*/					
 					// Let's put the last link node in the first place
 					var n = self.links.pop();
 					self.links.unshift(n); 
-//console.log('self.links:');
-//console_listLinks(self.links);					
-//console.dir(self.links);  
 
 					// Unselect nodes
 					source_object.select("circle").style("stroke-width", "1.5");	

@@ -246,7 +246,8 @@ CustomLayout.prototype.updateLayout = function(source) {
 //console.dir(this.links);
     var link = vis.selectAll(".link")
         .data(this.links)
-        .enter().append("path")
+//        .enter().append("path")
+        .enter().insert("path")
             .attr("class", "link")
 			.attr("id", function(d) { return 'path' + d.source.id + '_' + d.target.id; })
 			.style("stroke", function(d) { return d.color == undefined ? DEFAULT_COLOR_LINK : d.color; })
@@ -284,8 +285,6 @@ CustomLayout.prototype.updateLayout = function(source) {
 		.enter().append("g")
 			.attr("class", "node")
 			.attr("id", function(d) { 
-//				console.dir(d); 
-//				return d;
 				return d.id; 
 			})
 			.attr("transform", function(d) { 
@@ -360,42 +359,28 @@ CustomLayout.prototype.updateLayout = function(source) {
                     self.links.push({source: source_node, target: target_node});
 //console_listLinks(self.links);					
 					
-//console.log('addLink.source_node: ' + source_node);	
-//console.dir(source_node);
 					// Add child
 					if (!source_node.children) source_node.children = [];
 					source_node.children.push(target_node);
-//console.dir(source_node);
 
-//console.log('createLinks called');	
-//console.dir(self.links);
 					self.updateLayout();
 					updateMenu(self.graph);
                     
 					// Let's put the link (path) in the first place, if not it overwrites the node
 					// That is, the line is over the circle.
 					// Do not use innerHTML because it is not supported by IE nor Safari properly.
-					var v = document.getElementById('container');
+					var v = document.getElementById('vis');
 					var element = v.lastChild;
-//console.log('element.firstChild.localName: ' + element.firstChild.localName);
-console.log('element.innerHTML: ' + element.innerHTML);
-					while (
-//						((element.childElementCount > 0) && (element.firstChild.localName.substring(0, 4) == 'line')) ||
-//						((element.childElementCount > 0) && (element.firstChild.localName.substring(0, 4) == 'path')) ||
-						(element.innerHTML.substring(0, 5) == '<line') ||
-						(element.innerHTML.substring(0, 5) == '<path')
-					) {
+					if (element.localName == 'path')
+						v.insertBefore(element, v.firstChild);
+/*					while ((element.childElementCount > 0) && (element.firstChild.localName.substring(0, 4) == 'line')) {
 						v.insertBefore(element, v.firstChild);
 						element = v.lastChild;
-console.log('element.firstChild.localName: ' + element.firstChild.localName);
-console.log('element.innerHTML: ' + element.innerHTML);
-					}
-					
+					}					
+*/
 					// Let's put the last link node in the first place
 					var n = self.links.pop();
 					self.links.unshift(n);
-//console.log('Lets put the last link node in the first place');	
-//console_listLinks(self.links);					
 
 					// Unselect nodes
 					source_object.select("circle").style("stroke-width", "1.5");	
